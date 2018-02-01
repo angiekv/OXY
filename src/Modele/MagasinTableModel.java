@@ -18,7 +18,7 @@ public class MagasinTableModel extends AbstractTableModel {
     public static final int OBJECT_COL = -1;
     private static final int NUM_COL = 0;
     private static final int NOM_COL = 1;
-    private static final int DESCRIPTION_COL = 2;
+    private static final int DESCRIPTION_COL = 2; 
     private static final int ID_TYPE_COL = 3;
     private String[] columnNames = {"ID", "NOM", "DESCRIPTION","ID TYPE"};
     private List<Magasin> Magasins;

@@ -49,7 +49,7 @@ public class Controleur implements ActionListener {
             Magasin M = (Magasin) vue.getTable().getValueAt(row, MagasinTableModel.OBJECT_COL);
 
             try {
-                // delete the employee
+                // delete the magasin
                 DAOMagasin.supprimerMagasin(M.getNum());
             } catch (SQLException ex) {
                 Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,10 +86,10 @@ public class Controleur implements ActionListener {
     public void rafraichirListMagasin() {
 
         try {
-            List<Magasin> employees = DAOMagasin.chargeMagasin();
+            List<Magasin> magasins = DAOMagasin.chargeMagasin();
 
             // create the model and update the "table"
-            MagasinTableModel model = new MagasinTableModel(employees);
+            MagasinTableModel model = new MagasinTableModel(magasins);
 
             vue.getTable().setModel(model);
         } catch (Exception exc) {
@@ -99,74 +99,6 @@ public class Controleur implements ActionListener {
 
     }
 }
-//        btnDeleteEmployee.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//
-//                try {
-//                    // get the selected row
-//                    int row = table.getSelectedRow();
-//
-//                    // make sure a row is selected
-//                    if (row < 0) {
-//                        JOptionPane.showMessageDialog(EmployeeSearchApp.this,
-//                                "You must select an employee", "Error", JOptionPane.ERROR_MESSAGE);
-//                        return;
-//                    }
-//
-//                    // prompt the user
-//                    int response = JOptionPane.showConfirmDialog(
-//                            EmployeeSearchApp.this, "Delete this employee?", "Confirm",
-//                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//
-//                    if (response != JOptionPane.YES_OPTION) {
-//                        return;
-//                    }
-//
-//                    // get the current employee
-//                    Employee tempEmployee = (Employee) table.getValueAt(row, EmployeeTableModel.OBJECT_COL);
-//
-//                    // delete the employee
-//                    employeeDAO.deleteEmployee(tempEmployee.getId());
-//
-//                    // refresh GUI
-//                    refreshEmployeesView();
-//
-//                    // show success message
-//                    JOptionPane.showMessageDialog(EmployeeSearchApp.this,
-//                            "Employee deleted succesfully.", "Employee Deleted",
-//                            JOptionPane.INFORMATION_MESSAGE);
-//
-//                } catch (Exception exc) {
-//                    JOptionPane.showMessageDialog(EmployeeSearchApp.this,
-//                            "Error deleting employee: " + exc.getMessage(), "Error",
-//                            JOptionPane.ERROR_MESSAGE);
-//                }
-//
 
-//        });
-//    Magasin modele;
-//    MagasinView vue;
-//
-//    Controleur(Magasin modele, MagasinView vue) {
-//        this.modele = modele;
-//        this.vue = vue;
-//    }
-//
-//    public void actionPerformed(ActionEvent e) {
-//        if (e.getSource() == vue.aj) {
-//           
-//        } else if (e.getSource() == vue.efface) {
-//            modele.setExiste(false);
-//        }
-//    }
-////
-////    @Override
-////    public void actionPerformed(ActionEvent e) {
-////        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-////    }
-//
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+
 
