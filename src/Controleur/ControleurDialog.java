@@ -29,9 +29,7 @@ public class ControleurDialog implements ActionListener {
     private DAOMagasin DAOMagasin;
     private MagasinView m;
 
-    /**
-     * Constructeur de CalculetteControleur
-     */
+
     public ControleurDialog(MagasinDialog vue) {
         this.vue = vue;
     }
@@ -39,7 +37,6 @@ public class ControleurDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (vue.getSauvegarder() == e.getSource()) {
-
             sauvegarderMagasin();
         }
 
@@ -78,12 +75,12 @@ public class ControleurDialog implements ActionListener {
             // message reussi
             JOptionPane.showMessageDialog(vue.getMagasinView(),
                     "Ajout magasin réussi.",
-                    "Magasin ajouter",
+                    "Magasin ajouté",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception exc) {
             JOptionPane.showMessageDialog(
                     vue.getMagasinView(),
-                    "Erreur ajour Magasin: "
+                    "Erreur lors de l'ajout magasin! "
                     + exc.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }

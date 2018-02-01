@@ -35,21 +35,21 @@ public class MagasinDialog extends JDialog {
 
     private MagasinView magasinView;
 
-    private Magasin magasinSelectionner = null;
+    private Magasin magasinSelectionne = null;
     private boolean updateMode;
 
-    public MagasinDialog(MagasinView M, DAOMagasin DAO, Magasin magasinSelectionner, boolean updateMode) {
+    public MagasinDialog(MagasinView M, DAOMagasin DAO, Magasin magasinSelectionne, boolean updateMode) {
         this();
         magasinView = M;
         DAOMagasin = DAO;
-        this.magasinSelectionner = magasinSelectionner;
+        this.magasinSelectionne = magasinSelectionne;
 
         this.updateMode = updateMode;
 
         if (updateMode) {
             setTitle("Modifier magasin");
 
-            remplirGui(magasinSelectionner);
+            remplirGui(magasinSelectionne);
         }
 
     }
@@ -115,7 +115,7 @@ public class MagasinDialog extends JDialog {
     }
 
     public Magasin getMagasinSelectionner() {
-        return magasinSelectionner;
+        return magasinSelectionne;
     }
 
     public boolean isUpdateMode() {
