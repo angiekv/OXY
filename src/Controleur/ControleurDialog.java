@@ -25,9 +25,7 @@ import Modele.MagasinTableModel;
 public class ControleurDialog implements ActionListener {
 
     private MagasinDialog vue;
-    private MagasinTableModel modele;
     private DAOMagasin DAOMagasin;
-    private MagasinView m;
 
 
     public ControleurDialog(MagasinDialog vue) {
@@ -58,21 +56,21 @@ public class ControleurDialog implements ActionListener {
         Magasin magasinSelectionner = vue.getMagasinSelectionner();
 
         try {
-// sauvegarder dans la base
+            // not update mode 
             if (vue.isUpdateMode() == false) {
                 DAOMagasin.AjouterMagasin(nomSaisie, descSaisie, IdTypeSaisie);
-
-            } else {
+            } 
+            //update mode 
+            else {
                 DAOMagasin.modifierMagasin(magasinSelectionner.getNum(), nomSaisie, descSaisie, IdTypeSaisie);
             }
 
-// close dialog
+            // close dialog
             vue.setVisible(false);
             vue.dispose();
-// rafraichir la vue 
+            // refresh the view  
             vue.getMagasinView().getControleur().rafraichirListMagasin();
-
-            // message reussi
+            // message 
             JOptionPane.showMessageDialog(vue.getMagasinView(),
                     "Ajout magasin réussi.",
                     "Magasin ajouté",

@@ -32,13 +32,13 @@ public class MagasinDialog extends JDialog {
     private JButton sauvegarder, annuler;
     private ControleurDialog controleurDialog;
     private DAOMagasin DAOMagasin;
-
     private MagasinView magasinView;
 
     private Magasin magasinSelectionne = null;
     private boolean updateMode;
 
     public MagasinDialog(MagasinView M, DAOMagasin DAO, Magasin magasinSelectionne, boolean updateMode) {
+        //call the constructor of the view dialog 
         this();
         magasinView = M;
         DAOMagasin = DAO;
@@ -53,16 +53,21 @@ public class MagasinDialog extends JDialog {
         }
 
     }
+    /**
+     * This function will fill the fill 
+     * @param M the magasin selected on the magasinView
+     */
     private void remplirGui(Magasin M) {
 
 		nomTextField.setText(M.getNom());
 		descriptionTextArea.setText(M.getDescription());
 		idTypeTextField.setText(Integer.toString(M.getIdType()));		
-	}
+    }
     /**
-     * Create the dialog.
+     * Create the dialog 
      */
     public MagasinDialog() {
+        //the contoleur of the dialog 
         this.controleurDialog = new ControleurDialog(this);
         setTitle("Ajouter Magasin");
         setBounds(100, 100, 450, 234);
@@ -72,7 +77,7 @@ public class MagasinDialog extends JDialog {
         nomTextField = new JTextField();
         panneau.add(nomTextField);
         panneau.add(new JLabel("Description:"));
-        descriptionTextArea = new TextArea();
+        descriptionTextArea = new TextArea(5, 20);
         panneau.add(descriptionTextArea);
         panneau.add(new JLabel("idTYPE"));
         idTypeTextField = new JTextField();
@@ -89,35 +94,59 @@ public class MagasinDialog extends JDialog {
         buttonPane.add(annuler);
 
     }
-
+    /**
+     * 
+     * @return the value of the textfield nom
+     */
     public JTextField getNomTextField() {
         return nomTextField;
     }
-
+    /**
+     * 
+     * @return the value of the textfield id TYPE
+     */
     public JTextField getIdTypeTextField() {
         return idTypeTextField;
     }
-
+    /**
+     * 
+     * @return the value of the textArea description 
+     */
     public TextArea getDescriptionTextArea() {
         return descriptionTextArea;
     }
-
+    /**
+     * 
+     * @return the jbutton sauvegarder
+     */
     public JButton getSauvegarder() {
         return sauvegarder;
     }
-
+    /**
+     * 
+     * @return the jbutton annuler
+     */
     public JButton getAnnuler() {
         return annuler;
     }
-
+    /**
+     * 
+     * @return the view MagasinView
+     */
     public MagasinView getMagasinView() {
         return magasinView;
     }
-
+    /**
+     * 
+     * @return  the selected magasin in magasin view 
+     */
     public Magasin getMagasinSelectionner() {
         return magasinSelectionne;
     }
-
+    /**
+     * 
+     * @return true if modify magasin / false if we add magasin
+     */
     public boolean isUpdateMode() {
         return updateMode;
     }
