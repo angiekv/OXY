@@ -8,15 +8,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class ConnectionPool implements IPool {
+public class ConnectionPool implements IPool {
 	
 	private List<Connection>availableConnections = new ArrayList<Connection>();
 	private List<Connection>usedConnections = new ArrayList<Connection>();
 	
 	private final int MAX_CONNECTIONS = 5;
-	private  static String URL = "jdbc:mysql://localhost/oxy?autoReconnect=true&useSSL=false";
-	private  static String LOGIN = "root";
-	private  static String PASSWORD = "root";
 	
 	public void InitPool() {
 		
@@ -30,7 +27,7 @@ class ConnectionPool implements IPool {
 	}
 
 	private Connection createConnection() throws SQLException {
-		return DriverManager.getConnection(ConnectionPool.URL,ConnectionPool.LOGIN,ConnectionPool.PASSWORD);
+		return Database.getConnection();
 	}
 	
 /** Public function, used by us to get connection from Pool **/
