@@ -7,7 +7,7 @@ package Modele;
 
 /**
  *
- * @author aberkane
+ * @author OXY
  */
 public class Magasin {
     private int num ;

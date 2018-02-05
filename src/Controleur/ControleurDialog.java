@@ -20,7 +20,7 @@ import Modele.MagasinTableModel;
 
 /**
  *
- * @author Romain (stagiaire)
+ * @author OXY
  */
 public class ControleurDialog implements ActionListener {
 

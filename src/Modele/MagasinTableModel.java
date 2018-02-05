@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author aberkane
+ * @author OXY
  */
 public class MagasinTableModel extends AbstractTableModel {
 

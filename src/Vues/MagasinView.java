@@ -33,10 +33,8 @@ import Modele.MagasinTableModel;
  */
 public class MagasinView extends JFrame {
 
-    JPanel contentPane;
-    JTextField lastNameTextField;
-    JButton btnSearch;
-    JScrollPane scrollPane;
+    JPanel contentPane;//The panel
+    JScrollPane scrollPane;//The scroolpane for scroll when there is a lot of data 
     JTable table;
     JButton ajouter = new JButton("Ajouter");
     JButton supprimer = new JButton("Supprimer");

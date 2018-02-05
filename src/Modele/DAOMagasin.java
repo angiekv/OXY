@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author aberkane
+ * @author OXY
  */
 public class DAOMagasin {
 

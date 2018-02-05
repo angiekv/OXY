@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author aberkane
+ * @author OXY
  */
 public class Database {
     // variable de connexion a la base 
