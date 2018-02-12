@@ -29,15 +29,15 @@ public class DAOMagasin {
          //notre requete
         Statement myStmt = myConn.createStatement();
         //notre résultat requer 
-        ResultSet myRs = myStmt.executeQuery("select * from magasins");
+        ResultSet myRs = myStmt.executeQuery("select * from magasin");
         //boucle pour ajouter notre ligne de magasin a la list
         while (myRs.next()) {
-            int id = myRs.getInt("num");
-            String nom = myRs.getString("nom");
+            int id = myRs.getInt("idMagasin");
+            String designation = myRs.getString("designation");
             String description = myRs.getString("description");
-            int idtype = myRs.getInt("idType");
+            int idtype = myRs.getInt("Type_idType");
 
-            Magasin M = new Magasin(id, nom, description, idtype);
+            Magasin M = new Magasin(id, designation, description, idtype);
 
             listMagasin.add(M);
         }
@@ -48,43 +48,42 @@ public class DAOMagasin {
 
     }
 
-    public static void modifierMagasin(int num, String nom, String description, int idType) throws SQLException {
+    public static void modifierMagasin(int idMagasin, String designation, String description, int idType) throws SQLException {
         // preparation requete 
         PreparedStatement myStmt=null;
         //connection base de donnée 
         Connection myConn = Database.getConnection();
         //notre requete
-        myStmt = myConn.prepareStatement("update magasins set nom=? ,description=?, idType=? where num=? ");
+        myStmt = myConn.prepareStatement("update magasin set designation=? ,description=?, Type_idType=? where idMagasin=? ");
         //valeur saisie dans l'ordre des "?" dans la requete 
-        myStmt.setString(1, nom);
+        myStmt.setString(1, designation);
         myStmt.setString(2, description);
         myStmt.setInt(3, idType);
-        myStmt.setInt(4, num);
+        myStmt.setInt(4, idMagasin);
         myStmt.executeUpdate();
         myStmt.close();
 
     }
     
-    public static void supprimerMagasin(int num) throws SQLException {
+    public static void supprimerMagasin(int idMagasin) throws SQLException {
         PreparedStatement myStmt=null;
         //connection base de donnée 
         Connection myConn = Database.getConnection();
-        myStmt = myConn.prepareStatement("delete From magasins where num=?");
+        myStmt = myConn.prepareStatement("delete From magasin where idMagasin=?");
         //notre requete
-        myStmt.setInt(1, num);
+        myStmt.setInt(1, idMagasin);
 
         myStmt.executeUpdate();
         myStmt.close();
     }
     
-    public static void AjouterMagasin(String nom, String description, int idType) throws SQLException {
+    public static void AjouterMagasin(String designation, String description, int idType) throws SQLException {
         PreparedStatement myStmt=null;
         //connection base de donnée 
         Connection myConn = Database.getConnection();
-        myStmt = myConn.prepareStatement("insert into magasins (nom,description,idType)"
-                + "values (?,?,?)");
+        myStmt = myConn.prepareStatement("insert into magasin (designation,description,Type_idType)"+ "values (?,?,?)");
         //notre requete
-        myStmt.setString(1, nom);
+        myStmt.setString(1, designation);
         myStmt.setString(2, description);
         myStmt.setInt(3, idType);
         myStmt.executeUpdate();
@@ -97,8 +96,11 @@ public class DAOMagasin {
 
         DAOMagasin dao = new DAOMagasin();
         System.out.println(dao.chargeMagasin());
-        dao.modifierMagasin(1,"hetm","test",1);
+        dao.AjouterMagasin("ADIDAS","Marque scécialisé dans le sport",1);
         System.out.println(dao.chargeMagasin());
-
+        dao.modifierMagasin(1,"PUMA","Marque spécialisé dans le sport",1);
+        System.out.println(dao.chargeMagasin());
+        dao.supprimerMagasin(1);
+        System.out.println(dao.chargeMagasin());
     }
 }

@@ -13,4 +13,22 @@ package Modele;
 public class Type {
     private int idType;
     private String designation;
+
+    public Type(int idType, String designation) {
+        this.idType = idType;
+        this.designation = designation;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    @Override
+    public String toString() {
+        return "Type{" + "idType=" + idType + ", designation=" + designation + '}';
+    }
 }
