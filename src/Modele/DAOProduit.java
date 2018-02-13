@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author OXY
+ * @author Michel
  */
 public class DAOProduit {
     
@@ -41,7 +41,7 @@ public static List<Produit> chargeProduit() throws SQLException {
             Produit P = new Produit(id, libelle, prix, qte, idmag);
 
             listProduit.add(P);
-        }
+}
         myStmt.close();
         // on retourne la liste des produits
         return listProduit;

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author OXY
+ * @author Michel
  */
 public class DAOClient {
     
@@ -44,7 +44,7 @@ public static List<Client> chargeClient() throws SQLException {
             Client C = new Client(id, nom, prenom, adresse, cp, ville, mail, sexe);
 
             listClient.add(C);
-        }
+}
         myStmt.close();
         // on retourne la liste des clients
         return listClient;
