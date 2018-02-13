@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class Database {
     // variable de connexion a la base 
-    private static final String URL = "jdbc:mysql://localhost/oxy_off?autoReconnect=true&useSSL=false";
+    private static final String URL = "jdbc:mysql://10.16.1.254/oxy?autoReconnect=true&useSSL=false";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
