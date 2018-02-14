@@ -29,7 +29,7 @@ public static List<Client> chargeClient() throws SQLException {
          //notre requete
         Statement myStmt = myConn.createStatement();
         //notre résultat requer 
-        ResultSet myRs = myStmt.executeQuery("select * from produit");
+        ResultSet myRs = myStmt.executeQuery("select * from client");
         //boucle pour ajouter notre ligne de client a la list
         while (myRs.next()) {
             int id = myRs.getInt("idClient");
