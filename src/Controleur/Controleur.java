@@ -53,7 +53,7 @@ public class Controleur implements ActionListener {
 
             try {
                 // delete the magasin 
-                DAOMagasin.supprimerMagasin(M.getNum());
+                DAOMagasin.supprimerMagasin(M.getId());
             } catch (SQLException ex) {
                 Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -10,24 +10,24 @@ package Modele;
  * @author OXY
  */
 public class Magasin {
-    private int num ;
-    private String nom;
+    private int id ;
+    private String designation;
     private String description;
     private int idType;
 
-    public Magasin(int num, String nom, String description, int idType) {
-        this.num = num;
-        this.nom = nom;
+    public Magasin(int id, String designation, String description, int idType) {
+        this.id = id;
+        this.designation = designation;
         this.description = description;
         this.idType = idType;
     }
 
-    public int getNum() {
-        return num;
+    public int getId() {
+        return id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getDesignation() {
+        return designation;
     }
 
     public String getDescription() {
@@ -40,8 +40,10 @@ public class Magasin {
 
     @Override
     public String toString() {
-        return "Magasin{" + "num=" + num + ", nom=" + nom + ", description=" + description + ", idType=" + idType + '}';
+        return "Magasin{" + "id=" + id + ", designation=" + designation + ", description=" + description + ", idType=" + idType + '}';
     }
+
+    
     
     
    

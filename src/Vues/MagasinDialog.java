@@ -10,7 +10,10 @@ import Modele.DAOMagasin;
 import Modele.Magasin;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.TextArea;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -26,14 +29,23 @@ import javax.swing.border.EmptyBorder;
  */
 public class MagasinDialog extends JDialog {
 
-    private final JPanel panneau = new JPanel(new GridLayout(0, 1));
-    private JTextField nomTextField, idTypeTextField;
+    private JPanel panneau = new JPanel();
+    //element
+    private JTextField designationTextField;
+     private JTextField idTypeTextField;
     private TextArea descriptionTextArea;
+    // label 
+    private JLabel label = new JLabel("Entrer nom magasin: ");
+    private JLabel labelDescription = new JLabel("Entrer description: ");
+    private JLabel labelType = new JLabel("choisir un type : ");
+    // the button 
     private JButton sauvegarder, annuler;
+    //the controleur 
     private ControleurDialog controleurDialog;
     private DAOMagasin DAOMagasin;
+    // the view magasin (with the list of magasin)
     private MagasinView magasinView;
-
+    // the selected magasin 
     private Magasin magasinSelectionne = null;
     private boolean updateMode;
 
@@ -59,7 +71,7 @@ public class MagasinDialog extends JDialog {
      */
     private void remplirGui(Magasin M) {
 
-		nomTextField.setText(M.getNom());
+		designationTextField.setText(M.getDesignation());
 		descriptionTextArea.setText(M.getDescription());
 		idTypeTextField.setText(Integer.toString(M.getIdType()));		
     }
@@ -70,19 +82,48 @@ public class MagasinDialog extends JDialog {
         //the contoleur of the dialog 
         this.controleurDialog = new ControleurDialog(this);
         setTitle("Ajouter Magasin");
-        setBounds(100, 100, 450, 234);
-        getContentPane().setLayout(new BorderLayout());
+       
+        setBounds(130, 130, 450, 350);
+        
+        panneau= new JPanel(new GridBagLayout());
         getContentPane().add(panneau);
-        panneau.add(new JLabel("Nom:"));
-        nomTextField = new JTextField();
-        panneau.add(nomTextField);
-        panneau.add(new JLabel("Description:"));
-        descriptionTextArea = new TextArea(5, 20);
-        panneau.add(descriptionTextArea);
-        panneau.add(new JLabel("idTYPE"));
+        GridBagConstraints gcb = new GridBagConstraints();
+        
+        //space beteween element (the marge)
+        gcb.insets = new Insets(10, 10, 10, 10);
+         
+        // designation magaisn 
+        gcb.gridx = 0;
+        gcb.gridy = 0;     
+        panneau.add(label, gcb);
+ 
+        gcb.gridx = 1;
+        gcb.gridy = 0;  
+        designationTextField = new JTextField();
+        designationTextField.setColumns(20);
+        panneau.add(designationTextField, gcb);
+        // decriiption
+        gcb.gridx = 0;
+        gcb.gridy = 1;  
+        panneau.add(labelDescription, gcb);
+        
+        gcb.gridx = 1;
+        gcb.gridy = 1;
+        descriptionTextArea = new TextArea(4, 20);
+        panneau.add(descriptionTextArea,gcb);
+        
+        // type a modifier en liste 
+        gcb.gridx = 0;
+        gcb.gridy = 2;
+        panneau.add(labelType,gcb);
+//        
+        gcb.gridx = 1;
+        gcb.gridy = 2;
         idTypeTextField = new JTextField();
-        panneau.add(idTypeTextField);
-        //panneau avec boutton 
+        idTypeTextField.setColumns(20);
+        panneau.add(idTypeTextField,gcb);
+
+                //panneau avec boutton 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -98,8 +139,8 @@ public class MagasinDialog extends JDialog {
      * 
      * @return the value of the textfield nom
      */
-    public JTextField getNomTextField() {
-        return nomTextField;
+    public JTextField getDesignationTextField() {
+        return designationTextField;
     }
     /**
      * 

@@ -49,7 +49,7 @@ public class ControleurDialog implements ActionListener {
     protected void sauvegarderMagasin() {
 
         // récuperer les donnée saisie 
-        String nomSaisie = vue.getNomTextField().getText();
+        String nomSaisie = vue.getDesignationTextField().getText();
         String descSaisie = vue.getDescriptionTextArea().getText();
         String IdType = vue.getIdTypeTextField().getText();
         int IdTypeSaisie = Integer.parseInt(IdType);
@@ -62,7 +62,7 @@ public class ControleurDialog implements ActionListener {
             } 
             //update mode 
             else {
-                DAOMagasin.modifierMagasin(magasinSelectionner.getNum(), nomSaisie, descSaisie, IdTypeSaisie);
+                DAOMagasin.modifierMagasin(magasinSelectionner.getId(), nomSaisie, descSaisie, IdTypeSaisie);
             }
 
             // close dialog

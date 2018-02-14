@@ -51,15 +51,15 @@ public class MagasinTableModel extends AbstractTableModel {
             case OBJECT_COL:
                 return M;
             case NUM_COL:
-                return M.getNum();
+                return M.getId();
             case NOM_COL:
-                return M.getNom();
+                return M.getDesignation();
             case DESCRIPTION_COL:
                 return M.getDescription();
             case ID_TYPE_COL:
                 return M.getIdType();
             default:
-                return M.getNum();
+                return M.getId();
         }
     }
 
