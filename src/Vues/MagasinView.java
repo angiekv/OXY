@@ -33,22 +33,22 @@ import Modele.MagasinTableModel;
  */
 public class MagasinView extends JFrame {
 
-    private JPanel contentPane;//The panel
+    private JPanel contentPane;//Panel
     private JScrollPane scrollPane;//The scroolpane for scroll when there is a lot of data 
-    private JTable table;//this is the table
-    //this are all the button 
+    private JTable table;//this is a table
+    //this are all the buttons 
     private JButton ajouter = new JButton("Ajouter");
     private JButton supprimer = new JButton("Supprimer");
     private JButton modifier = new JButton("Modifier");
-    private MagasinTableModel modele;//this is the modele of the table 
-    private Controleur controleur;//this is the controleur of this view 
+    private MagasinTableModel modele;//this is the model of the table 
+    private Controleur controleur;//this is the controler of this view 
     private DAOMagasin DAOMagasin;// this is the DAO 
 
    
 
     public MagasinView() {
         try {
-            //here we initialize the contoleur whith the view ad the modele of the table
+            //initialize the contoler with the view and the model of the table
             this.controleur = new Controleur(this,modele);
             
             setTitle("Magasins");
@@ -57,7 +57,7 @@ public class MagasinView extends JFrame {
             contentPane = new JPanel();//
             contentPane.setLayout(new BorderLayout());
             setContentPane(contentPane);
-            JPanel panel = new JPanel();//panel with button
+            JPanel panel = new JPanel();//Add button 
             FlowLayout flowLayout = (FlowLayout) panel.getLayout();
             flowLayout.setAlignment(FlowLayout.LEFT);
             contentPane.add(panel, BorderLayout.NORTH);
@@ -70,7 +70,7 @@ public class MagasinView extends JFrame {
             ajouter.addActionListener(controleur);
             modifier.addActionListener(controleur);
             List<Magasin> Magasins = DAOMagasin.chargeMagasin();
-            //we initialize the table (model) with the list of 'magasin'
+            //initialize the table (model) with the list of 'magasin'
             MagasinTableModel model = new MagasinTableModel(Magasins);
             table = new JTable();
             table.setModel(model);
@@ -82,11 +82,8 @@ public class MagasinView extends JFrame {
             Logger.getLogger(MagasinView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
-    //here there is the getter 
-    
-    
-    
+    } 
+     
     public JButton getAjouter() {
         return ajouter;
     }

@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import Modele.Database;
+import Modele.Magasin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,25 +14,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author OXY
  */
-public class DAOMagasin {
 
+public class DAOMagasin {
+/**
+ * This method selects all the shops and puts the shops into a list.
+ * @return the list of all the shops.
+ * @throws SQLException 
+ */
     public static List<Magasin> chargeMagasin() throws SQLException {
-        //list contenant tout les magasin 
+        //List containing all the shops.
         List<Magasin> listMagasin = new ArrayList<>();
-        //connection base de donnée 
+        //Connection to the database.
         Connection myConn = Database.getConnection();
-         //notre requete
+         //The request.
         Statement myStmt = myConn.createStatement();
-        //notre résultat requer 
+        //The query which selects all the shops.
         ResultSet myRs = myStmt.executeQuery("select * from magasin");
-        //boucle pour ajouter notre ligne de magasin a la list
+        //Loop which add a shop to the list.
         while (myRs.next()) {
             int id = myRs.getInt("idMagasin");
             String designation = myRs.getString("designation");
@@ -41,21 +46,27 @@ public class DAOMagasin {
 
             listMagasin.add(M);
         }
-        myStmt.close();
-        // on retourne la liste des magasins 
+        myStmt.close(); 
         return listMagasin;
         
 
     }
-
+/**
+ * This method updates a shop.
+ * @param idMagasin
+ * @param designation
+ * @param description
+ * @param idType
+ * @throws SQLException 
+ */
     public static void modifierMagasin(int idMagasin, String designation, String description, int idType) throws SQLException {
-        // preparation requete 
+        
         PreparedStatement myStmt=null;
-        //connection base de donnée 
+        //Connection to the database.
         Connection myConn = Database.getConnection();
-        //notre requete
+        //The query which modifies one or more attributes of a shop.
         myStmt = myConn.prepareStatement("update magasin set designation=? ,description=?, Type_idType=? where idMagasin=? ");
-        //valeur saisie dans l'ordre des "?" dans la requete 
+        //The attributes' values are placed in the same order as "?".
         myStmt.setString(1, designation);
         myStmt.setString(2, description);
         myStmt.setInt(3, idType);
@@ -64,25 +75,34 @@ public class DAOMagasin {
         myStmt.close();
 
     }
-    
+/**
+ * This method deletes a shop from the database.
+ * @param idMagasin
+ * @throws SQLException 
+ */
     public static void supprimerMagasin(int idMagasin) throws SQLException {
         PreparedStatement myStmt=null;
-        //connection base de donnée 
+        //Connection to the database 
         Connection myConn = Database.getConnection();
+        //The query deletes a shop from the database.
         myStmt = myConn.prepareStatement("delete From magasin where idMagasin=?");
-        //notre requete
         myStmt.setInt(1, idMagasin);
-
         myStmt.executeUpdate();
         myStmt.close();
     }
-    
+/**
+ * This method adds a shop to the database
+ * @param designation
+ * @param description
+ * @param idType
+ * @throws SQLException 
+ */
     public static void AjouterMagasin(String designation, String description, int idType) throws SQLException {
         PreparedStatement myStmt=null;
-        //connection base de donnée 
+        //Connection to the database
         Connection myConn = Database.getConnection();
+        //The query adds a shop to the database.
         myStmt = myConn.prepareStatement("insert into magasin (designation,description,Type_idType)"+ "values (?,?,?)");
-        //notre requete
         myStmt.setString(1, designation);
         myStmt.setString(2, description);
         myStmt.setInt(3, idType);

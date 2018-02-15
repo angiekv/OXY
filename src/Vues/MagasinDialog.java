@@ -8,6 +8,7 @@ package Vues;
 import Controleur.ControleurDialog;
 import Modele.DAOMagasin;
 import Modele.Magasin;
+import Vues.MagasinView;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -25,27 +26,27 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * @author Romain (stagiaire)
+ * @author oxy
  */
 public class MagasinDialog extends JDialog {
 
     private JPanel panneau = new JPanel();
-    //element
+    //Items displayed at the screen
     private JTextField designationTextField;
      private JTextField idTypeTextField;
     private TextArea descriptionTextArea;
-    // label 
+    //labels
     private JLabel label = new JLabel("Entrer nom magasin: ");
     private JLabel labelDescription = new JLabel("Entrer description: ");
-    private JLabel labelType = new JLabel("choisir un type : ");
-    // the button 
+    private JLabel labelType = new JLabel("Saisir le numero du type : ");
+    //buttons 
     private JButton sauvegarder, annuler;
-    //the controleur 
+    //controler 
     private ControleurDialog controleurDialog;
     private DAOMagasin DAOMagasin;
-    // the view magasin (with the list of magasin)
+    // the view of shops (with the list of shops)
     private MagasinView magasinView;
-    // the selected magasin 
+    // the selected shop 
     private Magasin magasinSelectionne = null;
     private boolean updateMode;
 
@@ -66,8 +67,8 @@ public class MagasinDialog extends JDialog {
 
     }
     /**
-     * This function will fill the fill 
-     * @param M the magasin selected on the magasinView
+     * This function will fill the field 
+     * @param M the shop selected on the magasinView
      */
     private void remplirGui(Magasin M) {
 
@@ -79,7 +80,7 @@ public class MagasinDialog extends JDialog {
      * Create the dialog 
      */
     public MagasinDialog() {
-        //the contoleur of the dialog 
+        //the contoler of the dialog 
         this.controleurDialog = new ControleurDialog(this);
         setTitle("Ajouter Magasin");
        
@@ -89,10 +90,10 @@ public class MagasinDialog extends JDialog {
         getContentPane().add(panneau);
         GridBagConstraints gcb = new GridBagConstraints();
         
-        //space beteween element (the marge)
+        //space between items (the margin)
         gcb.insets = new Insets(10, 10, 10, 10);
          
-        // designation magaisn 
+        // designation
         gcb.gridx = 0;
         gcb.gridy = 0;     
         panneau.add(label, gcb);
@@ -102,7 +103,7 @@ public class MagasinDialog extends JDialog {
         designationTextField = new JTextField();
         designationTextField.setColumns(20);
         panneau.add(designationTextField, gcb);
-        // decriiption
+        // description
         gcb.gridx = 0;
         gcb.gridy = 1;  
         panneau.add(labelDescription, gcb);
@@ -111,8 +112,7 @@ public class MagasinDialog extends JDialog {
         gcb.gridy = 1;
         descriptionTextArea = new TextArea(4, 20);
         panneau.add(descriptionTextArea,gcb);
-        
-        // type a modifier en liste 
+         
         gcb.gridx = 0;
         gcb.gridy = 2;
         panneau.add(labelType,gcb);
@@ -123,7 +123,7 @@ public class MagasinDialog extends JDialog {
         idTypeTextField.setColumns(20);
         panneau.add(idTypeTextField,gcb);
 
-                //panneau avec boutton 
+                //Pannel with the buttons
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -179,7 +179,7 @@ public class MagasinDialog extends JDialog {
     }
     /**
      * 
-     * @return  the selected magasin in magasin view 
+     * @return  the selected shop in magasinView 
      */
     public Magasin getMagasinSelectionner() {
         return magasinSelectionne;

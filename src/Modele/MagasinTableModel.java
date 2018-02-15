@@ -6,6 +6,7 @@
 package Modele;
 
 import Modele.Magasin;
+import Modele.Magasin;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -13,8 +14,9 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author OXY
  */
-public class MagasinTableModel extends AbstractTableModel {
 
+public class MagasinTableModel extends AbstractTableModel {
+// This is the model of the table which will be displayed in the GUI.
     public static final int OBJECT_COL = -1;
     private static final int NUM_COL = 0;
     private static final int NOM_COL = 1;
