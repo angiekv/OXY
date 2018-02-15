@@ -17,9 +17,9 @@ import java.util.logging.Logger;
  */
 public class Database {
     // variable de connexion a la base 
-    private static final String URL = "jdbc:mysql://localhost/oxy";
+    private static final String URL = "jdbc:mysql://10.16.1.254/oxy";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "root";
 
     // Nom du pilote (driver). Dans ce cas, MySQL
     private static final String DRIVER_NAME= "com.mysql.jdbc.Driver";
