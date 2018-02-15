@@ -24,7 +24,7 @@ import Modele.MagasinTableModel;
  */
 public class ControleurDialog implements ActionListener {
 
-    private MagasinDialog vue;
+    private  MagasinDialog vue;
     private DAOMagasin DAOMagasin;
 
 
