@@ -100,6 +100,7 @@ public class Controleur implements ActionListener {
             MagasinTableModel model = new MagasinTableModel(magasins);
 
             vue.getTable().setModel(model);
+            this.modele=model;
         } catch (Exception exc) {
             JOptionPane.showMessageDialog(vue, "Error: " + exc, "Error",
                     JOptionPane.ERROR_MESSAGE);
