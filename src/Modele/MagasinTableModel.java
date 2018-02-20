@@ -17,7 +17,6 @@ import javax.swing.table.AbstractTableModel;
 
 public class MagasinTableModel extends AbstractTableModel {
 // This is the model of the table which will be displayed in the GUI.
-    public static final int OBJECT_COL = -1;
     private static final int NUM_COL = 0;
     private static final int NOM_COL = 1;
     private static final int DESCRIPTION_COL = 2; 
@@ -50,8 +49,6 @@ public class MagasinTableModel extends AbstractTableModel {
         Magasin M = Magasins.get(row);
 
         switch (col) {
-            case OBJECT_COL:
-                return M;
             case NUM_COL:
                 return M.getId();
             case NOM_COL:
@@ -68,6 +65,11 @@ public class MagasinTableModel extends AbstractTableModel {
     @Override
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
+    }
+    
+    public Magasin getLeMagasin(int row){
+        Magasin M = Magasins.get(row);
+        return M;
     }
 
 }

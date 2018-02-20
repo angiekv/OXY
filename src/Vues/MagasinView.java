@@ -49,7 +49,7 @@ public class MagasinView extends JFrame {
     public MagasinView() {
         try {
             //initialize the contoler with the view and the model of the table
-            this.controleur = new Controleur(this,modele);
+            
             
             setTitle("Magasins");
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,18 +66,20 @@ public class MagasinView extends JFrame {
             panel.add(ajouter);
             panel.add(modifier);
             panel.add(supprimer);
-            supprimer.addActionListener(controleur);
-            ajouter.addActionListener(controleur);
-            modifier.addActionListener(controleur);
+            
             List<Magasin> Magasins = DAOMagasin.chargeMagasin();
             //initialize the table (model) with the list of 'magasin'
-            MagasinTableModel model = new MagasinTableModel(Magasins);
+            modele = new MagasinTableModel(Magasins);
             table = new JTable();
-            table.setModel(model);
+            table.setModel(modele);
             scrollPane = new JScrollPane();
             contentPane.add(scrollPane, BorderLayout.CENTER);
             //affect the table to the scrollPane
             scrollPane.setViewportView(table);
+            this.controleur = new Controleur(this,modele);
+            supprimer.addActionListener(controleur);
+            ajouter.addActionListener(controleur);
+            modifier.addActionListener(controleur);
         } catch (SQLException ex) {
             Logger.getLogger(MagasinView.class.getName()).log(Level.SEVERE, null, ex);
         }

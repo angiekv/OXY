@@ -49,7 +49,7 @@ public class Controleur implements ActionListener {
                 return;
             }
             //we get the object(magasin) selected 
-            Magasin M = (Magasin) vue.getTable().getValueAt(row, MagasinTableModel.OBJECT_COL);
+            Magasin M = this.modele.getLeMagasin(row);
 
             try {
                 // delete the magasin 
@@ -80,7 +80,8 @@ public class Controleur implements ActionListener {
                 JOptionPane.showMessageDialog(vue, "selectionner une ligne");
                 return;
             }
-            Magasin M = (Magasin) vue.getTable().getValueAt(row, MagasinTableModel.OBJECT_COL);
+            
+            Magasin M = modele.getLeMagasin(row);
             MagasinDialog dialog = new MagasinDialog(vue, DAOMagasin, M, true);
 
             dialog.setVisible(true);

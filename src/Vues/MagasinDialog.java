@@ -84,7 +84,7 @@ public class MagasinDialog extends JDialog {
         this.controleurDialog = new ControleurDialog(this);
         setTitle("Ajouter Magasin");
        
-        setBounds(130, 130, 450, 350);
+        setBounds(130, 130, 550, 450);
         
         panneau= new JPanel(new GridBagLayout());
         getContentPane().add(panneau);
