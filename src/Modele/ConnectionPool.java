@@ -45,7 +45,6 @@ public class ConnectionPool implements IPool {
 		}
 	}
 
-
 /** Public function, to return connection back to the Pool **/
 	public boolean releaseConnection(Connection con) {
 		if (con != null) {

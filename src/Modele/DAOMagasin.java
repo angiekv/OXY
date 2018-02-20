@@ -112,15 +112,15 @@ public class DAOMagasin {
     }
     
     /*test */
-    public static void main(String[] args) throws Exception {
+//    public static void main(String[] args) throws Exception {
 
-        DAOMagasin dao = new DAOMagasin();
-        System.out.println(dao.chargeMagasin());
-        dao.AjouterMagasin("ADIDAS","Marque scécialisé dans le sport",1);
-        System.out.println(dao.chargeMagasin());
-        dao.modifierMagasin(1,"PUMA","Marque spécialisé dans le sport",1);
-        System.out.println(dao.chargeMagasin());
-        dao.supprimerMagasin(1);
-        System.out.println(dao.chargeMagasin());
-    }
+//        DAOMagasin dao = new DAOMagasin();
+//        System.out.println(dao.chargeMagasin());
+//        dao.AjouterMagasin("ADIDAS","Marque scécialisé dans le sport",1);
+//        System.out.println(dao.chargeMagasin());
+//        dao.modifierMagasin(1,"PUMA","Marque spécialisé dans le sport",1);
+//        System.out.println(dao.chargeMagasin());
+//        dao.supprimerMagasin(1);
+//        System.out.println(dao.chargeMagasin());
+//    }
 }
