@@ -106,16 +106,16 @@ public static List<Customer> loadCustomer() throws SQLException {
     }
     
     /*test */
-    public static void main(String[] args) throws Exception {
-
-        DAOCustomer dao = new DAOCustomer();
-        System.out.println(dao.loadCustomer());
+//    public static void main(String[] args) throws Exception {
+//
+//        DAOCustomer dao = new DAOCustomer();
+//        System.out.println(dao.loadCustomer());
 //        dao.addCustomer("Inge","1B","ESIPE","94000","Créteil","Esipe@gmail.com","N");
 //        System.out.println(dao.loadCustomer());
 //        dao.updateCustomer(1,"Inge","3B","ESIAG","94000","Créteil","Esiag@gmail.com","M");
 //        System.out.println(dao.loadCustomer());
 //        dao.deleteCustomer(1);
 //        System.out.println(dao.loadCustomer());
-    }
+//    }
 }
 

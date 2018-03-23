@@ -91,7 +91,7 @@ public class DAOCustomer {
         System.out.println("Ok");
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "deleteCustomer");
-        MapCustomer.put("id", Integer.toString(idClient));
+        MapCustomer.put("idClient", Integer.toString(idClient));
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(MapCustomer);
         String answer = c.sendAndRecieve(json);
@@ -120,11 +120,11 @@ public class DAOCustomer {
         String answer = c.sendAndRecieve(json);
     }
     
-    public static void main(String[] args) {
-        ClientSocket client = new ClientSocket();
-        DAOCustomer d = new DAOCustomer(client);
-        List<Customer > l =d.loadCustomer();
-        System.out.println(l.size());
-    }
+//    public static void main(String[] args) {
+//        ClientSocket client = new ClientSocket();
+//        DAOCustomer d = new DAOCustomer(client);
+//        List<Customer > l =d.loadCustomer();
+//        System.out.println(l.size());
+//    }
 }
 
