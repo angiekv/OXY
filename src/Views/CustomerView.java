@@ -6,16 +6,13 @@
 package Views;
 
 import Control.Control;
+import Model.ClientSocket;
 import Model.Customer;
 import Model.CustomerTable;
 import Model.DAOCustomer;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,42 +36,39 @@ public class CustomerView extends JFrame {
     private CustomerTable model;//this is the model of the table 
     private Control control;//this is the controler of this view 
     private DAOCustomer dao;// this is the DAO 
+    private ClientSocket client = new ClientSocket();
 
     public CustomerView() {
-        try {
-            setTitle("Customers");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setBounds(100, 100, 450, 300);//The position and the size of the frame 
-            contentPane = new JPanel();//
-            contentPane.setLayout(new BorderLayout());
-            setContentPane(contentPane);
-            JPanel panel = new JPanel();//Add button 
-            FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-            flowLayout.setAlignment(FlowLayout.LEFT);
-            contentPane.add(panel, BorderLayout.NORTH);
-            JLabel labelLstCustomer = new JLabel("List Customers");
-            panel.add(labelLstCustomer);
-            panel.add(add);
-            panel.add(update);
-            panel.add(delete);
-
-            List<Customer> customer = DAOCustomer.chargeCustomer();
-            //initialize the table (model) with the list of 'customer'
-            model = new CustomerTable(customer);
-            table = new JTable();
-            table.setModel(model);
-            scrollPane = new JScrollPane();
-            contentPane.add(scrollPane, BorderLayout.CENTER);
-            //affect the table to the scrollPane
-            scrollPane.setViewportView(table);
-            this.control = new Control(this, model);
-            delete.addActionListener(control);
-            add.addActionListener(control);
-            update.addActionListener(control);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setTitle("Customers");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 450, 300);//The position and the size of the frame
+        contentPane = new JPanel();//
+        contentPane.setLayout(new BorderLayout());
+        setContentPane(contentPane);
+        JPanel panel = new JPanel();//Add button
+        FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+        flowLayout.setAlignment(FlowLayout.LEFT);
+        contentPane.add(panel, BorderLayout.NORTH);
+        JLabel labelLstCustomer = new JLabel("List Customers");
+        panel.add(labelLstCustomer);
+        panel.add(add);
+        panel.add(update);
+        panel.add(delete);
+        dao = new DAOCustomer(client);
+        List<Customer> customer;
+        customer = dao.loadCustomer();
+        //initialize the table (model) with the list of 'customer'
+        model = new CustomerTable(customer);
+        table = new JTable();
+        table.setModel(model);
+        scrollPane = new JScrollPane();
+        contentPane.add(scrollPane, BorderLayout.CENTER);
+        //affect the table to the scrollPane
+        scrollPane.setViewportView(table);
+        this.control = new Control(this, model, dao);
+        delete.addActionListener(control);
+        add.addActionListener(control);
+        update.addActionListener(control);
 
     }
 

@@ -6,7 +6,7 @@
 package Control;
 
 import Model.Customer;
-import Model.DAOCustomer;
+import Server.DAOCustomer;
 import Views.CustomerDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,10 +55,10 @@ import javax.swing.JOptionPane;
             try {
                 // not update mode 
                 if (view.isUpdateMode() == false) {
-                    DAOCustomer.AjouterCustomer(nomSaisie, prenomSaisie, adresseSaisie, cpSaisie, villeSaisie, mailSaisie, sexeSaisie);
+                    DAOCustomer.addCustomer(nomSaisie, prenomSaisie, adresseSaisie, cpSaisie, villeSaisie, mailSaisie, sexeSaisie);
                 } //update mode 
                 else {
-                    DAOCustomer.modifierCustomer(select.getIdClient(), nomSaisie, prenomSaisie, adresseSaisie, cpSaisie, villeSaisie, mailSaisie, sexeSaisie);
+                    DAOCustomer.updateCustomer(select.getIdClient(), nomSaisie, prenomSaisie, adresseSaisie, cpSaisie, villeSaisie, mailSaisie, sexeSaisie);
                 }
 
                 // close dialog

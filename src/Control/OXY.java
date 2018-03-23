@@ -22,7 +22,6 @@ public class OXY {
             public void run() {
                 try {
                     MagasinView fenetre = new MagasinView();
-                    
                     fenetre.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

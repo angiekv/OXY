@@ -5,113 +5,126 @@
  */
 package Model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
- * @author Michel
+ * @author OXY
  */
 public class DAOCustomer {
     
-public static List<Customer> chargeCustomer() throws SQLException {
+    private ClientSocket c;
+    
+    public DAOCustomer(ClientSocket c){
+        this.c = c;
+        c.startConnection();
+    }
+    /**
+     * This method selects all customers from database and puts the customers into a list
+     * @return the list of all customers
+     * @throws SQLException 
+     */
+    public List<Customer> loadCustomer(){
         //list of customer
         List<Customer> listCustomer = new ArrayList<>();
-        //connect to the bdd 
-        Connection myConn = Database.getConnection();
-         //request
-        Statement myStmt = myConn.createStatement();
-        //result of request
-        ResultSet myRs = myStmt.executeQuery("select * from client");
-        //loop for add customer
-        while (myRs.next()) {
-            int id = myRs.getInt("idClient");
-            String nom = myRs.getString("nom");
-            String prenom = myRs.getString("prenom");
-            String adresse = myRs.getString("adresse");
-            String cp = myRs.getString("cp");
-            String ville = myRs.getString("ville");
-            String mail = myRs.getString("mail");
-            String sexe = myRs.getString("sexe");
-
-            Customer C = new Customer(id, nom, prenom, adresse, cp, ville, mail, sexe);
-
-            listCustomer.add(C);
-}
-        myStmt.close();
-        // return list of customer
-        return listCustomer;
         
-
-    }
-
-    public static void modifierCustomer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
-        // prepare request
-        PreparedStatement myStmt=null;
-        //connect to the bdd
-        Connection myConn = Database.getConnection();
-        //request
-        myStmt = myConn.prepareStatement("update client set nom=? ,prenom=?, adresse=?, cp=? , ville=?, mail=?, sexe=? where idClient=? ");
-        //value entered in the order of '?' in the request
-        myStmt.setString(1, nom);
-        myStmt.setString(2, prenom);
-        myStmt.setString(3, adresse);
-        myStmt.setString(4, cp);
-        myStmt.setString(5, ville);
-        myStmt.setString(6, mail);
-        myStmt.setString(7, sexe);
-        myStmt.setInt(8, idClient);
-        myStmt.executeUpdate();
-        myStmt.close();
-
+        Map<String, String> MapCustomer = new HashMap<String,String>();
+        MapCustomer.put("actionType", "listCustomer");
+        
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(MapCustomer);
+        
+        String answer = c.sendAndRecieve(json);
+        Type listType = new TypeToken<List<Customer>>() {
+        }.getType();
+        Gson g = new Gson();
+        listCustomer = g.fromJson(answer, listType);
+        return listCustomer;
     }
     
-    public static void supprimerCustomer(int idClient) throws SQLException {
-        PreparedStatement myStmt=null;
-        //connect to the bdd
-        Connection myConn = Database.getConnection();
-        myStmt = myConn.prepareStatement("delete From client where idClient=?");
-        //request
-        myStmt.setInt(1, idClient);
+/**
+ * updates customer in database
+ * @param idClient
+ * @param nom
+ * @param prenom
+ * @param adresse
+ * @param cp
+ * @param ville
+ * @param mail
+ * @param sexe
+ * @throws SQLException 
+ */
+    public void updateCustomer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) {
+        Map<String, String> MapCustomer = new HashMap<>();
+        MapCustomer.put("actionType", "updateCustomer");
+        MapCustomer.put("idClient", Integer.toString(idClient));
+        MapCustomer.put("nom", nom);
+        MapCustomer.put("prenom", prenom);
+        MapCustomer.put("adresse", adresse);
+        MapCustomer.put("ville", ville);
+        MapCustomer.put("cp", cp);
+        MapCustomer.put("mail", mail);
+        MapCustomer.put("sexe", sexe);
 
-        myStmt.executeUpdate();
-        myStmt.close();
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(MapCustomer);
+
+        String answer = c.sendAndRecieve(json);
     }
     
-    public static void AjouterCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
-        PreparedStatement myStmt=null;
-        //connect to the bdd
-        Connection myConn = Database.getConnection();
-        myStmt = myConn.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)"+ "values (?,?,?,?,?,?,?)");
-        //request
-        myStmt.setString(1, nom);
-        myStmt.setString(2, prenom);
-        myStmt.setString(3, adresse);
-        myStmt.setString(4, cp);
-        myStmt.setString(5, ville);
-        myStmt.setString(6, mail);
-        myStmt.setString(7, sexe);
-        myStmt.executeUpdate();
-        myStmt.close();
-
+    /**
+     * Deletes customer from database
+     * @param idClient 
+     */
+    public void deleteCustomer(int idClient){
+        //Connection to the database
+        System.out.println("Ok");
+        Map<String, String> MapCustomer = new HashMap<>();
+        MapCustomer.put("actionType", "deleteCustomer");
+        MapCustomer.put("id", Integer.toString(idClient));
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(MapCustomer);
+        String answer = c.sendAndRecieve(json);
     }
     
-    /*test */
-//    public static void main(String[] args) throws Exception {
-//
-//        DAOCustomer dao = new DAOCustomer();
-//        System.out.println(dao.chargeCustomer());
-//        dao.AjouterCustomer("Inge","1B","ESIPE","94000","Créteil","Esipe@gmail.com","N");
-//        System.out.println(dao.chargeCustomer());
-//        dao.modifierCustomer(1,"Inge","3B","ESIAG","94000","Créteil","Esiag@gmail.com","M");
-//        System.out.println(dao.chargeCustomer());
-//        dao.supprimerCustomer(1);
-//        System.out.println(dao.chargeCustomer());
-//    }
+/**
+ * Adds customer in database
+ * @param designation
+ * @param description
+ * @param idType 
+ */
+    public void addCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe){
+        Map<String, String> MapCustomer = new HashMap<>();
+        MapCustomer.put("actionType", "addCustomer");
+        MapCustomer.put("nom", nom);
+        MapCustomer.put("prenom", prenom);
+        MapCustomer.put("adresse", adresse);
+        MapCustomer.put("ville", ville);
+        MapCustomer.put("cp", cp);
+        MapCustomer.put("mail", mail);
+        MapCustomer.put("sexe", sexe);
+
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(MapCustomer);
+
+        String answer = c.sendAndRecieve(json);
+    }
+    
+    public static void main(String[] args) {
+        ClientSocket client = new ClientSocket();
+        DAOCustomer d = new DAOCustomer(client);
+        List<Customer > l =d.loadCustomer();
+        System.out.println(l.size());
+    }
 }
 

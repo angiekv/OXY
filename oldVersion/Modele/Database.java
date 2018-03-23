@@ -17,7 +17,8 @@ import java.util.logging.Logger;
  */
 public class Database {
     // variable de connexion a la base 
-    private static final String URL = "jdbc:mysql://10.16.1.254/oxy";
+//    private static final String URL = "jdbc:mysql://10.16.1.254/oxy";
+    private static final String URL = "jdbc:mysql://localhost/oxy";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 

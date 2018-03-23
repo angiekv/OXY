@@ -39,7 +39,6 @@ public class DAOMagasin {
     public List<Magasin> chargeMagasin() throws SQLException {
         //List containing all the shops.
         List<Magasin> listMagasin = new ArrayList<>();
-        //Connection to the database.
         Map<String, String> myMap = new HashMap<String, String>();
         myMap.put("typeAction", "listeMagasin");
 

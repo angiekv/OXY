@@ -25,12 +25,13 @@ import javax.swing.JOptionPane;
 public class Control implements ActionListener{
     private CustomerView vue;
     private CustomerTable model;
-    private DAOCustomer dao;
-    private DAOCustomer DAOCustomer;
+    private DAOCustomer dao ;
+//    private DAOCustomer DAOCustomer;
 
-    public Control(CustomerView vue, CustomerTable modele) {
+    public Control(CustomerView vue, CustomerTable modele, DAOCustomer dao) {
         this.vue = vue;
         this.model = modele;
+        this.dao = dao;
     }
     //when we click
     @Override
@@ -54,12 +55,8 @@ public class Control implements ActionListener{
             //we get the object(customer) selected 
             Customer C = this.model.getAllCustomers(row);
 
-            try {
-                // delete the magasin 
-                DAOCustomer.supprimerCustomer(C.getIdClient());
-            } catch (SQLException ex) {
-                Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            // delete the magasin
+            dao.deleteCustomer(C.getIdClient());
             //refresh the jtable 
             refreshCustomer();
 //
@@ -70,7 +67,7 @@ public class Control implements ActionListener{
         }
         // click on "ajouter"
         if (vue.getAdd() == e.getSource()) {
-            CustomerDialog dialog = new CustomerDialog(vue, DAOCustomer, null, false);
+            CustomerDialog dialog = new CustomerDialog(vue, dao, null, false);
             // show dialog
             dialog.setVisible(true);
 
@@ -85,7 +82,7 @@ public class Control implements ActionListener{
             }
             
             Customer C =this.model.getAllCustomers(row);
-            CustomerDialog dialog = new CustomerDialog(vue, DAOCustomer, C, true);
+            CustomerDialog dialog = new CustomerDialog(vue, dao, C, true);
 
             dialog.setVisible(true);
         }
@@ -97,7 +94,7 @@ public class Control implements ActionListener{
     public void refreshCustomer() {
 
         try {
-            List<Customer> c = DAOCustomer.chargeCustomer();
+            List<Customer> c = dao.loadCustomer();
 
             // create the model and update the "table"
             CustomerTable model = new CustomerTable(c);
