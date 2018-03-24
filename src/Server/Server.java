@@ -23,9 +23,10 @@ import java.util.List;
 public class Server {
 
     private static int port = 2009;
-
+    private static ConnectionPool pool = new ConnectionPool();
     public static void main(String[] args) {
         ServerSocket server = null;
+        pool.InitPool();
         try {
             server = new ServerSocket(port);
             while (true) {
@@ -45,6 +46,10 @@ public class Server {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public static ConnectionPool getPool() {
+        return pool;
     }
 }
 

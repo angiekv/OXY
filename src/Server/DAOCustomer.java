@@ -28,7 +28,7 @@ public static List<Customer> loadCustomer() throws SQLException {
         //list of customer
         List<Customer> listCustomer = new ArrayList<>();
         //connect to the bdd 
-        Connection myConn = Database.getConnection();
+        Connection myConn = Server.getPool().getConnection();
          //request
         Statement myStmt = myConn.createStatement();
         //result of request
@@ -49,6 +49,7 @@ public static List<Customer> loadCustomer() throws SQLException {
             listCustomer.add(C);
 }
         myStmt.close();
+        Server.getPool().releaseConnection(myConn);
         // returns the list of customers
         return listCustomer;
         
@@ -59,7 +60,7 @@ public static List<Customer> loadCustomer() throws SQLException {
         // prepare request
         PreparedStatement myStmt=null;
         //connect to the bdd
-        Connection myConn = Database.getConnection();
+        Connection myConn = Server.getPool().getConnection();
         //request
         myStmt = myConn.prepareStatement("update client set nom=? ,prenom=?, adresse=?, cp=? , ville=?, mail=?, sexe=? where idClient=? ");
         //value entered in the order of '?' in the request
@@ -73,24 +74,26 @@ public static List<Customer> loadCustomer() throws SQLException {
         myStmt.setInt(8, idClient);
         myStmt.executeUpdate();
         myStmt.close();
+        Server.getPool().releaseConnection(myConn);
 
     }
     
     public static void deleteCustomer(int idClient) throws SQLException {
         PreparedStatement myStmt=null;
         //connect to the bdd
-        Connection myConn = Database.getConnection();
+        Connection myConn = Server.getPool().getConnection();
         myStmt = myConn.prepareStatement("delete From client where idClient=?");
         //request
         myStmt.setInt(1, idClient);
         myStmt.executeUpdate();
         myStmt.close();
+        Server.getPool().releaseConnection(myConn);
     }
     
     public static void addCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
         PreparedStatement myStmt=null;
         //connect to the bdd
-        Connection myConn = Database.getConnection();
+        Connection myConn = Server.getPool().getConnection();
         myStmt = myConn.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)"+ "values (?,?,?,?,?,?,?)");
         //request
         myStmt.setString(1, nom);
@@ -102,6 +105,7 @@ public static List<Customer> loadCustomer() throws SQLException {
         myStmt.setString(7, sexe);
         myStmt.executeUpdate();
         myStmt.close();
+        Server.getPool().releaseConnection(myConn);
 
     }
     

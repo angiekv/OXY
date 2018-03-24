@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
+package Server;
 
+import Model.*;
 import java.sql.Connection;
 
 /**
