@@ -91,4 +91,10 @@ public class CustomerView extends JFrame {
     public Control getControl() {
         return control;
     }
+
+    public DAOCustomer getDao() {
+        return dao;
+    }
+    
+    
 }

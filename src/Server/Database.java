@@ -14,12 +14,12 @@ import java.sql.SQLException;
  * @author OXY
  */
 public class Database {
-    // variable de connexion a la base 
+    // Database connection variables
     private static final String URL = "jdbc:mysql://localhost/oxy";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    // Nom du pilote (driver). Dans ce cas, MySQL
+    // Here we chose mysql so this is the mysql driver
     private static final String DRIVER_NAME= "com.mysql.jdbc.Driver";
 
     static {

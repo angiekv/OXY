@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class Server {
         try {
             server = new ServerSocket(port);
             while (true) {
-
-                //un thread pour chaque client
-                Thread t1 = new Thread(new AccepterClient(server.accept()));
+                //a thread per client
+                Connection con = pool.getConnection();
+                Thread t1 = new Thread(new AccepterClient(server.accept(),con));
                 t1.start();
             }
         } catch (IOException ex) {
@@ -56,11 +57,12 @@ public class Server {
 class AccepterClient implements Runnable {
 
     private Socket socket;
+    private Connection con;
 
-    AccepterClient(Socket socket) {
+    AccepterClient(Socket socket, Connection con) {
         this.socket = socket;
+        this.con = con;
         System.out.println("New client connected from " + socket.getInetAddress().getHostAddress());
-
     }
 
     public void run() {
@@ -80,7 +82,8 @@ class AccepterClient implements Runnable {
             }
 
         } catch (IOException ex) {
-            System.out.println("erreur reception ");
+            System.out.println("client disconnected ");
+            
         } finally {
             try {
                 in.close();
@@ -94,15 +97,19 @@ class AccepterClient implements Runnable {
 
     /**
      *
-     * @param request requete
+     * @param request 
      * @param out
      * @throws SQLException
      */
     public void receive(String request, PrintWriter out) throws SQLException {
+        //we use Gson to convert from Json to Java object
         Gson g = new Gson();
+        //conversion
         JsonObject jobj = new Gson().fromJson(request, JsonObject.class);
+        //we want to know what action is requested (load, add, insert or delete)
         String type = jobj.get("actionType").getAsString();
         System.out.println(type);
+        //Shop attributes
         String designation ;
         String description;
         int idType ;
@@ -114,7 +121,7 @@ class AccepterClient implements Runnable {
 
         switch (type) {
             case "listCustomer": 
-                List<Customer> listCustomer = loadCustomer();
+                List<Customer> listCustomer = loadCustomer(con);
                 System.out.println("requete");
                 reponse = g.toJson(listCustomer);
                 send(reponse, out);
@@ -129,7 +136,7 @@ class AccepterClient implements Runnable {
                  mail = jobj.get("mail").getAsString();
                  sexe = jobj.get("sexe").getAsString();
                 System.out.println("added successfully");
-                addCustomer(nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
+                addCustomer(con, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
                 System.out.println("end of request");
                 reponse = g.toJson("ok");
                 send(reponse, out);
@@ -145,14 +152,14 @@ class AccepterClient implements Runnable {
                  mail = jobj.get("mail").getAsString();
                  sexe = jobj.get("sexe").getAsString();
                 System.out.println("updated successfully");
-                updateCustomer(idClient, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
+                updateCustomer(con, idClient, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
                 System.out.println("end of request");
                 reponse = g.toJson("ok");
                 send(reponse, out);
                 break;
             case "deleteCustomer" :
                 idClient = jobj.get("idClient").getAsInt();
-                deleteCustomer(idClient);
+                deleteCustomer(con, idClient);
                 reponse = g.toJson("ok");
                 send(reponse, out);
                 break;

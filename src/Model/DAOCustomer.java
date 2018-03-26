@@ -42,8 +42,8 @@ public class DAOCustomer {
         MapCustomer.put("actionType", "listCustomer");
         
         Gson gson = new GsonBuilder().create();
+        //convert java objet to json
         String json = gson.toJson(MapCustomer);
-        
         String answer = c.sendAndRecieve(json);
         Type listType = new TypeToken<List<Customer>>() {
         }.getType();
