@@ -25,6 +25,7 @@ public class Server {
 
     private static int port = 2009;
     private static ConnectionPool pool = new ConnectionPool();
+    
     public static void main(String[] args) {
         ServerSocket server = null;
         pool.InitPool();
@@ -58,6 +59,7 @@ class AccepterClient implements Runnable {
 
     private Socket socket;
     private Connection con;
+//    private ConnectionPool pool;
 
     AccepterClient(Socket socket, Connection con) {
         this.socket = socket;
@@ -82,7 +84,8 @@ class AccepterClient implements Runnable {
             }
 
         } catch (IOException ex) {
-            System.out.println("client disconnected ");
+            if (Server.getPool().releaseConnection(con))
+                System.out.println("client disconnected ");
             
         } finally {
             try {

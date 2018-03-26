@@ -24,7 +24,7 @@ public class DAOCustomer {
      * @throws SQLException 
      */
     
-public static List<Customer> loadCustomer(Connection c) throws SQLException {
+public synchronized static List<Customer> loadCustomer(Connection c) throws SQLException {
         //list of customer
         List<Customer> listCustomer = new ArrayList<>();
         //connect to the bdd 
@@ -55,7 +55,7 @@ public static List<Customer> loadCustomer(Connection c) throws SQLException {
 
     }
 
-    public static void updateCustomer(Connection c, int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
+    public synchronized static void updateCustomer(Connection c, int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
         // prepare request
         PreparedStatement myStmt=null;
         //request
@@ -73,7 +73,7 @@ public static List<Customer> loadCustomer(Connection c) throws SQLException {
         myStmt.close();
     }
     
-    public static void deleteCustomer(Connection c, int idClient) throws SQLException {
+    public synchronized static void deleteCustomer(Connection c, int idClient) throws SQLException {
         PreparedStatement myStmt=null;
         //connect to the bdd
         myStmt = c.prepareStatement("delete From client where idClient=?");
@@ -83,7 +83,7 @@ public static List<Customer> loadCustomer(Connection c) throws SQLException {
         myStmt.close();
     }
     
-    public static void addCustomer(Connection c ,String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
+    public synchronized static void addCustomer(Connection c ,String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
         //connect to the bdd
         //Connection myConn = c;
         PreparedStatement myStmt=null;
