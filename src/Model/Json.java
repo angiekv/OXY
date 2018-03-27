@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
+package Model;
 
 import Model.Customer;
 import Model.Magasin;
@@ -29,22 +29,25 @@ import java.util.List;
  * @param <T> can be a store, a client, etc.
  */
 public class Json<T> {
-
-    public Json() {
-        
+    Writer w;
+    
+    public Json(Writer w) {
+        this.w = w;
     }
     
     
 
-    public void serialization(T t) throws IOException{
-        Writer w =  new FileWriter("D:\\Profile\\badiakite\\Desktop\\magasin.json");
+    public String serialization(T t) throws IOException{
+//        Writer w =  new FileWriter("D:\\Profile\\badiakite\\Desktop\\customer.json");
         Gson gson = new GsonBuilder().create();
+        String result = gson.toJson(t);
         gson.toJson(t, t.getClass(),w);
         w.close();
+        return result;
     }
     
     public void deSerialization() throws FileNotFoundException, IOException{
-        JsonReader jsonReader = new JsonReader(new FileReader("D:\\Profile\\badiakite\\Desktop\\magasin.json"));
+        JsonReader jsonReader = new JsonReader(new FileReader("D:\\Profile\\badiakite\\Desktop\\customer.json"));
         Gson g = new Gson();
         Customer c = g.fromJson(jsonReader, Customer.class);
 //        ArrayList<Customer> c = g.fromJson(jsonReader, ArrayList.class);
@@ -55,8 +58,7 @@ public class Json<T> {
     }
     
         public static void main (String[] args) throws IOException{
-            
-            Json j = new Json();
+            Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customer.json"));
             Customer c = new Customer(1, "t", "t", "t", "t", "t",  "t", "t");
 //            Customer c2 = new Customer(2, "t", "t", "t", "t", "t",  "t", "t");
 //            ArrayList<Customer> lesc = new ArrayList<Customer>();

@@ -3,6 +3,7 @@ package Model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -25,10 +26,12 @@ public class ClientSocket {
         }
     }
 
-    public String sendAndRecieve(String s) {
+    public String sendAndRecieve(String s) throws IOException {
 
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(s);
+//        Gson gson = new GsonBuilder().create();
+//        gson.toJson(s);
+        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        j.serialization(s);
         out.println(s);
         out.flush();
         System.out.println("envoyé");

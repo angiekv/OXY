@@ -8,6 +8,7 @@ package Model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,7 +47,12 @@ public class DAOCustomer {
         Gson gson = new GsonBuilder().create();
         //convert java objet to json
         String json = gson.toJson(MapCustomer);
-        String answer = c.sendAndRecieve(json);
+        String answer= null;
+        try {
+            answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Type listType = new TypeToken<List<Customer>>() {
         }.getType();
         Gson g = new Gson();
@@ -79,7 +87,11 @@ public class DAOCustomer {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(MapCustomer);
 
-        String answer = c.sendAndRecieve(json);
+        try {
+            String answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -94,7 +106,11 @@ public class DAOCustomer {
         MapCustomer.put("idClient", Integer.toString(idClient));
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(MapCustomer);
-        String answer = c.sendAndRecieve(json);
+        try {
+            String answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 /**
@@ -117,7 +133,11 @@ public class DAOCustomer {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(MapCustomer);
 
-        String answer = c.sendAndRecieve(json);
+        try {
+            String answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 //    public static void main(String[] args) {

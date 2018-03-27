@@ -22,6 +22,7 @@ import Model.ClientSocket;
 import Model.DAOMagasin;
 import Model.Magasin;
 import Model.MagasinTableModel;
+import java.io.IOException;
 
 /**
  *
@@ -64,7 +65,12 @@ public class MagasinView extends JFrame {
             panel.add(modifier);
             panel.add(supprimer);
             DAOMagasin= new DAOMagasin(client);
-            List<Magasin> Magasins = DAOMagasin.chargeMagasin();
+            List<Magasin> Magasins = null;
+            try {
+                Magasins = DAOMagasin.chargeMagasin();
+            } catch (IOException ex) {
+                Logger.getLogger(MagasinView.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //initialize the table (model) with the list of 'magasin'
             modele = new MagasinTableModel(Magasins);
             table = new JTable();

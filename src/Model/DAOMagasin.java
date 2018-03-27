@@ -8,6 +8,7 @@ package Model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,7 +39,7 @@ public class DAOMagasin {
         c.startConnection();
     }
 
-    public List<Magasin> chargeMagasin() throws SQLException {
+    public List<Magasin> chargeMagasin() throws SQLException, IOException {
         //List containing all the shops.
         List<Magasin> listMagasin = new ArrayList<>();
         Map<String, String> myMap = new HashMap<String, String>();
@@ -74,7 +77,11 @@ public class DAOMagasin {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(myMap);
 
-        String reponse = c.sendAndRecieve(json);
+        try {
+            String reponse = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOMagasin.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -94,8 +101,12 @@ public class DAOMagasin {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(myMap);
 
-//        String message = "listeMagasin";
-        String repS = c.sendAndRecieve(json);
+        try {
+            //        String message = "listeMagasin";
+            String repS = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOMagasin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -115,7 +126,11 @@ public class DAOMagasin {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(myMap);
 
-        String reponse = c.sendAndRecieve(json);
+        try {
+            String reponse = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOMagasin.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
