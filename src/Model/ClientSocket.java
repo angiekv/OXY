@@ -30,8 +30,6 @@ public class ClientSocket {
 
 //        Gson gson = new GsonBuilder().create();
 //        gson.toJson(s);
-        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
-        j.serialization(s);
         out.println(s);
         out.flush();
         System.out.println("envoyé");
@@ -39,7 +37,7 @@ public class ClientSocket {
             System.out.println("attente");
             String reponse = in.readLine();
             System.out.println("recu");
-             System.out.println(reponse);
+            System.out.println(reponse);
             return reponse;
         } catch (IOException ex) {
             ex.printStackTrace();

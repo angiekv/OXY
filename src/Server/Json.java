@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Server;
 
 import Model.Customer;
 import Model.Magasin;
@@ -65,6 +65,13 @@ public class Json<T> {
     public List deSerialization(String answer, Type listType) throws FileNotFoundException, IOException {
         Gson g = new Gson();
         List<Type> list = g.fromJson(answer, listType);
+        return list;
+    }
+    
+    public Map deSerializationMap(String answer) throws FileNotFoundException, IOException {
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Gson g = new Gson();
+        Map<String, String> list = g.fromJson(answer, type);
         return list;
     }
 

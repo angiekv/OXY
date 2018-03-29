@@ -1,6 +1,6 @@
 package Server;
 
-import Model.Json;
+import Server.Json;
 import static Server.DAOCustomer.addCustomer;
 import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
@@ -22,6 +22,7 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,10 +114,11 @@ class AccepterClient implements Runnable {
             //we use Gson to convert from Json to Java object
             Gson g = new Gson();
             Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerReceived.json"));
-            //conversion
-            JsonObject jobj = new Gson().fromJson(request, JsonObject.class);
+//            //conversion
+//            JsonObject m = new Gson().fromJson(request, JsonObject.class);
             //we want to know what action is requested (load, add, insert or delete)
-            String type = jobj.get("actionType").getAsString();
+            Map<String, String> m = j.deSerializationMap(request);
+            String type = m.get("actionType");
             System.out.println(type);
             //Shop attributes
             String designation ;
@@ -143,75 +145,75 @@ class AccepterClient implements Runnable {
                     break;
                 case "addCustomer" :
                     System.out.println("add");
-                    nom = jobj.get("nom").getAsString();
-                    prenom = jobj.get("prenom").getAsString();
-                    adresse = jobj.get("adresse").getAsString();
-                    cp = jobj.get("cp").getAsString();
-                    ville = jobj.get("ville").getAsString();
-                    mail = jobj.get("mail").getAsString();
-                    sexe = jobj.get("sexe").getAsString();
+                    nom = m.get("nom");
+                    prenom = m.get("prenom");
+                    adresse = m.get("adresse");
+                    cp = m.get("cp");
+                    ville = m.get("ville");
+                    mail = m.get("mail");
+                    sexe = m.get("sexe");
                     System.out.println("added successfully");
                     addCustomer(con, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
                     System.out.println("end of request");
-                    reponse = g.toJson("ok");
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
                 case "updateCustomer" :
                     System.out.println("add");
-                    idClient = jobj.get("idClient").getAsInt();
-                    nom = jobj.get("nom").getAsString();
-                    prenom = jobj.get("prenom").getAsString();
-                    adresse = jobj.get("adresse").getAsString();
-                    cp = jobj.get("cp").getAsString();
-                    ville = jobj.get("ville").getAsString();
-                    mail = jobj.get("mail").getAsString();
-                    sexe = jobj.get("sexe").getAsString();
+                    idClient = Integer.parseInt(m.get("idClient"));
+                    nom = m.get("nom");
+                    prenom = m.get("prenom");
+                    adresse = m.get("adresse");
+                    cp = m.get("cp");
+                    ville = m.get("ville");
+                    mail = m.get("mail");
+                    sexe = m.get("sexe");
                     System.out.println("updated successfully");
                     updateCustomer(con, idClient, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
                     System.out.println("end of request");
-                    reponse = g.toJson("ok");
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
                 case "deleteCustomer" :
-                    idClient = jobj.get("idClient").getAsInt();
+                    idClient = Integer.parseInt(m.get("idClient"));
                     deleteCustomer(con, idClient);
-                    reponse = g.toJson("ok");
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
                     //same thing for stores:
                 case "listeMagasin":
                     List<Magasin> l = chargeMagasin();
                     System.out.println("requete");
-                    reponse = g.toJson(l);
+                    reponse = j.serialization(l);
                     send(reponse, out);
                     break;
                 case "add":
                     System.out.println("ajout");
-                    designation = jobj.get("designation").getAsString();
-                    description = jobj.get("description").getAsString();
-                    idType = jobj.get("idType").getAsInt();
+                    designation = m.get("designation");
+                    description = m.get("description");
+                    idType = Integer.parseInt(m.get("idType"));
                     //action ajout execution effectué
                     AjouterMagasin(designation, description, idType);
                     System.out.println("fin requete envoie rep ");
-                    reponse = g.toJson("ok");
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
                 case "modifMagasin":
                     
-                    idMagasin = jobj.get("idMagasin").getAsInt();
-                    designation = jobj.get("designation").getAsString();
-                    description = jobj.get("description").getAsString();
-                    idType = jobj.get("idType").getAsInt();
+                    idMagasin = Integer.parseInt(m.get("idMagasin"));
+                    designation = m.get("designation");
+                    description = m.get("description");
+                    idType = Integer.parseInt(m.get("idType"));
                     //action ajout execution effectué
                     modifierMagasin(idMagasin,designation, description, idType);
                     System.out.println("fin requete envoie rep ");
-                    reponse = g.toJson("ok");
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
                 case "supprimer":
-                    idMagasin = jobj.get("idMagasin").getAsInt();
+                    idMagasin = Integer.parseInt(m.get("idType"));
                     supprimerMagasin(idMagasin);
-                    reponse = g.toJson("ok");
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                 default:
                     break;

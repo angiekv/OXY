@@ -8,6 +8,7 @@ package Model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
@@ -37,16 +38,18 @@ public class DAOCustomer {
      * @return the list of all customers
      * @throws SQLException 
      */
-    public List<Customer> loadCustomer(){
+    public List<Customer> loadCustomer() throws IOException{
         //list of customer
         List<Customer> listCustomer = new ArrayList<>();
         
         Map<String, String> MapCustomer = new HashMap<String,String>();
         MapCustomer.put("actionType", "listCustomer");
         
-        Gson gson = new GsonBuilder().create();
-        //convert java objet to json
-        String json = gson.toJson(MapCustomer);
+        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        String json = j.serialization(MapCustomer);
+//        Gson gson = new GsonBuilder().create();
+//        //convert java objet to json
+//        String json = gson.toJson(MapCustomer);
         String answer= null;
         try {
             answer = c.sendAndRecieve(json);
@@ -55,8 +58,7 @@ public class DAOCustomer {
         }
         Type listType = new TypeToken<List<Customer>>() {
         }.getType();
-        Gson g = new Gson();
-        listCustomer = g.fromJson(answer, listType);
+        listCustomer = j.deSerialization(answer, listType);
         return listCustomer;
     }
     
@@ -72,7 +74,7 @@ public class DAOCustomer {
  * @param sexe
  * @throws SQLException 
  */
-    public void updateCustomer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) {
+    public void updateCustomer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws IOException {
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "updateCustomer");
         MapCustomer.put("idClient", Integer.toString(idClient));
@@ -84,8 +86,8 @@ public class DAOCustomer {
         MapCustomer.put("mail", mail);
         MapCustomer.put("sexe", sexe);
 
-        Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(MapCustomer);
+        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        String json = j.serialization(MapCustomer);
 
         try {
             String answer = c.sendAndRecieve(json);
@@ -98,14 +100,14 @@ public class DAOCustomer {
      * Deletes customer from database
      * @param idClient 
      */
-    public void deleteCustomer(int idClient){
+    public void deleteCustomer(int idClient) throws IOException{
         //Connection to the database
         System.out.println("Ok");
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "deleteCustomer");
         MapCustomer.put("idClient", Integer.toString(idClient));
-        Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(MapCustomer);
+        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        String json = j.serialization(MapCustomer);
         try {
             String answer = c.sendAndRecieve(json);
         } catch (IOException ex) {
@@ -119,7 +121,7 @@ public class DAOCustomer {
  * @param description
  * @param idType 
  */
-    public void addCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe){
+    public void addCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws IOException{
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "addCustomer");
         MapCustomer.put("nom", nom);
@@ -130,8 +132,8 @@ public class DAOCustomer {
         MapCustomer.put("mail", mail);
         MapCustomer.put("sexe", sexe);
 
-        Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(MapCustomer);
+        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        String json = j.serialization(MapCustomer);
 
         try {
             String answer = c.sendAndRecieve(json);
