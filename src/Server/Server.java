@@ -59,7 +59,7 @@ public class Server {
         return pool;
     }
 }
-
+ 
 class AccepterClient implements Runnable {
 
     private Socket socket;
@@ -71,7 +71,7 @@ class AccepterClient implements Runnable {
         this.con = con;
         System.out.println("New client connected from " + socket.getInetAddress().getHostAddress());
     }
-
+  
     public void run() {
         BufferedReader in = null;
         PrintWriter out = null;

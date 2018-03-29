@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+  
 /**
  *
  * @author OXY
@@ -33,7 +33,7 @@ public synchronized static List<Customer> loadCustomer(Connection c) throws SQLE
         Statement myStmt = c.createStatement();
         //result of request
         ResultSet myRs = myStmt.executeQuery("select * from client");
-        //loop for add customer
+        // loop for add customer
         while (myRs.next()) {
             int idClient = myRs.getInt("idClient");
             String nom = myRs.getString("nom");

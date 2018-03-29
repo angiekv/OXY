@@ -39,7 +39,7 @@ public class DAOCustomer {
      * @throws SQLException 
      */
     public List<Customer> loadCustomer() throws IOException{
-        //list of customer
+        // list of customer
         List<Customer> listCustomer = new ArrayList<>();
         
         Map<String, String> MapCustomer = new HashMap<String,String>();

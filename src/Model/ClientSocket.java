@@ -14,7 +14,7 @@ public class ClientSocket {
     private Socket socketClient;
     private BufferedReader in;
     private PrintWriter out;
-
+ 
     public void startConnection() {
         try {
             socketClient = new Socket("127.0.0.1", 2009);
@@ -28,7 +28,7 @@ public class ClientSocket {
 
     public String sendAndRecieve(String s) throws IOException {
 
-//        Gson gson = new GsonBuilder().create();
+//         Gson gson = new GsonBuilder().create();
 //        gson.toJson(s);
         out.println(s);
         out.flush();

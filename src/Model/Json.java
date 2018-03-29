@@ -61,7 +61,7 @@ public class Json<T> {
         w.close();
         return result;
     }
-
+ 
     public List deSerialization(String answer, Type listType) throws FileNotFoundException, IOException {
         Gson g = new Gson();
         List<Type> list = g.fromJson(answer, listType);
@@ -76,6 +76,6 @@ public class Json<T> {
 ////            lesc.add(c);
 ////            lesc.add(c2);
 ////            j.serialization(c);
-//        j.deSerialization();
+//         j.deSerialization();
     }
 }

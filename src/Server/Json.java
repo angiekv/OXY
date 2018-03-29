@@ -67,7 +67,7 @@ public class Json<T> {
         List<Type> list = g.fromJson(answer, listType);
         return list;
     }
-    
+      
     public Map deSerializationMap(String answer) throws FileNotFoundException, IOException {
         Type type = new TypeToken<Map<String, String>>(){}.getType();
         Gson g = new Gson();
@@ -77,7 +77,7 @@ public class Json<T> {
 
     public static void main(String[] args) throws IOException {
 //        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customer.json"));
-//        Customer c = new Customer(1, "t", "t", "t", "t", "t", "t", "t");
+//         Customer c = new Customer(1, "t", "t", "t", "t", "t", "t", "t");
 ////            Customer c2 = new Customer(2, "t", "t", "t", "t", "t",  "t", "t");
 ////            ArrayList<Customer> lesc = new ArrayList<Customer>();
 ////            lesc.add(c);
