@@ -51,13 +51,27 @@ import javax.swing.JOptionPane;
             String sexeSaisie = view.getSexe().getText();
 
             Customer select = view.getCustomerSelected();
+            String userActionSentence1=null;
+            String userActionSentence2= null;
+            String nomPopup= null;
+            if (nomSaisie.isEmpty() || prenomSaisie.isEmpty()|| adresseSaisie.isEmpty()|| cpSaisie.isEmpty()|| villeSaisie.isEmpty() || mailSaisie.isEmpty() ||  sexeSaisie.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Veuillez remplir tous les champs");
+                return;
+            }
 
             try {
                 // not update mode 
+                
                 if (view.isUpdateMode() == false) {
+                    userActionSentence1 ="Ajout";
+                    userActionSentence2= "l'ajout";
+                    nomPopup= "Client ajouté";
                     view.getCustomerView().getDao().addCustomer(nomSaisie, prenomSaisie, adresseSaisie, cpSaisie, villeSaisie, mailSaisie, sexeSaisie);
                 } //update mode 
                 else {
+                    userActionSentence1 ="Modification";
+                    userActionSentence2 ="la modification";
+                    nomPopup= "Client Modifié";
                     view.getCustomerView().getDao().updateCustomer(select.getIdClient(), nomSaisie, prenomSaisie, adresseSaisie, cpSaisie, villeSaisie, mailSaisie, sexeSaisie);
                 }
 
@@ -68,13 +82,13 @@ import javax.swing.JOptionPane;
                 view.getCustomerView().getControl().refreshCustomer();
                 // message 
                 JOptionPane.showMessageDialog(view.getCustomerView(),
-                        "Ajout client réussi.",
-                        "Client ajouté",
+                        userActionSentence1 + " client réussi.",
+                        nomPopup,
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception exc) {
                 JOptionPane.showMessageDialog(
                         view.getCustomerView(),
-                        "Erreur lors de l'ajout client! "
+                        "Erreur lors de "+userActionSentence2+" client! "
                         + exc.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
             }

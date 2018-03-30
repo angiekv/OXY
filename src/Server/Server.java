@@ -1,6 +1,5 @@
 package Server;
 
-import Server.Json;
 import static Server.DAOCustomer.addCustomer;
 import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
@@ -11,7 +10,6 @@ import static Server.DAOMagasin.modifierMagasin;
 import static Server.DAOMagasin.supprimerMagasin;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -113,7 +111,7 @@ class AccepterClient implements Runnable {
         try {
             //we use Gson to convert from Json to Java object
             Gson g = new Gson();
-            Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerReceived.json"));
+            Json j = new Json(new FileWriter("D:\\Documents\\customerReceived.json"));
 //            //conversion
 //            JsonObject m = new Gson().fromJson(request, JsonObject.class);
             //we want to know what action is requested (load, add, insert or delete)

@@ -12,7 +12,10 @@ import Model.CustomerTable;
 import Model.DAOCustomer;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,8 +58,12 @@ public class CustomerView extends JFrame {
         panel.add(update);
         panel.add(delete);
         dao = new DAOCustomer(client);
-        List<Customer> customer;
-        customer = dao.loadCustomer();
+        List<Customer> customer = null;
+        try {
+            customer = dao.loadCustomer();
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //initialize the table (model) with the list of 'customer'
         model = new CustomerTable(customer);
         table = new JTable();

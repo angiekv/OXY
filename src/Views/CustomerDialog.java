@@ -13,7 +13,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.TextArea;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -66,7 +65,7 @@ public class CustomerDialog extends JDialog{
         this.updateMode = updateMode;
 
         if (updateMode) {
-            setTitle("Modifier magasin");
+            setTitle("Modifier Client");
 
             insert(selected);
      }

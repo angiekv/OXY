@@ -12,7 +12,10 @@ import Views.CustomerDialog;
 import Views.CustomerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,7 +46,7 @@ public class Control implements ActionListener{
             }
             // A row is selected 
             int response = JOptionPane.showConfirmDialog(
-                    vue, "Supprimer ce magasin ?", "Confirmer",
+                    vue, "Supprimer ce client ?", "Confirmer",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (response != JOptionPane.YES_OPTION) {
@@ -52,8 +55,12 @@ public class Control implements ActionListener{
             //we get the object(customer) selected 
             Customer C = this.model.getAllCustomers(row);
 
-            // delete the magasin
-            dao.deleteCustomer(C.getIdClient());
+            try {
+                // delete the magasin
+                dao.deleteCustomer(C.getIdClient());
+            } catch (IOException ex) {
+                Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //refresh the jtable 
             refreshCustomer();
 //
