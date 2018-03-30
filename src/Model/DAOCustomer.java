@@ -45,7 +45,7 @@ public class DAOCustomer {
         Map<String, String> MapCustomer = new HashMap<String,String>();
         MapCustomer.put("actionType", "listCustomer");
         
-        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
         String json = j.serialization(MapCustomer);
 //        Gson gson = new GsonBuilder().create();
 //        //convert java objet to json
@@ -86,7 +86,7 @@ public class DAOCustomer {
         MapCustomer.put("mail", mail);
         MapCustomer.put("sexe", sexe);
 
-        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
         String json = j.serialization(MapCustomer);
 
         try {
@@ -106,7 +106,7 @@ public class DAOCustomer {
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "deleteCustomer");
         MapCustomer.put("idClient", Integer.toString(idClient));
-        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
         String json = j.serialization(MapCustomer);
         try {
             String answer = c.sendAndRecieve(json);
@@ -132,7 +132,7 @@ public class DAOCustomer {
         MapCustomer.put("mail", mail);
         MapCustomer.put("sexe", sexe);
 
-        Json j = new Json(new FileWriter("D:\\Profile\\badiakite\\Desktop\\customerSent.json"));
+        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
         String json = j.serialization(MapCustomer);
 
         try {
