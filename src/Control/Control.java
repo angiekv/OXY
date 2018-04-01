@@ -12,17 +12,20 @@ import Views.CustomerDialog;
 import Views.CustomerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Michel
  */
-public class Control implements ActionListener{
+public class Control implements ActionListener,WindowListener{
     private CustomerView vue;
     private CustomerTable model;
     private DAOCustomer dao ;
@@ -111,4 +114,32 @@ public class Control implements ActionListener{
         }
 
     }
+
+    @Override
+    public void windowOpened(WindowEvent we) {}
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        System.out.println("Deconexion"); 
+        vue.getClient().stopConnection();
+       
+         
+    }
+    @Override
+    public void windowClosed(WindowEvent we) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {}
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {}
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {}
 }

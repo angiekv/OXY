@@ -22,7 +22,7 @@ public class Server {
 
     private static int port = 2009;
     private static ConnectionPool pool = new ConnectionPool();
-    
+
     public static void main(String[] args) {
         ServerSocket server = null;
         pool.InitPool();
@@ -30,9 +30,15 @@ public class Server {
             server = new ServerSocket(port);
             while (true) {
                 //a thread per client
+//                System.out.println(pool.getFreeConnection());
+//                if(pool.getFreeConnection()!=0){
+                Socket client = server.accept();
                 Connection con = pool.getConnection();
-                Thread t1 = new Thread(new AccepterClient(server.accept(),con));
-                t1.start();
+                if (con != null) {
+                    Thread t1 = new Thread(new AccepterClient(client, con));
+                    t1.start();
+                }
+//                System.out.println(pool.getFreeConnection());
             }
         } catch (IOException ex) {
             System.out.println("start server impossible.");
@@ -51,7 +57,7 @@ public class Server {
         return pool;
     }
 }
- 
+
 class AccepterClient implements Runnable {
 
     private Socket socket;
@@ -63,7 +69,7 @@ class AccepterClient implements Runnable {
         this.con = con;
         System.out.println("New client connected from " + socket.getInetAddress().getHostAddress());
     }
-  
+
     public void run() {
         BufferedReader in = null;
         PrintWriter out = null;
@@ -81,14 +87,16 @@ class AccepterClient implements Runnable {
             }
 
         } catch (IOException ex) {
-            if (Server.getPool().releaseConnection(con))
-                System.out.println("client disconnected ");
-            
+            ex.printStackTrace();
+
         } finally {
             try {
                 in.close();
                 out.close();
                 socket.close();
+                Server.getPool().releaseConnection(con);
+                System.out.println("client disconnected ");
+                System.out.println(Server.getPool().getFreeConnection());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -97,7 +105,7 @@ class AccepterClient implements Runnable {
 
     /**
      *
-     * @param request 
+     * @param request
      * @param out
      * @throws SQLException
      */
@@ -109,9 +117,9 @@ class AccepterClient implements Runnable {
             String type = m.get("actionType");
             System.out.println(type);
             //Shop attributes
-            String designation ;
+            String designation;
             String description;
-            int idType ;
+            int idType;
             int idMagasin;
             //Customer attributes
             int idClient;
@@ -122,7 +130,7 @@ class AccepterClient implements Runnable {
                     List<Customer> listCustomer = loadCustomer(con);
                     System.out.println("requete");
 //                reponse = g.toJson(listCustomer);
-                    {
+                     {
                         try {
                             reponse = (String) j.serialization(listCustomer);
                         } catch (IOException ex) {
@@ -131,7 +139,7 @@ class AccepterClient implements Runnable {
                     }
                     send(reponse, out);
                     break;
-                case "addCustomer" :
+                case "addCustomer":
                     System.out.println("add");
                     nom = m.get("nom");
                     prenom = m.get("prenom");
@@ -141,12 +149,12 @@ class AccepterClient implements Runnable {
                     mail = m.get("mail");
                     sexe = m.get("sexe");
                     System.out.println("added successfully");
-                    addCustomer(con, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
+                    addCustomer(con, nom, prenom, adresse, cp, ville, mail, sexe);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                case "updateCustomer" :
+                case "updateCustomer":
                     System.out.println("add");
                     idClient = Integer.parseInt(m.get("idClient"));
                     nom = m.get("nom");
@@ -157,18 +165,18 @@ class AccepterClient implements Runnable {
                     mail = m.get("mail");
                     sexe = m.get("sexe");
                     System.out.println("updated successfully");
-                    updateCustomer(con, idClient, nom,  prenom,  adresse,  cp,  ville,  mail,  sexe);
+                    updateCustomer(con, idClient, nom, prenom, adresse, cp, ville, mail, sexe);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                case "deleteCustomer" :
+                case "deleteCustomer":
                     idClient = Integer.parseInt(m.get("idClient"));
                     deleteCustomer(con, idClient);
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                    //same thing for stores:
+                //same thing for stores:
 //                case "listeMagasin":
 //                    List<Magasin> l = chargeMagasin();
 //                    System.out.println("requete");

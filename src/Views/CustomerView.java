@@ -43,7 +43,7 @@ public class CustomerView extends JFrame {
 
     public CustomerView() {
         setTitle("Customers");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);//The position and the size of the frame
         contentPane = new JPanel();//
         contentPane.setLayout(new BorderLayout());
@@ -73,6 +73,7 @@ public class CustomerView extends JFrame {
         //affect the table to the scrollPane
         scrollPane.setViewportView(table);
         this.control = new Control(this, model, dao);
+        this.addWindowListener(control);
         delete.addActionListener(control);
         add.addActionListener(control);
         update.addActionListener(control);
@@ -102,6 +103,10 @@ public class CustomerView extends JFrame {
     public DAOCustomer getDao() {
         return dao;
     }
-    
+
+    public ClientSocket getClient() {
+        return client;
+    }
+
     
 }
