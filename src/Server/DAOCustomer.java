@@ -27,13 +27,11 @@ public class DAOCustomer {
 public synchronized static List<Customer> loadCustomer(Connection c) throws SQLException {
         //list of customer
         List<Customer> listCustomer = new ArrayList<>();
-        //connect to the bdd 
-       
          //request
         Statement myStmt = c.createStatement();
         //result of request
         ResultSet myRs = myStmt.executeQuery("select * from client");
-        // loop for add customer
+        // Loop to add all the customers
         while (myRs.next()) {
             int idClient = myRs.getInt("idClient");
             String nom = myRs.getString("nom");
@@ -75,7 +73,6 @@ public synchronized static List<Customer> loadCustomer(Connection c) throws SQLE
     
     public synchronized static void deleteCustomer(Connection c, int idClient) throws SQLException {
         PreparedStatement myStmt=null;
-        //connect to the bdd
         myStmt = c.prepareStatement("delete From client where idClient=?");
         //request
         myStmt.setInt(1, idClient);
@@ -84,8 +81,6 @@ public synchronized static List<Customer> loadCustomer(Connection c) throws SQLE
     }
     
     public synchronized static void addCustomer(Connection c ,String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
-        //connect to the bdd
-        //Connection myConn = c;
         PreparedStatement myStmt=null;
         myStmt = c.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)"+ "values (?,?,?,?,?,?,?)");
         //request
@@ -98,7 +93,6 @@ public synchronized static List<Customer> loadCustomer(Connection c) throws SQLE
         myStmt.setString(7, sexe);
         myStmt.executeUpdate();
         myStmt.close();
-        //Server.getPool().releaseConnection(myConn);
 
     }
     
@@ -114,5 +108,5 @@ public synchronized static List<Customer> loadCustomer(Connection c) throws SQLE
 //        dao.deleteCustomer(1);
 //        System.out.println(dao.loadCustomer());
 //    }
-}
+    }
 

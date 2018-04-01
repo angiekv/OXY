@@ -5,14 +5,10 @@
  */
 package Model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,12 +40,8 @@ public class DAOCustomer {
         
         Map<String, String> MapCustomer = new HashMap<String,String>();
         MapCustomer.put("actionType", "listCustomer");
-        
-        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
+        Json j = new Json();
         String json = j.serialization(MapCustomer);
-//        Gson gson = new GsonBuilder().create();
-//        //convert java objet to json
-//        String json = gson.toJson(MapCustomer);
         String answer= null;
         try {
             answer = c.sendAndRecieve(json);
@@ -86,7 +78,7 @@ public class DAOCustomer {
         MapCustomer.put("mail", mail);
         MapCustomer.put("sexe", sexe);
 
-        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
+        Json j = new Json();
         String json = j.serialization(MapCustomer);
 
         try {
@@ -106,7 +98,7 @@ public class DAOCustomer {
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "deleteCustomer");
         MapCustomer.put("idClient", Integer.toString(idClient));
-        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
+        Json j = new Json();
         String json = j.serialization(MapCustomer);
         try {
             String answer = c.sendAndRecieve(json);
@@ -132,7 +124,7 @@ public class DAOCustomer {
         MapCustomer.put("mail", mail);
         MapCustomer.put("sexe", sexe);
 
-        Json j = new Json(new FileWriter("D:\\Documents\\customerSent.json"));
+        Json j = new Json();
         String json = j.serialization(MapCustomer);
 
         try {

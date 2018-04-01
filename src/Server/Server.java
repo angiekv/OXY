@@ -4,14 +4,8 @@ import static Server.DAOCustomer.addCustomer;
 import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.updateCustomer;
-import static Server.DAOMagasin.AjouterMagasin;
-import static Server.DAOMagasin.chargeMagasin;
-import static Server.DAOMagasin.modifierMagasin;
-import static Server.DAOMagasin.supprimerMagasin;
 
-import com.google.gson.Gson;
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -109,12 +103,8 @@ class AccepterClient implements Runnable {
      */
     public void receive(String request, PrintWriter out) throws SQLException {
         try {
-            //we use Gson to convert from Json to Java object
-            Gson g = new Gson();
-            Json j = new Json(new FileWriter("D:\\Documents\\customerReceived.json"));
-//            //conversion
-//            JsonObject m = new Gson().fromJson(request, JsonObject.class);
-            //we want to know what action is requested (load, add, insert or delete)
+            Json j = new Json();
+            //We retrieve the action which can be "add", "delete" or "update"
             Map<String, String> m = j.deSerializationMap(request);
             String type = m.get("actionType");
             System.out.println(type);
@@ -179,42 +169,41 @@ class AccepterClient implements Runnable {
                     send(reponse, out);
                     break;
                     //same thing for stores:
-                case "listeMagasin":
-                    List<Magasin> l = chargeMagasin();
-                    System.out.println("requete");
-                    reponse = j.serialization(l);
-                    send(reponse, out);
-                    break;
-                case "add":
-                    System.out.println("ajout");
-                    designation = m.get("designation");
-                    description = m.get("description");
-                    idType = Integer.parseInt(m.get("idType"));
-                    //action ajout execution effectué
-                    AjouterMagasin(designation, description, idType);
-                    System.out.println("fin requete envoie rep ");
-                    reponse = j.serialization("ok");
-                    send(reponse, out);
-                    break;
-                case "modifMagasin":
-                    
-                    idMagasin = Integer.parseInt(m.get("idMagasin"));
-                    designation = m.get("designation");
-                    description = m.get("description");
-                    idType = Integer.parseInt(m.get("idType"));
-                    //action ajout execution effectué
-                    modifierMagasin(idMagasin,designation, description, idType);
-                    System.out.println("fin requete envoie rep ");
-                    reponse = j.serialization("ok");
-                    send(reponse, out);
-                    break;
-                case "supprimer":
-                    idMagasin = Integer.parseInt(m.get("idType"));
-                    supprimerMagasin(idMagasin);
-                    reponse = j.serialization("ok");
-                    send(reponse, out);
-                default:
-                    break;
+//                case "listeMagasin":
+//                    List<Magasin> l = chargeMagasin();
+//                    System.out.println("requete");
+//                    reponse = j.serialization(l);
+//                    send(reponse, out);
+//                    break;
+//                case "add":
+//                    System.out.println("ajout");
+//                    designation = m.get("designation");
+//                    description = m.get("description");
+//                    idType = Integer.parseInt(m.get("idType"));
+//                    //action ajout execution effectué
+//                    AjouterMagasin(designation, description, idType);
+//                    System.out.println("fin requete envoie rep ");
+//                    reponse = j.serialization("ok");
+//                    send(reponse, out);
+//                    break;
+//                case "modifMagasin":
+//                    
+//                    idMagasin = Integer.parseInt(m.get("idMagasin"));
+//                    designation = m.get("designation");
+//                    description = m.get("description");
+//                    idType = Integer.parseInt(m.get("idType"));
+//                    //action ajout execution effectué
+//                    modifierMagasin(idMagasin,designation, description, idType);
+//                    System.out.println("fin requete envoie rep ");
+//                    reponse = j.serialization("ok");
+//                    send(reponse, out);
+//                    break;
+//                case "supprimer":
+//                    idMagasin = Integer.parseInt(m.get("idType"));
+//                    supprimerMagasin(idMagasin);
+//                    reponse = j.serialization("ok");
+//                    send(reponse, out);
+//                default:
             }
         } catch (IOException ex) {
             Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
