@@ -15,10 +15,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Server.DAOCustomer;
+import Server.Database;
 import java.sql.Connection;
 import java.sql.SQLException;
-import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
 /**
  *
  * @author OXY
@@ -70,7 +69,7 @@ public class DAOCustomerTest {
         Server.Customer m = lesClients.get(2);
         DAOCustomer.updateCustomer(Con(),1, "Costa", "Rui","15 rue Paul","77290","Paris","ruicosta@hotmail.fr","M");
         List<Server.Customer> results = DAOCustomer.loadCustomer(Con());
-        Server.Customer r = results.get(4);
+        Server.Customer r = results.get(2);
         assertFalse(m.getPrenom() == r.getPrenom());
         
     }
@@ -81,7 +80,7 @@ public class DAOCustomerTest {
     @Test
     public void testdeleteCustomer() throws Exception {
         List<Server.Customer> lesClients = DAOCustomer.loadCustomer(Con());
-        DAOCustomer.deleteCustomer(Con(),1);
+        DAOCustomer.deleteCustomer(Con(),2);
         List<Server.Customer> r = DAOCustomer.loadCustomer(Con());
         assertEquals(lesClients.size()-1 , r.size());
         

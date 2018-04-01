@@ -27,14 +27,15 @@ public class Server {
         ServerSocket server = null;
         pool.InitPool();
         try {
+            // Server launch
             server = new ServerSocket(port);
+            // Infinite listening loop, waiting for a client request
             while (true) {
-                //a thread per client
 //                System.out.println(pool.getFreeConnection());
-//                if(pool.getFreeConnection()!=0){
                 Socket client = server.accept();
                 Connection con = pool.getConnection();
                 if (con != null) {
+                    //a thread per client
                     Thread t1 = new Thread(new AccepterClient(client, con));
                     t1.start();
                 }
@@ -42,6 +43,7 @@ public class Server {
             }
         } catch (IOException ex) {
             System.out.println("start server impossible.");
+            // If for any reason there's an issue, the server will close
         } finally {
             try {
                 if (server != null) {
@@ -62,7 +64,6 @@ class AccepterClient implements Runnable {
 
     private Socket socket;
     private Connection con;
-//    private ConnectionPool pool;
 
     AccepterClient(Socket socket, Connection con) {
         this.socket = socket;
@@ -71,6 +72,7 @@ class AccepterClient implements Runnable {
     }
 
     public void run() {
+        //In for the input flows, Out for the output flows
         BufferedReader in = null;
         PrintWriter out = null;
         try {
@@ -90,6 +92,7 @@ class AccepterClient implements Runnable {
             ex.printStackTrace();
 
         } finally {
+            // closing INPUT and OUTPUT flows from the server side and giving back the connection to the pool 
             try {
                 in.close();
                 out.close();
@@ -104,7 +107,7 @@ class AccepterClient implements Runnable {
     }
 
     /**
-     *
+     *This method process the request from the client
      * @param request
      * @param out
      * @throws SQLException
@@ -129,10 +132,9 @@ class AccepterClient implements Runnable {
                 case "listCustomer":
                     List<Customer> listCustomer = loadCustomer(con);
                     System.out.println("requete");
-//                reponse = g.toJson(listCustomer);
                      {
                         try {
-                            reponse = (String) j.serialization(listCustomer);
+                            reponse = j.serialization(listCustomer);
                         } catch (IOException ex) {
                             Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -218,7 +220,11 @@ class AccepterClient implements Runnable {
         }
 
     }
-
+/**
+ * This method will send the string to the client
+ * @param S
+ * @param out 
+ */
     public void send(String S, PrintWriter out) {
         out.println(S);
         out.flush();

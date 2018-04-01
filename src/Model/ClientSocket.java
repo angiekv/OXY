@@ -19,7 +19,7 @@ public class ClientSocket {
  
     public void startConnection() {
         try {
-            socketClient = new Socket("127.0.0.1", 2009);
+            socketClient = new Socket("10.16.1.254", 2009);
             in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
             out = new PrintWriter(socketClient.getOutputStream());
             System.out.println("");
