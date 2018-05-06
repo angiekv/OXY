@@ -14,9 +14,9 @@ public class ConnectionPool implements IPool {
 	private List<Connection>availableConnections = new ArrayList<Connection>();
 	private List<Connection>usedConnections = new ArrayList<Connection>();
 	
-	private final int MAX_CONNECTIONS = 5;
+	private final int MAX_CONNECTIONS = 30;
 	
-	public void InitPool() {
+	public void initPool() {
 		
 		for(int i = 0; i < MAX_CONNECTIONS; i++) {
                     try {

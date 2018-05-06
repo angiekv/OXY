@@ -26,7 +26,7 @@ public class Server {
 
     public static void main(String[] args) {
         ServerSocket server = null;
-        pool.InitPool();
+        pool.initPool();
         try {
             // Server launch
             server = new ServerSocket(port);

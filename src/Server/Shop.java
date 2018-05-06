@@ -59,7 +59,7 @@ public class Shop {
 
     @Override
     public String toString() {
-        return "Magasin{" + "id=" + id + ", designation=" + designation + ", description=" + description + ", loyer=" + loyer + ", superficie=" + superficie + ", localisation=" + localisation + ", niveau=" + niveau + '}';
+        return "Shop{" + "id=" + id + ", designation=" + designation + ", description=" + description + ", loyer=" + loyer + ", superficie=" + superficie + ", localisation=" + localisation + ", niveau=" + niveau + '}';
     }
 
   

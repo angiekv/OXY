@@ -16,7 +16,7 @@ public interface IPool {
     /**
      *This function initializes an arraylist which contains all the connections. 
      */
-    public void InitPool();
+    public void initPool();
     /**
      * This function get a connection from the pool.
      * @return Connection the got connection.
