@@ -28,19 +28,13 @@ import javax.swing.JScrollPane;
 public class CustomerDialog1 extends JDialog {
 
     private JList list;
-
     private DefaultListModel model;
-
-    private int counter = 15;
-
     private DAOCustomer dao;
-    // the view of shops (with the list of shops)
     private CustomerView view;
-    // the selected shop 
     private Customer selected = null;
 
     public CustomerDialog1(CustomerView C, DAOCustomer dao, Customer selected) throws IOException {
-        setTitle("Profiles du client "+selected.getIdClient());
+        setTitle("Profils du client " + selected.getIdClient());
         setBounds(100, 100, 450, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
