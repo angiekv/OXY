@@ -3,6 +3,7 @@ package Server;
 import static Server.DAOCustomer.addCustomer;
 import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
+import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
 
 import java.io.BufferedReader;
@@ -107,7 +108,8 @@ class AccepterClient implements Runnable {
     }
 
     /**
-     *This method process the request from the client
+     * This method process the request from the client
+     *
      * @param request
      * @param out
      * @throws SQLException
@@ -178,6 +180,19 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
+                case "listbyid":
+                    idClient = Integer.parseInt(m.get("idClient"));
+                    List<String> listbyid = loadProfileById(con, idClient);
+                    System.out.println("requete");
+                     {
+                        try {
+                            reponse = j.serialization(listbyid);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    send(reponse, out);
+                    break;
                 //same thing for stores:
 //                case "listeMagasin":
 //                    List<Magasin> l = chargeMagasin();
@@ -220,11 +235,13 @@ class AccepterClient implements Runnable {
         }
 
     }
-/**
- * This method will send the string to the client
- * @param S
- * @param out 
- */
+
+    /**
+     * This method will send the string to the client
+     *
+     * @param S
+     * @param out
+     */
     public void send(String S, PrintWriter out) {
         out.println(S);
         out.flush();

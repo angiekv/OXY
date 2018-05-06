@@ -36,6 +36,7 @@ public class CustomerView extends JFrame {
     private JButton add = new JButton("Ajouter");
     private JButton delete = new JButton("Supprimer");
     private JButton update = new JButton("Modifier");
+    private JButton afficher = new JButton("Afficher");
     private CustomerTable model;//this is the model of the table 
     private Control control;//this is the controler of this view 
     private DAOCustomer dao;// this is the DAO 
@@ -57,6 +58,7 @@ public class CustomerView extends JFrame {
         panel.add(add);
         panel.add(update);
         panel.add(delete);
+        panel.add(afficher);
         dao = new DAOCustomer(client);
         List<Customer> customer = null;
         try {
@@ -77,6 +79,7 @@ public class CustomerView extends JFrame {
         delete.addActionListener(control);
         add.addActionListener(control);
         update.addActionListener(control);
+        afficher.addActionListener(control);
 
     }
 
@@ -106,6 +109,9 @@ public class CustomerView extends JFrame {
 
     public ClientSocket getClient() {
         return client;
+    }
+        public JButton getAfficher() {
+        return afficher;
     }
 
     

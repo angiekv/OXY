@@ -133,6 +133,25 @@ public class DAOCustomer {
             Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+        public List<String> loadProfileById(int clientIdClient) throws IOException {
+        List<String> listbyid = new ArrayList<>();
+
+        Map<String, String> MapCustomer = new HashMap<String, String>();
+        MapCustomer.put("actionType", "listbyid");
+        MapCustomer.put("idClient", Integer.toString(clientIdClient));
+        Json j = new Json();
+        String json = j.serialization(MapCustomer);
+        String answer = null;
+        try {
+            answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Type listType = new TypeToken<List>() {
+        }.getType();
+        listbyid = j.deSerialization(answer, listType);
+        return listbyid;
+    }
     
 //    public static void main(String[] args) {
 //        ClientSocket client = new ClientSocket();

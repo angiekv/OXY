@@ -10,26 +10,42 @@ package Model;
  * @author Mario
  */
 public class Profile {
-    private int idprofil;
+    private int idprofile;
     private String profilname;
+    private int Client_idClient;
 
-    public Profile(int idprofile, String name) {
-        this.idprofil = idprofil;
+    public Profile(int idprofile, String profilname, int Client_idClient) {
+        this.idprofile = idprofile;
+        this.profilname = profilname;
+        this.Client_idClient = Client_idClient;
+    }
+
+    public int getIdprofile() {
+        return idprofile;
+    }
+
+    public void setIdprofile(int idprofile) {
+        this.idprofile = idprofile;
+    }
+
+    public String getProfilname() {
+        return profilname;
+    }
+
+    public void setProfilname(String profilname) {
         this.profilname = profilname;
     }
 
-    public int getIdprofil() {
-        return idprofil;
+    public int getClient_idClient() {
+        return Client_idClient;
     }
 
-    public String getName() {
-        return profilname;
+    public void setClient_idClient(int Client_idClient) {
+        this.Client_idClient = Client_idClient;
     }
 
     @Override
     public String toString() {
-        return "Profil{" + "idprofil=" + idprofil + ", profilname=" + profilname + '}';
+        return "Profile{" + "idprofile=" + idprofile + ", profilname=" + profilname + ", Client_idClient=" + Client_idClient + '}';
     }
-    
-    
 }

@@ -9,6 +9,7 @@ import Model.Customer;
 import Model.CustomerTable;
 import Model.DAOCustomer;
 import Views.CustomerDialog;
+import Views.CustomerDialog1;
 import Views.CustomerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,6 +93,23 @@ public class Control implements ActionListener,WindowListener{
             CustomerDialog dialog = new CustomerDialog(vue, dao, C, true);
 
             dialog.setVisible(true);
+        }
+                //When we click on afficher
+        if (vue.getAfficher() == e.getSource()) {
+            try {
+                int row = vue.getTable().getSelectedRow();
+                // no selected row
+                if (row < 0) {
+                    JOptionPane.showMessageDialog(vue, "selectionner une ligne");
+                    return;
+                }
+                
+                Customer C = this.model.getAllCustomers(row);
+                CustomerDialog1 dialog = new CustomerDialog1(vue, dao, C);
+                dialog.setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
