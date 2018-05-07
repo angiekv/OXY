@@ -5,11 +5,13 @@ import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
+import static Server.DAOHisto.loadHisto;
 import static Server.DAOProduct.addProduct;
 import static Server.DAOProduct.deleteProduct;
-import static Server.DAOProduct.loadProduct;
 import static Server.DAOProduct.loadProductStore;
 import static Server.DAOProduct.updateProduct;
+import static Server.DAOSale.addSale;
+import static Server.DAOSale.loadSale;
 import static Server.DAOStore.loadStores;
 
 import java.io.BufferedReader;
@@ -19,6 +21,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +142,12 @@ class AccepterClient implements Runnable {
             int idProduit, qte, idm;
             String libelle;
             float prix;
+            //Histo attributes
+            int ida,idb,idrc,idrf,idp,qteH;
+            Date date;
+            String action;
+            //Sale attributes
+            int idc,idps,qteS;
             String reponse = null;
             switch (type) {
                 case "listCustomer":
@@ -259,6 +268,32 @@ class AccepterClient implements Runnable {
                     send(reponse, out);
                     break;
                     
+                case "listHisto":
+                    List<Histo> h = loadHisto(con);
+                    System.out.println("requete");
+                    reponse = j.serialization(h);
+                    send(reponse, out);
+                    break;
+                 
+                 case "listSale":
+                    List<Sale> s = loadSale(con);
+                    System.out.println("requete");
+                    reponse = j.serialization(s);
+                    send(reponse, out);
+                    break;                         
+                    
+                case "addSale":
+                    System.out.println("add");
+                    idps = Integer.parseInt(m.get("Produit_idProduit"));
+                    qteS = Integer.parseInt(m.get("qte"));
+                    idc = Integer.parseInt(m.get("Client_idClient"));
+                    System.out.println("added successfully");
+                    addSale(idps,qteS,idc,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;   
+                    
 
             }
         } catch (IOException ex) {
@@ -277,4 +312,5 @@ class AccepterClient implements Runnable {
         out.println(S);
         out.flush();
     }
+
 }

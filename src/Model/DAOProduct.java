@@ -7,11 +7,6 @@ package Model;
 
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +115,7 @@ public class DAOProduct {
         try {
             String answer = c.sendAndRecieve(json);
         } catch (IOException ex) {
-            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

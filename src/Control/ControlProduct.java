@@ -5,15 +5,14 @@
  */
 package Control;
 
-//import Model.DAOSale;
+import Model.DAOSale;
 import Model.DAOProduct;
 //import Model.DAOReturncustomer;
 //import Model.DAOReturnprovider;
-import Model.Store;
 import Model.Product;
 import Model.ProductTable;
-//import View.SaleDialog;
-//import View.HistoView;
+import Views.SaleDialog;
+import Views.HistoView;
 import Views.ProductDialog;
 import Views.ProductView;
 //import View.ReturncustomertDialog;
@@ -21,7 +20,6 @@ import Views.ProductView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +35,7 @@ public class ControlProduct implements ActionListener {
     private ProductView vue;
     private ProductTable model;
     private DAOProduct DAOProduct;
-//    private DAOSale DAOAchat;
+    private DAOSale DAOAchat;
 //    private DAOReturncustomer DAORetourclient;
 //    private DAOReturnprovider DAORetourfournisseur;
 
@@ -93,13 +91,13 @@ public class ControlProduct implements ActionListener {
             dialog.setVisible(true);
 
         }
-//        //click on "vente"
-//        if (vue.getVente() == e.getSource()) {
-//            SaleDialog dialog = new SaleDialog(vue,DAOAchat,false);
-////             show dialog
-//            dialog.setVisible(true);
-//
-//        }
+//        click on "vente"
+        if (vue.getVente() == e.getSource()) {
+            SaleDialog dialog = new SaleDialog(vue,DAOAchat,false);
+//             show dialog
+            dialog.setVisible(true);
+
+        }
 //        
 //        //click on "retour client"
 //        if (vue.getRtc() == e.getSource()) {
@@ -132,21 +130,21 @@ public class ControlProduct implements ActionListener {
             dialog.setVisible(true);
         }
         
-//        if (vue.getAff() == e.getSource()) {
-//
-//            int row = vue.getTable().getSelectedRow();
-//            if (row < 0) {
-//                JOptionPane.showMessageDialog(vue, "selectionner une ligne");
-//                return;
-//            }
-//
-//            Product P = this.model.getAllProducts(row);
-//            int id = P.getIdProduit();
-//            HistoView view = new HistoView(id);
-//
-//            view.setVisible(true);
-//
-//        }
+        if (vue.getAff() == e.getSource()) {
+
+            int row = vue.getTable().getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(vue, "selectionner une ligne");
+                return;
+            }
+
+            Product P = this.model.getAllProducts(row);
+            int id = P.getIdProduit();
+            HistoView view = new HistoView(id);
+
+            view.setVisible(true);
+
+        }
 
     }
    /**
