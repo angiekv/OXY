@@ -8,11 +8,12 @@ package Server;
 import Model.Customer;
 import Model.Magasin;
 import Model.Profile;
+import Model.DAOMagasin;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import Server.Shop;
-import Server.Location;
-import Server.ConnectionPool;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -20,37 +21,41 @@ import Server.ConnectionPool;
  */
 
 public class Path {
-    private ArrayList<Shop> shops;
-    private ArrayList<Location> locations;
-    private ArrayList<Profile> profiles;
+    private List<Shop> shops;
+    private List<Location> locations;
+    private List<Profile> profiles;
     
-    public Path(ArrayList<Shop> shops,ArrayList<Location> locations,ArrayList<Profile> profiles){
-        this.shops = shops;
+    public Path() throws SQLException{
+        DAOShop daoShop = new DAOShop();
+        ConnectionPool pool = new ConnectionPool();
+        Connection c = pool.getConnection();
+        this.shops = daoShop.loadShops(c, "vetement mixte");
         this.locations = locations;
         this.profiles = profiles;
+        pool.releaseConnection(c);
     }
 
-    public ArrayList<Shop> getShops() {
+    public List<Shop> getShops() {
         return shops;
     }
 
-    public void setShops(ArrayList<Shop> shops) {
+    public void setShops(List<Shop> shops) {
         this.shops = shops;
     }
 
-    public ArrayList<Location> getLocations() {
+    public List<Location> getLocations() {
         return locations;
     }
 
-    public void setLocations(ArrayList<Location> locations) {
+    public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
 
-    public ArrayList<Profile> getProfiles() {
+    public List<Profile> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(ArrayList<Profile> profiles) {
+    public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
     }
 

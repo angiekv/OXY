@@ -90,7 +90,14 @@ public class PathGeneration {
             System.out.println("All connections are used!");
         }
     }
-
+/**
+ * This methods inserts lines in the Shop table 
+ * @param designation
+ * @param floor
+ * @param localization
+ * @param idType
+ * @throws SQLException 
+ */
     public void createShops(String designation, int floor, String localization, int idType) throws SQLException {
         if (pool.getFreeConnection() > 0) {
             Connection c = pool.getConnection();

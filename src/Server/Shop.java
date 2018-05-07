@@ -29,6 +29,11 @@ public class Shop {
         this.localisation = localisation;
     }
 
+    public Shop(String designation, String localization) {
+        this.designation = designation;
+        this.localisation = localization;
+    }
+    
     public int getId() {
         return id;
     }
@@ -62,7 +67,10 @@ public class Shop {
         return "Shop{" + "id=" + id + ", designation=" + designation + ", description=" + description + ", loyer=" + loyer + ", superficie=" + superficie + ", localisation=" + localisation + ", niveau=" + niveau + '}';
     }
 
-  
+//    public static void main(String[] args) throws Exception {
+//        Shop s = new Shop("Zara", "N01");
+//        System.out.println(s);
+//    }
 
 
 }

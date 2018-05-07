@@ -48,8 +48,37 @@ public class DAOShop {
         return listShop;
         
 
+    }         
+    /**
+     * This method returns only the shops which types matches a customer's profile
+     * @param c
+     * @param profil
+     * @param idType
+     * @return 
+     * @throws java.sql.SQLException 
+     */
+    public synchronized static List<Shop> loadShops(Connection c, String profil) throws SQLException{
+        List<Shop> filteredShopList = new ArrayList<>();
+        //The query which selects all the shops
+        try (Statement myStmt = c.createStatement()) {
+            //The query which selects all the shops matching the profile
+            ResultSet myRs = myStmt.executeQuery("select magasin.designation, magasin.localisation from magasin, magasin_has_type, type where magasin.idMagasin = magasin_has_type.magasin_idMagasin and magasin_has_type.type_idtype = type.idType and type.designation LIKE " + profil);
+            //Loop which adds a shop to the list.
+            while (myRs.next()) {
+//                int id = myRs.getInt("idMagasin");
+                String designation = myRs.getString("designation");
+//                String description = myRs.getString("description");
+//                int rent = myRs.getInt("loyer");
+//                int surface = myRs.getInt("superficie");
+//                int floor = myRs.getInt("niveau");
+                String localization = myRs.getString("localisation");
+                Shop s = new Shop(designation,localization);
+                filteredShopList.add(s);
+            }
+        }
+        return filteredShopList;    
     }
-    
+            
 /**
  * This method updates a shop.
  * @param idShop
@@ -142,12 +171,15 @@ public class DAOShop {
     }
     
     /*test */
-//    public static void main(String[] args) throws Exception {
-//
+    public static void main(String[] args) throws Exception {
 //        DAOShop dao = new DAOShop();
-//        System.out.println(dao.loadShops(Database.getConnection()));
-//        dao.deleteShop(2, Database.getConnection());
-//        dao.addShop("hetm", "vetemeent", 20000, 110, 1, "SORTIE", 1, Database.getConnection());
-//         System.out.println(dao.loadShops(Database.getConnection()));
-//    }
+        ConnectionPool pool = new ConnectionPool();
+        pool.initPool();
+        Connection c = pool.getConnection();
+//        System.out.println(dao.loadShops(c));
+//      dao.addShop("hetm", "vetemeent", 20000, 110, 1, "SORTIE", 1, c);
+//      Selects only clothing shops
+        System.out.println(loadShops(c, "'v_tement%'"));
+        pool.releaseConnection(c);
+    }
 }
