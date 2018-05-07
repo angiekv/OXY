@@ -49,7 +49,7 @@ public class ProductDialog extends JDialog {
     // the selected product 
     private Product selected = null;
     private boolean updateMode;
-    private final ControlProductDialog controlDialog;
+    private final ControlProductDialog controlProductDialog;
     
         public ProductDialog(ProductView C, DAOProduct dao, Product selected, boolean updateMode) {
         //call the constructor of the view dialog 
@@ -82,7 +82,7 @@ public class ProductDialog extends JDialog {
     
         public ProductDialog() {
         //the contoler of the dialog 
-        this.controlDialog = new ControlProductDialog(this);
+        this.controlProductDialog = new ControlProductDialog(this);
         setTitle("Ajouter Produit");
        
         setBounds(130, 130, 550, 450);
@@ -141,9 +141,9 @@ public class ProductDialog extends JDialog {
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
         save = new JButton("sauvegarder");
         buttonPane.add(save);
-        save.addActionListener((ActionListener) controlDialog);
+        save.addActionListener(controlProductDialog);
         back = new JButton("annuler");
-        back.addActionListener((ActionListener) controlDialog);
+        back.addActionListener(controlProductDialog);
         buttonPane.add(back);
 
     }

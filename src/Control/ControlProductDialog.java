@@ -65,7 +65,7 @@ public class ControlProductDialog implements ActionListener {
             view.setVisible(false);
             view.dispose();
             // refresh the view  
-            view.getProductView().getControl().refreshProduct();
+           view.getProductView().getControl().refreshProduct();
             // message 
             JOptionPane.showMessageDialog(view.getProductView(),
                     "Ajout produit réussi.",

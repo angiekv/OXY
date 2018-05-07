@@ -76,7 +76,7 @@ public class DAOProduct {
         Map<String, String> MapProduct = new HashMap<>();
         MapProduct.put("actionType", "updateProduct");
         MapProduct.put("idProduit", Integer.toString(idProduit));
-        MapProduct.put("libelle", libelle);
+        MapProduct.put("designation", libelle);
         MapProduct.put("prix", Float.toString(prix));
         MapProduct.put("qte", Integer.toString(qte));
         MapProduct.put("Magasin_idMagasin", Integer.toString(Magasin_idMagasin));
@@ -109,7 +109,7 @@ public class DAOProduct {
     public void addProduct( String libelle, float prix, int qte, int Magasin_idMagasin) throws IOException {
         Map<String, String> MapProduct = new HashMap<>();
         MapProduct.put("actionType", "addProduct");
-        MapProduct.put("libelle", libelle);
+        MapProduct.put("designation", libelle);
         MapProduct.put("prix", Float.toString(prix));
         MapProduct.put("qte", Integer.toString(qte));
         MapProduct.put("Magasin_idMagasin", Integer.toString(Magasin_idMagasin));

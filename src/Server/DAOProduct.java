@@ -31,7 +31,7 @@ public synchronized static List<Product> loadProduct(Connection c) throws SQLExc
         //loop for add product
         while (myRs.next()) {
             int id = myRs.getInt("idProduit");
-            String libelle = myRs.getString("libelle");
+            String libelle = myRs.getString("designation");
             Float prix = myRs.getFloat("prix");
             int qte = myRs.getInt("qte");
             int idMag = myRs.getInt("Magasin_idMagasin");

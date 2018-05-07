@@ -258,6 +258,7 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
+                    
 
             }
         } catch (IOException ex) {

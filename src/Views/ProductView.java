@@ -7,16 +7,12 @@ package Views;
 
 import Control.ControlProduct;
 import Model.ClientSocket;
-import Model.Customer;
-import Model.DAOCustomer;
 import Model.DAOProduct;
 import Model.Product;
 import Model.ProductTable;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,7 +73,7 @@ public class ProductView extends JFrame {
         try {
             product = dao.loadProductStore(id);
         } catch (IOException ex) {
-            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductView.class.getName()).log(Level.SEVERE, null, ex);
         }
             //initialize the table (model) with the list of 'produit'
             model = new ProductTable(product);
@@ -87,7 +83,7 @@ public class ProductView extends JFrame {
             contentPane.add(scrollPane, BorderLayout.CENTER);
             //affect the table to the scrollPane
             scrollPane.setViewportView(table);
-            this.control = new ControlProduct(this, model,id);
+            this.control = new ControlProduct(this, model,id,dao);
             delete.addActionListener(control);
             add.addActionListener(control);
             update.addActionListener(control);

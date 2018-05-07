@@ -41,10 +41,11 @@ public class ControlProduct implements ActionListener {
 //    private DAOReturncustomer DAORetourclient;
 //    private DAOReturnprovider DAORetourfournisseur;
 
-    public ControlProduct(ProductView vue, ProductTable modele,int idMag) {
+    public ControlProduct(ProductView vue, ProductTable modele,int idMag,DAOProduct dao) {
         this.vue = vue;
         this.model = modele;
         this.idMag = idMag;
+        this.DAOProduct = dao;
     }
 
     //when we click
@@ -76,7 +77,9 @@ public class ControlProduct implements ActionListener {
                 Logger.getLogger(ControlProduct.class.getName()).log(Level.SEVERE, null, ex);
             }
             //refresh the jtable 
-            refreshProduct();
+
+            
+           refreshProduct();
 //
             // show success message
             JOptionPane.showMessageDialog(vue,
@@ -146,11 +149,10 @@ public class ControlProduct implements ActionListener {
 //        }
 
     }
-
-    /**
+   /**
      * this function will refresh the list of product
      */
-    public void refreshProduct() {
+        public void refreshProduct() {
 
         try {
             List<Product> p = DAOProduct.loadProductStore(idMag);
