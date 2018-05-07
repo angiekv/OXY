@@ -9,9 +9,12 @@ import Server.ConnectionPool;
 import Server.DAOCustomer;
 import Server.DAOStore;
 import static Server.DAOCustomer.addCustomer;
+import Server.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -53,14 +56,12 @@ public class PathGeneration {
      * createProfiles() inserts basic profiles into the database using the
      * profile name and customer id as arguments
      */
-    public void createProfile(int idProfile, String NomProfil, int idClient) throws SQLException {
+    public void createProfile(String NomProfil) throws SQLException {
         if (pool.getFreeConnection() > 0) {
             Connection c = pool.getConnection();
             PreparedStatement myStmt = null;
-            myStmt = c.prepareStatement("insert into profile (idProfile, profilename, client_idClient)" + "values (?,?,?)");
-            myStmt.setString(1, Integer.toString(idProfile));
-            myStmt.setString(2, NomProfil);
-            myStmt.setString(3, Integer.toString(idClient));
+            myStmt = c.prepareStatement("insert into profile (profilename)" + "values (?)");
+            myStmt.setString(1, NomProfil);
             myStmt.executeUpdate();
             myStmt.close();
             pool.releaseConnection(c);
@@ -90,19 +91,21 @@ public class PathGeneration {
             System.out.println("All connections are used!");
         }
     }
-/**
- * This methods inserts lines in the Shop table 
- * @param designation
- * @param floor
- * @param localization
- * @param idType
- * @throws SQLException 
- */
-    public void createShops(String designation, int floor, String localization, int idType) throws SQLException {
+
+    /**
+     * This methods inserts lines in the Shop table
+     *
+     * @param designation
+     * @param floor
+     * @param localization
+     * @param idType
+     * @throws SQLException
+     */
+    public void createShops(String designation, int floor, String localization, List<Integer> ListidType) throws SQLException {
         if (pool.getFreeConnection() > 0) {
             Connection c = pool.getConnection();
             DAOStore dao = new DAOStore();
-            dao.addShop(designation, "description", 5000, 200 , floor , localization,  idType , c);
+            dao.addShop(designation, "description", 5000, 200, floor, localization, ListidType, c);
             pool.releaseConnection(c);
         } else {
             System.out.println("All connections are used!");
@@ -116,46 +119,46 @@ public class PathGeneration {
 //        CUSTOMERS
 //        autoGen.createCustomers(); 
 //        CUSTOMERS' PROFILES
-//        autoGen.createProfile(1, "multimédia", 19);
-//        autoGen.createProfile(2, "vetement mixte", 4);
-//        autoGen.createProfile(3, "sport", 9);
-//        autoGen.createProfile(4, "vetement femme", 9);
-//        autoGen.createProfile(5, "vetement homme", 13);
-//        autoGen.createProfile(6, "vetement enfant", 13);
-//        autoGen.createProfile(7, "accessoires", 6);
-//        autoGen.createProfile(8, "restaurant", 5);
-//        autoGen.createProfile(9, "fastfood", 13);
-//        autoGen.createProfile(10, "vêtement luxe", 11);
-//        autoGen.createProfile(11, "vêtement pas cher", 2);
-//        autoGen.createProfile(12, "utilitaire", 17);
-//        autoGen.createProfile(13, "fleurs", 20);
-//        autoGen.createProfile(14, "culture", 14);
+//        autoGen.createProfile("multimedia");
+//        autoGen.createProfile("mode");
+//        autoGen.createProfile("sport");
+//        autoGen.createProfile("restaurant");
+//        autoGen.createProfile("mode luxe");
+//        autoGen.createProfile("alimentaire");
+//        autoGen.createProfile("jardin");
+//        autoGen.createProfile("culture");
+//        autoGen.createProfile("utilitaire");
+//        autoGen.createProfile("sante");
+
 //        SHOP TYPES
-//        autoGen.createType("multimédia");
-//        autoGen.createType("vetement mixte");
+//        autoGen.createType("multimedia");
+//        autoGen.createType("mode");
 //        autoGen.createType("sport");
-//        autoGen.createType("vetement femme");
-//        autoGen.createType("vetement homme");
-//        autoGen.createType("vetement enfant");
-//        autoGen.createType("accessoires");
 //        autoGen.createType("restaurant");
-//        autoGen.createType("fastfood");
-//        autoGen.createType("vêtement luxe");
-//        autoGen.createType("vêtement pas cher");
-//        autoGen.createType("utilitaire");
-//        autoGen.createType("fleurs");
+//        autoGen.createType("mode luxe");
+//        autoGen.createType("alimentaire");
+//        autoGen.createType("jardin");
 //        autoGen.createType("culture");
+//        autoGen.createType("utilitaire");
+//        autoGen.createType("sante");
+
 //        SHOPS
-//          autoGen.createShops("Zara", 1, "N1", 3);
-//          autoGen.createShops("H&M", 1, "E24", 3);
-//          autoGen.createShops("Pull&Bear", 1, "S40", 3);
-//          autoGen.createShops("Primark", 1, "W63", 3);
-//          autoGen.createShops("Fnac", 1, "N8", 2);
-//          autoGen.createShops("MacDonalds", 2, "S107", 9);
-//          autoGen.createShops("DelArte", 2, "S101", 8);
-//          autoGen.createShops("BurgerKing", 2, "S120", 9);
-//          autoGen.createShops("Accessorize", 2, "W133", 7);
-//          autoGen.createShops("Gucci", 2, "E96", 10);
+
+//        List<Integer> listType = new ArrayList<>();
+//        int nbOfTypes = 13;
+//        for (int i = 3; i < nbOfTypes; i++){
+//            listType.add(i);
+//        }
+//        autoGen.createShops("Zara", 1, "N1", listType);
+//        autoGen.createShops("H&M", 1, "E24", listType);
+//        autoGen.createShops("Pull&Bear", 1, "S40", listType);
+//        autoGen.createShops("Primark", 1, "W63", listType);
+//        autoGen.createShops("Fnac", 1, "N8", listType);
+//        autoGen.createShops("MacDonalds", 2, "S107", listType);
+//        autoGen.createShops("DelArte", 2, "S101", listType);
+//        autoGen.createShops("BurgerKing", 2, "S120", listType);
+//        autoGen.createShops("Accessorize", 2, "W133", listType);
+//        autoGen.createShops("Gucci", 2, "E96", listType);
 
     }
 }

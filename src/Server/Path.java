@@ -9,11 +9,18 @@ import Model.Customer;
 import Server.Store;
 import Model.Profile;
 import Server.DAOStore;
+import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,20 +28,17 @@ import java.util.List;
  */
 
 public class Path {
+    
     private List<Store> shops;
     private List<Location> locations;
     private List<Profile> profiles;
     
-    public Path() throws SQLException{
-        DAOStore daoShop = new DAOStore();
-        ConnectionPool pool = new ConnectionPool();
-        Connection c = pool.getConnection();
-        this.shops = daoShop.loadStores(c, "vetement mixte");
+    public Path(List<Store> shops, List<Location> locations, List<Profile> profiles){
+        this.shops = shops;
         this.locations = locations;
         this.profiles = profiles;
-        pool.releaseConnection(c);
     }
-
+    
     public List<Store> getShops() {
         return shops;
     }
@@ -43,7 +47,7 @@ public class Path {
         this.shops = shops;
     }
 
-    public List<Location> getLocations() {
+    public List<Location> getLocations() throws SQLException {
         return locations;
     }
 
@@ -57,22 +61,5 @@ public class Path {
 
     public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
-    }
-
-    public void generatePath(){
-        
-    }
-    
-//    public static void main (String [] args){
-//        Magasin zara = new Magasin(1,"truc","truc",1);
-//        Magasin hm = new Magasin(2, "vetement", "mixte", 1);
-//        ArrayList<Magasin> magasins = new ArrayList<Magasin>();
-//        magasins.add(zara);
-//        magasins.add(hm);
-//        
-//        Profile vetement = new Profile(1,"vetement");
-//        System.out.println("magasins" + magasins);
-//
-//    }
-    
+    } 
 }

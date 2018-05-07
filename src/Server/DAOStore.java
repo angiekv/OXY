@@ -215,7 +215,7 @@ public class DAOStore {
 //        System.out.println(dao.loadStores(c));
 //      dao.addShop("hetm", "vetemeent", 20000, 110, 1, "SORTIE", 1, c);
 //      Selects only clothing shops
-        System.out.println(loadStores(c, "'v_tement%'"));
+        System.out.println(loadStores(c, "'mode%'"));
         pool.releaseConnection(c);
     }
 }
