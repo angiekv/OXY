@@ -153,11 +153,5 @@ public class DAOCustomer {
         return listbyid;
     }
     
-//    public static void main(String[] args) {
-//        ClientSocket client = new ClientSocket();
-//        DAOCustomer d = new DAOCustomer(client);
-//        List<Customer > l =d.loadCustomer();
-//        System.out.println(l.size());
-//    }
 }
 

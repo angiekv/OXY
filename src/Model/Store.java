@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author OXY
  */
-public class Shop {
+public class Store {
     private int id ;
     private String designation;
     private String description;
@@ -23,7 +23,7 @@ public class Shop {
     private List<Type> listIdType;
    
 
-    public Shop(int id, String designation, String description, int loyer, int superficie, int niveau, String localisation, List<Type> listIdType) {
+    public Store(int id, String designation, String description, int loyer, int superficie, int niveau, String localisation, List<Type> listIdType) {
         this.id = id;
         this.designation = designation;
         this.description = description;
@@ -34,7 +34,7 @@ public class Shop {
         this.listIdType = listIdType;
     }
     
-    public Shop(String designation, String localization) {
+    public Store(String designation, String localization) {
         this.designation = designation;
         this.localisation = localization;
     }

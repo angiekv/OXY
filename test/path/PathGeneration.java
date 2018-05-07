@@ -7,7 +7,7 @@ package path;
 
 import Server.ConnectionPool;
 import Server.DAOCustomer;
-import Server.DAOShop;
+import Server.DAOStore;
 import static Server.DAOCustomer.addCustomer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -101,7 +101,7 @@ public class PathGeneration {
     public void createShops(String designation, int floor, String localization, int idType) throws SQLException {
         if (pool.getFreeConnection() > 0) {
             Connection c = pool.getConnection();
-            DAOShop dao = new DAOShop();
+            DAOStore dao = new DAOStore();
             dao.addShop(designation, "description", 5000, 200 , floor , localization,  idType , c);
             pool.releaseConnection(c);
         } else {

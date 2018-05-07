@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Views;
+package Model;
 
+import Views.*;
 import Control.ControleurDialog;
-import Model.DAOMagasin;
+import Model.DAOStore;
 import Model.Magasin;
 import Views.MagasinView;
 import java.awt.BorderLayout;
@@ -40,14 +41,14 @@ public class MagasinDialog extends JDialog {
     private JButton sauvegarder, annuler;
     //controler 
     private ControleurDialog controleurDialog;
-    private DAOMagasin DAOMagasin;
+    private DAOStore DAOMagasin;
     // the view of shops (with the list of shops)
     private MagasinView magasinView;
     // the selected shop 
     private Magasin magasinSelectionne = null;
     private boolean updateMode;
 
-    public MagasinDialog(MagasinView M, DAOMagasin DAO, Magasin magasinSelectionne, boolean updateMode) {
+    public MagasinDialog(MagasinView M, DAOStore DAO, Magasin magasinSelectionne, boolean updateMode) {
         //call the constructor of the view dialog 
         this();
         magasinView = M;

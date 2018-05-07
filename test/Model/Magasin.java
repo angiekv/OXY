@@ -5,6 +5,8 @@
  */
 package Model;
   
+import Model.*;
+
 /**
  *
  * @author OXY

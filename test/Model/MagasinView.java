@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Views;
+package Model;
 
+import Views.*;
 import Control.Controleur;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import Model.ClientSocket;
-import Model.DAOMagasin;
+import Model.DAOStore;
 import Model.Magasin;
 import Model.MagasinTableModel;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class MagasinView extends JFrame {
     private JButton modifier = new JButton("Modifier");
     private MagasinTableModel modele;//this is the model of the table 
     private Controleur controleur;//this is the controler of this view 
-    private DAOMagasin DAOMagasin;// this is the DAO 
+    private DAOStore DAOMagasin;// this is the DAO 
     private ClientSocket client = new ClientSocket();
 
    
@@ -64,7 +65,7 @@ public class MagasinView extends JFrame {
             panel.add(ajouter);
             panel.add(modifier);
             panel.add(supprimer);
-            DAOMagasin= new DAOMagasin(client);
+            DAOMagasin= new DAOStore(client);
             List<Magasin> Magasins = null;
             try {
                 Magasins = DAOMagasin.chargeMagasin();
@@ -89,7 +90,7 @@ public class MagasinView extends JFrame {
         
     } 
 
-    public DAOMagasin getDAOMagasin() {
+    public DAOStore getDAOMagasin() {
         return DAOMagasin;
     }
      

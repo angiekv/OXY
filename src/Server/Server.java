@@ -5,6 +5,12 @@ import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
+import static Server.DAOProduct.addProduct;
+import static Server.DAOProduct.deleteProduct;
+import static Server.DAOProduct.loadProduct;
+import static Server.DAOProduct.loadProductStore;
+import static Server.DAOProduct.updateProduct;
+import static Server.DAOStore.loadStores;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -129,6 +135,10 @@ class AccepterClient implements Runnable {
             //Customer attributes
             int idClient;
             String nom, prenom, adresse, cp, ville, mail, sexe;
+            //Product attributes
+            int idProduit, qte, idm;
+            String libelle;
+            float prix;
             String reponse = null;
             switch (type) {
                 case "listCustomer":
@@ -193,42 +203,62 @@ class AccepterClient implements Runnable {
                     }
                     send(reponse, out);
                     break;
-                //same thing for stores:
-//                case "listeMagasin":
-//                    List<Magasin> l = chargeMagasin();
-//                    System.out.println("requete");
-//                    reponse = j.serialization(l);
-//                    send(reponse, out);
-//                    break;
-//                case "add":
-//                    System.out.println("ajout");
-//                    designation = m.get("designation");
-//                    description = m.get("description");
-//                    idType = Integer.parseInt(m.get("idType"));
-//                    //action ajout execution effectué
-//                    AjouterMagasin(designation, description, idType);
-//                    System.out.println("fin requete envoie rep ");
-//                    reponse = j.serialization("ok");
-//                    send(reponse, out);
-//                    break;
-//                case "modifMagasin":
-//                    
-//                    idMagasin = Integer.parseInt(m.get("idMagasin"));
-//                    designation = m.get("designation");
-//                    description = m.get("description");
-//                    idType = Integer.parseInt(m.get("idType"));
-//                    //action ajout execution effectué
-//                    modifierMagasin(idMagasin,designation, description, idType);
-//                    System.out.println("fin requete envoie rep ");
-//                    reponse = j.serialization("ok");
-//                    send(reponse, out);
-//                    break;
-//                case "supprimer":
-//                    idMagasin = Integer.parseInt(m.get("idType"));
-//                    supprimerMagasin(idMagasin);
-//                    reponse = j.serialization("ok");
-//                    send(reponse, out);
-//                default:
+//                same thing for stores:
+                case "listMagasin":
+                    List<Store> l = loadStores(con);
+                    System.out.println("requete");
+                    reponse = j.serialization(l);
+                    send(reponse, out);
+                    break;
+                    
+                    case "listProduct":
+                    idProduit = Integer.parseInt(m.get("idProduit"));
+                    List<Product> listProduct = loadProductStore(idProduit,con);
+                    System.out.println("requete");
+                     {
+                        try {
+                            reponse = j.serialization(listProduct);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    send(reponse, out);
+                    break;
+                    
+                case "addProduct":
+                    System.out.println("add");
+                    designation = m.get("designation");
+                    prix = Float.parseFloat(m.get("prix"));
+                    qte = Integer.parseInt(m.get("qte"));
+                    idm = Integer.parseInt(m.get("Magasin_idMagasin"));
+                    System.out.println("added successfully");
+                    addProduct(designation,prix,qte,idm,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                    
+                case "updateProduct":
+                    System.out.println("update");
+                    idProduit = Integer.parseInt(m.get("idProduit"));
+                    designation = m.get("designation");
+                    prix = Float.parseFloat(m.get("prix"));
+                    qte = Integer.parseInt(m.get("qte"));
+                    idm = Integer.parseInt(m.get("Magasin_idMagasin"));
+                    System.out.println("updated successfully");
+                    updateProduct(idProduit,designation,prix,qte,idm,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                    
+                case "deleteProduct":
+                    idProduit = Integer.parseInt(m.get("idProduit"));
+                    deleteProduct(idProduit,con);
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+
             }
         } catch (IOException ex) {
             Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);

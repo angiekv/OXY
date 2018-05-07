@@ -18,16 +18,16 @@ import java.util.List;
  * @author OXY
  */
 
-public class DAOShop {
+public class DAOStore {
 /**
  * This method selects all the shops and puts the shops into a list.
  * @return the list of all the shops.
  * @throws SQLException 
  */
     
-    public synchronized static List<Shop> loadShops(Connection c) throws SQLException {
+    public synchronized static List<Store> loadStores(Connection c) throws SQLException {
         //list of shop
-        List<Shop> listShop = new ArrayList<>();
+        List<Store> listShop = new ArrayList<>();
         Statement myStmt = c.createStatement();
         //The query which selects all the shops.
         ResultSet myRs = myStmt.executeQuery("select * from magasin");
@@ -51,7 +51,7 @@ public class DAOShop {
                 Type T = new Type(idtype, designationType);
                 list.add(T);
             }
-            Shop M = new Shop(id, designation, description, loyer, surface, niveau, localisation, list);
+            Store M = new Store(id, designation, description, loyer, surface, niveau, localisation, list);
 
             listShop.add(M);
         }
@@ -67,8 +67,8 @@ public class DAOShop {
      * @return 
      * @throws java.sql.SQLException 
      */
-    public synchronized static List<Shop> loadShops(Connection c, String profil) throws SQLException{
-        List<Shop> filteredShopList = new ArrayList<>();
+    public synchronized static List<Store> loadStores(Connection c, String profil) throws SQLException{
+        List<Store> filteredShopList = new ArrayList<>();
         //The query which selects all the shops
         try (Statement myStmt = c.createStatement()) {
             //The query which selects all the shops matching the profile
@@ -82,7 +82,7 @@ public class DAOShop {
 //                int surface = myRs.getInt("superficie");
 //                int floor = myRs.getInt("niveau");
                 String localization = myRs.getString("localisation");
-                Shop s = new Shop(designation,localization);
+                Store s = new Store(designation,localization);
                 filteredShopList.add(s);
             }
         }
@@ -208,14 +208,14 @@ public class DAOShop {
     
     /*test */
     public static void main(String[] args) throws Exception {
-//        DAOShop dao = new DAOShop();
+//        DAOStore dao = new DAOStore();
         ConnectionPool pool = new ConnectionPool();
         pool.initPool();
         Connection c = pool.getConnection();
-//        System.out.println(dao.loadShops(c));
+//        System.out.println(dao.loadStores(c));
 //      dao.addShop("hetm", "vetemeent", 20000, 110, 1, "SORTIE", 1, c);
 //      Selects only clothing shops
-        System.out.println(loadShops(c, "'v_tement%'"));
+        System.out.println(loadStores(c, "'v_tement%'"));
         pool.releaseConnection(c);
     }
 }

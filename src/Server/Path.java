@@ -6,9 +6,9 @@
 package Server;
 
 import Model.Customer;
-import Model.Magasin;
+import Server.Store;
 import Model.Profile;
-import Model.DAOMagasin;
+import Server.DAOStore;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,25 +21,25 @@ import java.util.List;
  */
 
 public class Path {
-    private List<Shop> shops;
+    private List<Store> shops;
     private List<Location> locations;
     private List<Profile> profiles;
     
     public Path() throws SQLException{
-        DAOShop daoShop = new DAOShop();
+        DAOStore daoShop = new DAOStore();
         ConnectionPool pool = new ConnectionPool();
         Connection c = pool.getConnection();
-        this.shops = daoShop.loadShops(c, "vetement mixte");
+        this.shops = daoShop.loadStores(c, "vetement mixte");
         this.locations = locations;
         this.profiles = profiles;
         pool.releaseConnection(c);
     }
 
-    public List<Shop> getShops() {
+    public List<Store> getShops() {
         return shops;
     }
 
-    public void setShops(List<Shop> shops) {
+    public void setShops(List<Store> shops) {
         this.shops = shops;
     }
 
