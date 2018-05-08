@@ -45,10 +45,11 @@ public class ProductView extends JFrame {
     private ControlProduct control;//this is the controler of this view 
     private DAOProduct dao;// this is the DAO 
     private JButton aff = new JButton("Afficher");
-    private ClientSocket client = new ClientSocket();
+    private ClientSocket client;
 
-    public ProductView(int id) {
+    public ProductView(int id,ClientSocket client) {
         this.id=id;
+        this.client=client;
             setTitle("Produits");
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setBounds(200, 200, 900, 300);//The position and the size of the frame 
@@ -128,6 +129,10 @@ public class ProductView extends JFrame {
 
     public JTable getTable() {
         return table;
+    }
+    
+    public ClientSocket getClient() {
+        return client;
     }
 
     public ControlProduct getControl() {

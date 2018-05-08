@@ -8,7 +8,6 @@ package Views;
 import Control.ControlStore;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,12 +38,11 @@ public class StoreView extends JFrame {
     private ControlStore controleur;//this is the controler of this view 
     private DAOStore DAOStore;// this is the DAO 
     private ClientSocket client = new ClientSocket();
-
    
 
     public StoreView() {
         //initialize the contoler with the view and the model of the table
-        
+        client.startConnection();
         
         setTitle("Stores");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,5 +85,10 @@ public class StoreView extends JFrame {
     public JButton getAff(){
         return aff;
     }
+    
+    public ClientSocket getClient() {
+        return client;
+    }
+
 
 }

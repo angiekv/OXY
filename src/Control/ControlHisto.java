@@ -31,5 +31,6 @@ public class ControlHisto implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
     }
-
 }
+
+

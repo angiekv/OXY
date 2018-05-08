@@ -29,7 +29,6 @@ public class DAOStore {
     private ClientSocket c;
         public DAOStore(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
     
    public List<Store> loadStores() throws IOException {
@@ -50,12 +49,6 @@ public class DAOStore {
         }.getType();
         listStore = j.deSerialization(answer, listType);
         return listStore;
-    }
-   
-    public static void main(String[] args) throws IOException {
-        ClientSocket client = new ClientSocket();
-        DAOStore dao = new DAOStore(client);
-        dao.loadStores();
     }
 
 

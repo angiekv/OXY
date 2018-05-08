@@ -7,12 +7,6 @@ package Model;
 
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +24,6 @@ public class DAOHisto {
 
     public DAOHisto(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
 
     public List<Histo> loadHistoProduct(int idh) throws IOException {

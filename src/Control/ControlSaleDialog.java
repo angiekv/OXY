@@ -5,8 +5,8 @@
  */
 package Control;
 
-import Model.DAOSale;
 import Views.SaleDialog;
+import Model.DAOSale;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;

@@ -12,17 +12,17 @@ import Views.ProductView;
 import Views.StoreView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Michel
  */
-public class ControlStore implements ActionListener {
+public class ControlStore implements ActionListener,WindowListener{
 
     private StoreView vue;
     private StoreTable model;
@@ -49,7 +49,7 @@ public class ControlStore implements ActionListener {
 
             Store M = this.model.getAllStores(row);
             int id = M.getId();
-            ProductView view = new ProductView(id);
+            ProductView view = new ProductView(id,vue.getClient());
 
             view.setVisible(true);
 
@@ -75,4 +75,32 @@ public class ControlStore implements ActionListener {
         }
 
     }
+        @Override
+    public void windowOpened(WindowEvent we) {}
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        System.out.println("Deconexion"); 
+        vue.getClient().stopConnection();
+       
+         
+    }
+    @Override
+    public void windowClosed(WindowEvent we) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {}
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {}
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {}
+
 }

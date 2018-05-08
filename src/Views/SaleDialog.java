@@ -6,7 +6,6 @@
 package Views;
 
 import Control.ControlSaleDialog;
-import Control.ControlProductDialog;
 import Model.DAOSale;
 import Model.Sale;
 import java.awt.BorderLayout;
@@ -15,7 +14,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;

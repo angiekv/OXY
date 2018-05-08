@@ -36,10 +36,11 @@ public class HistoView extends JFrame {
     private HistoTable model;//this is the model of the table 
     private ControlHisto control;//this is the controler of this view 
     private DAOHisto dao;// this is the DAO 
-    private ClientSocket client = new ClientSocket();
+    private ClientSocket client;
 
-    public HistoView(int id) {
-        this.id=id;
+    public HistoView(int id, ClientSocket client) {
+        this.id = id;
+        this.client=client;
         setTitle("Historiques");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);//The position and the size of the frame
@@ -67,13 +68,16 @@ public class HistoView extends JFrame {
         contentPane.add(scrollPane, BorderLayout.CENTER);
         //affect the table to the scrollPane
         scrollPane.setViewportView(table);
-        this.control = new ControlHisto(this, model,id);
+        this.control = new ControlHisto(this, model, id);
 
     }
 
-
     public JTable getTable() {
         return table;
+    }
+
+    public ClientSocket getClient() {
+        return client;
     }
 
 }

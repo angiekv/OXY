@@ -140,7 +140,7 @@ public class ControlProduct implements ActionListener {
 
             Product P = this.model.getAllProducts(row);
             int id = P.getIdProduit();
-            HistoView view = new HistoView(id);
+            HistoView view = new HistoView(id,vue.getClient());
 
             view.setVisible(true);
 

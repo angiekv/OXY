@@ -22,7 +22,6 @@ public class DAOSale {
 
     public DAOSale(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
     
     public void addSale(int idp, int qte, int idc) throws IOException {

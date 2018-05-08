@@ -19,12 +19,11 @@ import java.util.logging.Logger;
  * @author Michel
  */
 public class DAOProduct {
-
+ 
     private ClientSocket c;
 
     public DAOProduct(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
 
     public List<Product> loadProduct() throws IOException {
