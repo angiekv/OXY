@@ -5,14 +5,9 @@
  */
 package Model;
 
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,32 +25,12 @@ public class DAOSale {
         c.startConnection();
     }
     
-    public synchronized List<Sale> loadSale() throws IOException {
-        // list of sales
-        List<Sale> listSale = new ArrayList<>();
-
-        Map<String, String> MapSale = new HashMap<String, String>();
-        MapSale.put("actionType", "listSale");
-        Json j = new Json();
-        String json = j.serialization(MapSale);
-        String answer = null;
-        try {
-            answer = c.sendAndRecieve(json);
-        } catch (IOException ex) {
-            Logger.getLogger(DAOSale.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        java.lang.reflect.Type listType = new TypeToken<List<Sale>>() {
-        }.getType();
-        listSale = j.deSerialization(answer, listType);
-        return listSale;
-    }
-    
-    public synchronized void addSale(int Produit_idProduit, int qte, int Client_idClient) throws IOException {
+    public void addSale(int idp, int qte, int idc) throws IOException {
         Map<String, String> MapSale = new HashMap<>();
         MapSale.put("actionType", "addSale");
-        MapSale.put("Produit_idProduit", Integer.toString(Produit_idProduit));
+        MapSale.put("produit_idProduit", Integer.toString(idp));
         MapSale.put("qte", Integer.toString(qte));
-        MapSale.put("Client_idClient", Integer.toString(Client_idClient));
+        MapSale.put("client_idClient", Integer.toString(idc));
 
         Json j = new Json();
         String json = j.serialization(MapSale);

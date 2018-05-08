@@ -32,26 +32,6 @@ public class DAOHisto {
         this.c = c;
         c.startConnection();
     }
-        
-     public List<Histo> loadHisto() throws IOException {
-        // list of histo
-        List<Histo> listHisto = new ArrayList<>();
-
-        Map<String, String> MapHisto = new HashMap<String, String>();
-        MapHisto.put("actionType", "listHisto1");
-        Json j = new Json();
-        String json = j.serialization(MapHisto);
-        String answer = null;
-        try {
-            answer = c.sendAndRecieve(json);
-        } catch (IOException ex) {
-            Logger.getLogger(DAOHisto.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        java.lang.reflect.Type listType = new TypeToken<List<Histo>>() {
-        }.getType();
-        listHisto = j.deSerialization(answer, listType);
-        return listHisto;
-    }
 
     public List<Histo> loadHistoProduct(int idh) throws IOException {
         List<Histo> listHisto = new ArrayList<>();

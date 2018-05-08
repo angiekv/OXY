@@ -53,7 +53,7 @@ public class ControlSaleDialog implements ActionListener {
         try {
             // not update mode 
             if (view.isUpdateMode() == false) {
-                 view.getDao().addSale(prSaisie, qteSaisie, clSaisie );
+                view.getDao().addSale(prSaisie, qteSaisie, clSaisie );
             }
 
 

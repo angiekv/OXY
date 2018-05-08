@@ -6,6 +6,7 @@
 package Views;
 
 import Control.ControlSaleDialog;
+import Control.ControlProductDialog;
 import Model.DAOSale;
 import Model.Sale;
 import java.awt.BorderLayout;
@@ -13,6 +14,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.sql.Date;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -120,9 +123,9 @@ public class SaleDialog extends JDialog {
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
         save = new JButton("sauvegarder");
         buttonPane.add(save);
-        save.addActionListener(controlDialog);
+        save.addActionListener((ActionListener) controlDialog);
         back = new JButton("annuler");
-        back.addActionListener(controlDialog);
+        back.addActionListener((ActionListener) controlDialog);
         buttonPane.add(back);
 
     }
@@ -160,16 +163,16 @@ public class SaleDialog extends JDialog {
     public JButton getBack() {
         return back;
     }
-    
-        public DAOSale getDao() {
-        return dao;
-    }
     /**
      * 
      * @return the view ProductView
      */
     public ProductView getProductView() {
         return view;
+    }
+    
+    public DAOSale getDao() {
+        return dao;
     }
     /**
      * 

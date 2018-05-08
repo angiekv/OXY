@@ -5,13 +5,12 @@ import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
-import static Server.DAOHisto.loadHisto;
+import static Server.DAOHisto.loadHistoProduct;
 import static Server.DAOProduct.addProduct;
 import static Server.DAOProduct.deleteProduct;
 import static Server.DAOProduct.loadProductStore;
 import static Server.DAOProduct.updateProduct;
 import static Server.DAOSale.addSale;
-import static Server.DAOSale.loadSale;
 import static Server.DAOStore.loadStores;
 
 import java.io.BufferedReader;
@@ -268,19 +267,19 @@ class AccepterClient implements Runnable {
                     send(reponse, out);
                     break;
                     
-                case "listHisto":
-                    List<Histo> h = loadHisto(con);
+                    case "listHisto":
+                    idp = Integer.parseInt(m.get("idProduit"));
+                    List<Histo> listHisto = loadHistoProduct(idp,con);
                     System.out.println("requete");
-                    reponse = j.serialization(h);
+                     {
+                        try {
+                            reponse = j.serialization(listHisto);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     send(reponse, out);
-                    break;
-                 
-                 case "listSale":
-                    List<Sale> s = loadSale(con);
-                    System.out.println("requete");
-                    reponse = j.serialization(s);
-                    send(reponse, out);
-                    break;                         
+                    break;                        
                     
                 case "addSale":
                     System.out.println("add");
