@@ -201,7 +201,7 @@ public class DAOStore {
             myStmt3.setInt(1, lastid);
             myStmt3.setInt(2, idType);
             myStmt3.executeUpdate();
-        }
+        }       
         
 
     }

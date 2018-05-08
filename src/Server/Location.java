@@ -29,6 +29,11 @@ public class Location {
         this.freqTheorique = freqTheorique;
     }
 
+    Location(String localisation, int niveau) {
+        this.localisation = localisation;
+        this.niveau = niveau;
+    }
+
     public int getIdEmplacement() {
         return idEmplacement;
     }
