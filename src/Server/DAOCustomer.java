@@ -101,7 +101,7 @@ public class DAOCustomer {
         List<String> listbyid = new ArrayList<>();
         Connection myConn = Database.getConnection();
         Statement myStmt = myConn.createStatement();
-        ResultSet myRs = myStmt.executeQuery("select profilename from profile, client where client.idclient=profile.Client_idClient and Client_idClient =" + clientIdClient);
+        ResultSet myRs = myStmt.executeQuery("select profilename from profile, client_has_profile where profile.idProfile = client_has_profile.Profile_idProfile and client_idClient = " + clientIdClient);
         while (myRs.next()) {
             String name = myRs.getString("profilename");
             listbyid.add(name);
