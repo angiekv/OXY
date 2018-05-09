@@ -33,9 +33,8 @@ public class Store {
         this.listIdType = listIdType;
     }
     
-    public Store(String designation, String localization) {
+    public Store(String designation) {
         this.designation = designation;
-        this.localisation = localization;
     }
     
     public int getId() {

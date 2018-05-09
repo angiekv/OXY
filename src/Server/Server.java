@@ -6,6 +6,7 @@ import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
 import static Server.DAOHisto.loadHistoProduct;
+import static Server.DAOLocation.loadLocations;
 import static Server.DAOLocation.loadStoreAndAffectation;
 import static Server.DAOProduct.addProduct;
 import static Server.DAOProduct.deleteProduct;
@@ -26,6 +27,7 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -179,7 +181,13 @@ class AccepterClient implements Runnable {
                     mail = m.get("mail");
                     sexe = m.get("sexe");
                     System.out.println("added successfully");
-                    addCustomer(con, nom, prenom, adresse, cp, ville, mail, sexe);
+                    //we now need to tell our customer's profile
+                    //by default, a customer has all 10 profiles
+                    List<Integer> profileList = new ArrayList<>();
+                    for (int i = 1; i <= 10; i++){
+                        profileList.add(i);
+                    }
+                    addCustomer(con, nom, prenom, adresse, cp, ville, mail, sexe, profileList);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
@@ -341,6 +349,10 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
+                case "listLocation":                  
+                    List<Location> listOfLocation = loadLocations(con);
+                    reponse = j.serialization(listOfLocation);
+                    send(reponse, out);
 
             }
         } catch (IOException ex) {

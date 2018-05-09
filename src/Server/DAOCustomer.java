@@ -43,8 +43,17 @@ public class DAOCustomer {
             String ville = myRs.getString("ville");
             String mail = myRs.getString("mail");
             String sexe = myRs.getString("sexe");
-
-            Customer C = new Customer(idClient, nom, prenom, adresse, cp, ville, mail, sexe);
+            //We now want to populate table client_has_profile
+            Statement myStmt2 = c.createStatement();
+            //Query that matche customers with their profile(s)
+            ResultSet myRs2 = myStmt2.executeQuery("select idProfile, profilename from client_has_profile, profile where client_has_profile.Profile_idProfile = profile.idProfile and client_has_profile.client_idClient = " + idClient);
+            List<Profile> profileList = new ArrayList<>();
+            while (myRs2.next()){
+                int idProfile = myRs2.getInt("idProfile");
+                String profilename = myRs2.getString("profilename");
+                profileList.add(new Profile(idProfile, profilename));
+            }
+            Customer C = new Customer(idClient, nom, prenom, adresse, cp, ville, mail, sexe, profileList);
 
             listCustomer.add(C);
         }
@@ -52,6 +61,46 @@ public class DAOCustomer {
         // returns the list of customers
         return listCustomer;
 
+    }
+/**
+ * We want to load only the customers which have a certain profile
+ * @param c
+ * @param profil
+ * @return
+ * @throws SQLException 
+ */
+public synchronized static List<Customer> loadCustomer(Connection c, String p) throws SQLException {
+        List<Customer> filteredClientList = new ArrayList<>();
+        //The query which selects all the shops
+        Statement myStmt = c.createStatement();
+        //The query which selects all the shops matching the profile
+        ResultSet myRs = myStmt.executeQuery("select client.* from client, client_has_profile, profile where client.idClient = client_has_profile.client_idClient and client_has_profile.Profile_idProfile = profile.idProfile and profilename LIKE " + p);
+        //Loop which adds customers to the list
+        while (myRs.next()) {
+            int idClient = myRs.getInt("idClient");
+            String nom = myRs.getString("nom");
+            String prenom = myRs.getString("prenom");
+            String adresse = myRs.getString("adresse");
+            String cp = myRs.getString("cp");
+            String ville = myRs.getString("ville");
+            String mail = myRs.getString("mail");
+            String sexe = myRs.getString("sexe");
+            //liste type 
+            Statement myStmt2 = c.createStatement();
+            //The query which selects all the shops.
+            ResultSet myRs2 = myStmt2.executeQuery("SELECT profile.* from client_has_profile, profile where client_has_profile.Profile_idProfile=profile.idProfile and client_has_profile.client_idClient=" + idClient);
+            List<Profile> profileList = new ArrayList<>();
+            while (myRs2.next()) {
+                int idProfile = myRs2.getInt("idProfile");
+                String profilename = myRs2.getString("profilename");
+                Profile profiles = new Profile(idProfile, profilename);
+                profileList.add(profiles);
+            }
+            Customer customer = new Customer(idClient, nom, prenom, adresse, cp, ville, mail, sexe, profileList);
+            filteredClientList.add(customer);
+        }
+        myStmt.close();
+        return filteredClientList;
     }
 
     public synchronized static void updateCustomer(Connection c, int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
@@ -81,7 +130,7 @@ public class DAOCustomer {
         myStmt.close();
     }
 
-    public synchronized static void addCustomer(Connection c, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
+    public synchronized static void addCustomer(Connection c, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe, List<Integer> idProfiles) throws SQLException {
         PreparedStatement myStmt = null;
         myStmt = c.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)" + "values (?,?,?,?,?,?,?)");
         //request
@@ -93,10 +142,22 @@ public class DAOCustomer {
         myStmt.setString(6, mail);
         myStmt.setString(7, sexe);
         myStmt.executeUpdate();
+        Statement myStmt2 = c.createStatement();
+        //The query which selects all the shops.
+        ResultSet myRs = myStmt2.executeQuery("select last_insert_id() as last_id from client");
+        myRs.next();
+        int lastid = myRs.getInt("last_id");
+        //This request insert the type of the shop in database;
+        for (int idProfile : idProfiles) {
+            PreparedStatement myStmt3 = null;
+            myStmt3 = c.prepareStatement("insert into client_has_profile values (?,?)");
+            myStmt3.setInt(1, lastid);
+            myStmt3.setInt(2, idProfile);
+            myStmt3.executeUpdate();
         myStmt.close();
-
+        }
     }
-
+    
     public synchronized static List<String> loadProfileById(Connection c, int clientIdClient) throws SQLException {
         List<String> listbyid = new ArrayList<>();
         Connection myConn = Database.getConnection();
@@ -111,9 +172,20 @@ public class DAOCustomer {
         return listbyid;
     }
     /*test */
-//    public static void main(String[] args) throws Exception {
-//
-//        DAOCustomer dao = new DAOCustomer();
+    public static void main(String[] args) throws Exception {
+        ConnectionPool pool = new ConnectionPool();
+        pool.initPool();
+        Connection c = pool.getConnection();
+        System.out.println(pool.getFreeConnection());
+         List<Integer> idProfiles = new ArrayList<>();
+         idProfiles.add(5);
+         idProfiles.add(7);
+        addCustomer(c,"jean", "jn","@", "35530","Rns", "@","F",idProfiles);
+        System.out.println(loadCustomer(c, "'mode%'"));
+        pool.releaseConnection(c);
+//        System.out.println(loadCustomer(c));
+
+
 //        System.out.println(dao.loadCustomer());
 //        dao.addCustomer("Inge","1B","ESIPE","94000","Créteil","Esipe@gmail.com","N");
 //        System.out.println(dao.loadCustomer());
@@ -122,9 +194,10 @@ public class DAOCustomer {
 //        dao.deleteCustomer(1);
 //        System.out.println(dao.loadCustomer());
 //    }
-        /*test */
+//        /*test */
 //    public static void main(String[] args) throws Exception {
 //
 //        DAOCustomer dao = new DAOCustomer();
 //        System.out.println(dao.loadProfileid(2));
+    }
 }

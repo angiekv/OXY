@@ -7,7 +7,7 @@ package Model;
 
 import Views.*;
 import Control.ControleurDialog;
-import Model.DAOStore;
+import Model.DTOStore;
 import Model.Magasin;
 import Views.MagasinView;
 import java.awt.BorderLayout;
@@ -41,14 +41,14 @@ public class MagasinDialog extends JDialog {
     private JButton sauvegarder, annuler;
     //controler 
     private ControleurDialog controleurDialog;
-    private DAOStore DAOMagasin;
+    private DTOStore DAOMagasin;
     // the view of shops (with the list of shops)
     private MagasinView magasinView;
     // the selected shop 
     private Magasin magasinSelectionne = null;
     private boolean updateMode;
 
-    public MagasinDialog(MagasinView M, DAOStore DAO, Magasin magasinSelectionne, boolean updateMode) {
+    public MagasinDialog(MagasinView M, DTOStore DAO, Magasin magasinSelectionne, boolean updateMode) {
         //call the constructor of the view dialog 
         this();
         magasinView = M;

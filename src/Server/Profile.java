@@ -20,6 +20,15 @@ public class Profile {
         this.Client_idClient = Client_idClient;
     }
 
+    Profile(int idProfile, String profileName) {
+        this.idprofile = idProfile;
+        this.profilname = profileName;
+    }
+
+    Profile(String profileName) {
+        this.profilname = profileName;
+    }
+
     public int getIdprofile() {
         return idprofile;
     }

@@ -6,6 +6,7 @@
 package Server;
 
 import Model.*;
+import java.util.List;
 
 /**
  *
@@ -21,7 +22,8 @@ public class Customer {
     private String ville;
     private String mail;
     private String sexe;
-
+    private List<Profile> profileList;
+    
     public Customer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) {
         this.idClient = idClient;
         this.nom = nom;
@@ -31,6 +33,11 @@ public class Customer {
         this.ville = ville;
         this.mail = mail;
         this.sexe = sexe;
+    }
+
+    Customer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe, List<Profile> profileList) {
+        this(idClient,nom, prenom,adresse,cp,ville,mail,sexe);
+        this.profileList = profileList;
     }
 
     public int getIdClient() {

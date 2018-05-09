@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import Model.ClientSocket;
-import Model.DAOStore;
+import Model.DTOStore;
 import Model.Magasin;
 import Model.MagasinTableModel;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class MagasinView extends JFrame {
     private JButton modifier = new JButton("Modifier");
     private MagasinTableModel modele;//this is the model of the table 
     private Controleur controleur;//this is the controler of this view 
-    private DAOStore DAOMagasin;// this is the DAO 
+    private DTOStore DAOMagasin;// this is the DAO 
     private ClientSocket client = new ClientSocket();
 
    
@@ -65,7 +65,7 @@ public class MagasinView extends JFrame {
             panel.add(ajouter);
             panel.add(modifier);
             panel.add(supprimer);
-            DAOMagasin= new DAOStore(client);
+            DAOMagasin= new DTOStore(client);
             List<Magasin> Magasins = null;
             try {
                 Magasins = DAOMagasin.chargeMagasin();
@@ -90,7 +90,7 @@ public class MagasinView extends JFrame {
         
     } 
 
-    public DAOStore getDAOMagasin() {
+    public DTOStore getDAOMagasin() {
         return DAOMagasin;
     }
      

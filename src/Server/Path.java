@@ -62,4 +62,13 @@ public class Path {
     public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
     } 
+    
+    public static void main(String[] args) {
+        List<Store> shops = new ArrayList<>();
+        List<Location> locations = new ArrayList<>();
+        List<Profile> profiles = new ArrayList<>();
+        Path p1 = new Path(shops, locations, profiles);
+        
+        
+    }
 }

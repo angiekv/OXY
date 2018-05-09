@@ -25,7 +25,6 @@ public class DAOStore {
      * @return the list of all the shops.
      * @throws SQLException
      */
-
     public synchronized static List<Store> loadStores(Connection c) throws SQLException {
         //list of shop
         List<Store> listShop = new ArrayList<>();
@@ -74,22 +73,33 @@ public class DAOStore {
     public synchronized static List<Store> loadStores(Connection c, String profil) throws SQLException {
         List<Store> filteredShopList = new ArrayList<>();
         //The query which selects all the shops
-        try (Statement myStmt = c.createStatement()) {
-            //The query which selects all the shops matching the profile
-            ResultSet myRs = myStmt.executeQuery("select magasin.designation, magasin.localisation from magasin, magasin_has_type, type where magasin.idMagasin = magasin_has_type.magasin_idMagasin and magasin_has_type.type_idtype = type.idType and type.designation LIKE " + profil);
-            //Loop which adds a shop to the list.
-            while (myRs.next()) {
-//                int id = myRs.getInt("idMagasin");
-                String designation = myRs.getString("designation");
-//                String description = myRs.getString("description");
-//                int rent = myRs.getInt("loyer");
-//                int surface = myRs.getInt("superficie");
-//                int floor = myRs.getInt("niveau");
-                String localization = myRs.getString("localisation");
-                Store s = new Store(designation, localization);
-                filteredShopList.add(s);
+        Statement myStmt = c.createStatement();
+        //The query which selects all the shops matching the profile
+        ResultSet myRs = myStmt.executeQuery("select magasin.* from magasin, magasin_has_type, type where magasin.idMagasin = magasin_has_type.magasin_idMagasin and magasin_has_type.type_idtype = type.idType and type.designation LIKE " + profil);
+        //Loop which adds a shop to the list.
+        while (myRs.next()) {
+            int id = myRs.getInt("idMagasin");
+            String designation = myRs.getString("designation");
+            String description = myRs.getString("description");
+            int rent = myRs.getInt("loyer");
+            int surface = myRs.getInt("superficie");
+            int floor = myRs.getInt("niveau");
+            String localization = myRs.getString("localisation");
+            //liste type 
+            Statement myStmt2 = c.createStatement();
+            //The query which selects all the shops.
+            ResultSet myRs2 = myStmt2.executeQuery("SELECT designation,idType from magasin_has_type,type where magasin_has_type.type_idType=type.idType and magasin_has_type.magasin_idMagasin=" + id);
+            List<Type> list = new ArrayList<>();
+            while (myRs2.next()) {
+                int idtype = myRs2.getInt("idType");
+                String designationType = myRs2.getString("designation");
+                Type T = new Type(idtype, designationType);
+                list.add(T);
             }
+            Store s = new Store(id, designation, description, rent, surface, floor, localization, list);
+            filteredShopList.add(s);
         }
+        myStmt.close();
         return filteredShopList;
     }
 
@@ -180,11 +190,13 @@ public class DAOStore {
         myStmt2.setInt(1, idShop);
         myStmt2.executeUpdate();;
     }
+
     /**
      * This method return a list of the store not affect to a location
+     *
      * @param c
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public synchronized static List<Store> loadStoresNotAffectToLocation(Connection c) throws SQLException {
         //list of shop
@@ -251,15 +263,20 @@ public class DAOStore {
     }
 
     /*test */
-//    public static void main(String[] args) throws Exception {
-////        DAOStore dao = new DAOStore();
-//        ConnectionPool pool = new ConnectionPool();
-//        pool.initPool();
-//        Connection c = pool.getConnection();
-////        System.out.println(dao.loadStores(c));
-////      dao.addShop("hetm", "vetemeent", 20000, 110, 1, "SORTIE", 1, c);
-////      Selects only clothing shops
+    public static void main(String[] args) throws Exception {
+        DAOStore dao = new DAOStore();
+        ConnectionPool pool = new ConnectionPool();
+        pool.initPool();
+        Connection c = pool.getConnection();
+//        System.out.println(loadStores(c, "'mode'"));
+//        System.out.println(loadStores(c));
+
+//        System.out.println(dao.loadStores(c));
+        List<Integer> types = new ArrayList<>();
+        types.add(5);
+        dao.addShop("carrefour", "grande distribution", 20000, 110, 1, "indifférent", types, c);
+//      Selects only clothing shops
 //        System.out.println(loadStoresNotAffectToLocation(c));
-//        pool.releaseConnection(c);
-//    }
+        pool.releaseConnection(c);
+    }
 }

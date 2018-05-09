@@ -116,6 +116,7 @@ public class PathGeneration {
         PathGeneration autoGen = new PathGeneration(new ConnectionPool());
         autoGen.init();
 //        all lines below are aready in database
+
 //        CUSTOMERS
 //        autoGen.createCustomers(); 
 //        CUSTOMERS' PROFILES
@@ -143,22 +144,21 @@ public class PathGeneration {
 //        autoGen.createType("sante");
 
 //        SHOPS
-
 //        List<Integer> listType = new ArrayList<>();
 //        int nbOfTypes = 13;
 //        for (int i = 3; i < nbOfTypes; i++){
 //            listType.add(i);
 //        }
-//        autoGen.createShops("Zara", 1, "N1", listType);
-//        autoGen.createShops("H&M", 1, "E24", listType);
-//        autoGen.createShops("Pull&Bear", 1, "S40", listType);
-//        autoGen.createShops("Primark", 1, "W63", listType);
-//        autoGen.createShops("Fnac", 1, "N8", listType);
-//        autoGen.createShops("MacDonalds", 2, "S107", listType);
-//        autoGen.createShops("DelArte", 2, "S101", listType);
-//        autoGen.createShops("BurgerKing", 2, "S120", listType);
-//        autoGen.createShops("Accessorize", 2, "W133", listType);
-//        autoGen.createShops("Gucci", 2, "E96", listType);
+//        autoGen.createShops("Zara", 1, "entree/sortie", listType);
+//        autoGen.createShops("H&M", 1, "entree/sortie", listType);
+//        autoGen.createShops("Pull&Bear", 1, "indifferent", listType);
+//        autoGen.createShops("Primark", 1, "indifferent", listType);
+//        autoGen.createShops("Fnac", 1, "N8", entree/sortie);
+//        autoGen.createShops("MacDonalds", 2, "entree/sortie", listType);
+//        autoGen.createShops("DelArte", 2, "indifferent", listType);
+//        autoGen.createShops("BurgerKing", 2, "entree/sortie", listType);
+//        autoGen.createShops("Accessorize", 2, "indifferent", listType);
+//        autoGen.createShops("Gucci", 2, "indifferent", listType);
 
     }
 }
