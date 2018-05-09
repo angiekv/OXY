@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package affectLocation;
+package Server;
 import Server.ConnectionPool;
 import Server.DAOLocation;
 import static Server.DAOLocation.insertMagHasEmplacement;
@@ -166,14 +166,15 @@ public class AffectLocation {
         DAOLocation d = new DAOLocation();
         boolean isRestaurant = false;
         for(Type t :listType){
-            if (t.getDesignation().toLowerCase()=="restaurant"){
+            if ("restaurant".equals(t.getDesignation().toLowerCase())){
                 isRestaurant= true;
+                System.out.println(t.getDesignation());
                 break;
             }
         
         }
+        System.out.println(isRestaurant);
         if (!isRestaurant) {
-
             //result of request
             // we select all the location where the surface is equals to the surface that the shop want
             listLocationsBySurface = d.getLocationsEqualToSurface(c, superficieMag);
@@ -195,7 +196,9 @@ public class AffectLocation {
 
             listLocationsBySurface = d.getLocationsForRestaurant(c);
         }
+        System.out.println(listLocationsBySurface);
         return listLocationsBySurface;
+        
     }
     // if the list of location for restaureant is not empty 
 
@@ -262,7 +265,7 @@ public class AffectLocation {
         tabSortie.add(20);
         tabSortie.add(57);
         tabSortie.add(58);
-        if (localizationMag == "Indiférent") {
+        if (localizationMag == "Aucun") {
             ListLocationByLocalization = listEmp_Loyer;
         } else {
 
@@ -339,18 +342,18 @@ public class AffectLocation {
 //        }
 //    }
 
-    public static void main(String[] args) throws Exception {
-        AffectLocation a = new AffectLocation();
-//        a.createLocation();
-        DAOStore d = new DAOStore();
-        ConnectionPool pool = new ConnectionPool();
-        pool.initPool();
-        Connection c = pool.getConnection();
-        List<Store> listOfstore = d.loadStoresNotAffectToLocation(c);
-        
-        for (Store S: listOfstore ){
-            a.affectLocation(S, c);
-        }
+//    public static void main(String[] args) throws Exception {
+//        AffectLocation a = new AffectLocation();
+////        a.createLocation();
+//        DAOStore d = new DAOStore();
+//        ConnectionPool pool = new ConnectionPool();
+//        pool.initPool();
+//        Connection c = pool.getConnection();
+//        List<Store> listOfstore = d.loadStoresNotAffectToLocation(c);
+//        
+//        for (Store S: listOfstore ){
+//            a.affectLocation(S, c);
+//        }
 ////        System.out.println(dao.loadShops(c));
 //        listOfshop = d.loadShops(c);
 //
@@ -381,5 +384,5 @@ public class AffectLocation {
 //        System.out.println(leMeilleur);
 
     }
-}
+
 /*test */

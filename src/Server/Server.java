@@ -6,12 +6,14 @@ import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
 import static Server.DAOHisto.loadHistoProduct;
+import static Server.DAOLocation.loadStoreAndAffectation;
 import static Server.DAOProduct.addProduct;
 import static Server.DAOProduct.deleteProduct;
 import static Server.DAOProduct.loadProductStore;
 import static Server.DAOProduct.updateProduct;
 import static Server.DAOSale.addSale;
 import static Server.DAOStore.loadStores;
+import static Server.DAOStore.loadStoresNotAffectToLocation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -218,8 +220,8 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization(l);
                     send(reponse, out);
                     break;
-                    
-                    case "listProduct":
+
+                case "listProduct":
                     idProduit = Integer.parseInt(m.get("idProduit"));
                     List<Product> listProduct = loadProductStore(idProduit,con);
                     System.out.println("requete");
@@ -232,7 +234,7 @@ class AccepterClient implements Runnable {
                     }
                     send(reponse, out);
                     break;
-                    
+
                 case "addProduct":
                     System.out.println("add");
                     designation = m.get("designation");
@@ -245,7 +247,7 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                    
+
                 case "updateProduct":
                     System.out.println("update");
                     idProduit = Integer.parseInt(m.get("idProduit"));
@@ -259,15 +261,15 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                    
+
                 case "deleteProduct":
                     idProduit = Integer.parseInt(m.get("idProduit"));
                     deleteProduct(idProduit,con);
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                    
-                    case "listHisto":
+
+                case "listHisto":
                     idp = Integer.parseInt(m.get("idProduit"));
                     List<Histo> listHisto = loadHistoProduct(idp,con);
                     System.out.println("requete");
@@ -279,8 +281,8 @@ class AccepterClient implements Runnable {
                         }
                     }
                     send(reponse, out);
-                    break;                        
-                    
+                    break;
+
                 case "addSale":
                     System.out.println("add");
                     idps = Integer.parseInt(m.get("Produit_idProduit"));
@@ -291,8 +293,23 @@ class AccepterClient implements Runnable {
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
-                    break;   
-                    
+                    break;
+                case "listLocationAndStore":
+                    System.out.println("list magasin avec et sans affectation ");
+                    List<Location> listLocationStore = loadStoreAndAffectation(con);
+                    System.out.println("end of request");
+                    reponse = j.serialization(listLocationStore);
+                    send(reponse, out);
+                    break;
+                case "affectStoreToLocation":
+                    List<Store> listOfstore = loadStoresNotAffectToLocation(con);
+                    AffectLocation a = new AffectLocation();
+                    for (Store S : listOfstore) {
+                        a.affectLocation(S, con);
+                    }
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
 
             }
         } catch (IOException ex) {

@@ -1,6 +1,4 @@
-package Server;
-
-import Server.*;
+package Model;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -86,6 +84,7 @@ public class Location {
         return designationStoreAffected;
     }
 
+    @Override
     public String toString() {
         return "Location{" + "idEmplacement=" + idEmplacement + ", superficie=" + superficie + ", loyerInitial=" + loyerInitial + ", localisation=" + localisation + ", qualite=" + qualite + ", niveau=" + niveau + ", freqTheorique=" + freqTheorique + '}';
     }

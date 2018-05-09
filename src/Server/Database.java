@@ -17,7 +17,7 @@ public class Database {
     // Database connection variables
     private static final String URL = "jdbc:mysql://localhost/oxy";
     private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String PASSWORD = "";
 
     // Here we chose mysql so this is the mysql driver
     private static final String DRIVER_NAME= "com.mysql.jdbc.Driver";

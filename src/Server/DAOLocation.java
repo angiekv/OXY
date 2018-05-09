@@ -22,20 +22,6 @@ import java.util.logging.Logger;
  */
 public class DAOLocation {
 
-    private final ConnectionPool pool;
-
-    public DAOLocation() {
-        this.pool = new ConnectionPool();
-    }
-
-    public ConnectionPool getPool() {
-        return this.pool;
-    }
-
-    public void init() {
-        this.pool.initPool();
-    }
-
     public synchronized static void addLocation(Connection c) throws SQLException {
 //         createLocation(); impossible d'importer depuis la classe de test
 //          methode d'Aberkane :
@@ -147,9 +133,9 @@ public class DAOLocation {
         myPrepStmt.setInt(1, idEmplacement);
         myPrepStmt.setInt(2, idMagasin);
         myPrepStmt.setInt(3, redevance);
-        myPrepStmt.executeUpdate();    
+        myPrepStmt.executeUpdate();
     }
-    
+
     public synchronized static List<Location> loadLocations(Connection c) throws SQLException {
         List<Location> locationList = new ArrayList<>();
         //The query which selects all locations
@@ -193,21 +179,186 @@ public class DAOLocation {
         }
         return locationList;
     }
+    /**
+     * This methode return a list of location with the store affected (we only pick the name of the store )
+     * @param c
+     * @return
+     * @throws SQLException 
+     */
+    public static List<Location> loadStoreAndAffectation(Connection c) throws SQLException {
+        List<Location> list = new ArrayList<>();
+        Statement myStmt = c.createStatement();
+        //The query which selects all the shops.
+        ResultSet myRs = myStmt.executeQuery("SELECT magasin.designation,emplacement.localisation,emplacement.niveau,emplacement.idEmplacement FROM Magasin LEFT JOIN emplacement_has_magasin ON magasin.idMagasin = emplacement_has_magasin.Magasin_idMagasin "
+                + "Left join emplacement on emplacement_has_magasin.Emplacement_idEmplacement = emplacement.idEmplacement");
+
+        while (myRs.next()) {
+            String designationStore = myRs.getString("designation");
+            String localization = myRs.getString("localisation");
+            int floor = myRs.getInt("niveau");
+            int idLocation = myRs.getInt("idEmplacement");
+
+            Location L = new Location(idLocation, localization, floor, designationStore);
+            list.add(L);
+        }
+
+        return list;
+
+    }
+    /**
+     * This method return the list of the Locations which have the exact surface desired by a store
+     * @param c
+     * @param surface
+     * @return
+     * @throws SQLException 
+     */
+    public synchronized static List<Location> getLocationsEqualToSurface(Connection c, int surface) throws SQLException {
+        List<Location> locationsList = new ArrayList<>();
+        Statement myStmt = c.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select * from emplacement "
+                + "where superficie = " + surface + " and idEmplacement not between 101 AND 120 "
+                + "and idEmplacement not in (select Emplacement_idEmplacement from emplacement_has_magasin);");
+        while (myRs.next()) {
+            int id = myRs.getInt("idEmplacement");
+            int superficie = myRs.getInt("superficie");
+            int loyerinit = myRs.getInt("loyer_initial");
+            String localization = myRs.getString("localisation");
+            int qualite = myRs.getInt("qualite");
+            int niveau = myRs.getInt("niveau");
+            int freqTherorique = myRs.getInt("freqth");
+
+            Location E = new Location(id, superficie, loyerinit, localization, qualite, niveau, freqTherorique);
+
+            locationsList.add(E);
+        }
+        return locationsList;
+    }
+    /**
+     * This method return the list of the Locations with the smallest surface
+     * @param c
+     * @param minSurface
+     * @return
+     * @throws SQLException 
+     */
+    public synchronized static List<Location> getLocationsEqualToMinSurface(Connection c, int minSurface) throws SQLException {
+        List<Location> locationsList = new ArrayList<>();
+        Statement myStmt = c.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select * from emplacement "
+                + "where superficie = " + minSurface + " and idEmplacement not between 101 AND 120 "
+                + "and idEmplacement not in (select Emplacement_idEmplacement from emplacement_has_magasin);");
+        while (myRs.next()) {
+            int id = myRs.getInt("idEmplacement");
+            int superficie = myRs.getInt("superficie");
+            int loyerinit = myRs.getInt("loyer_initial");
+            String localization = myRs.getString("localisation");
+            int qualite = myRs.getInt("qualite");
+            int niveau = myRs.getInt("niveau");
+            int freqTherorique = myRs.getInt("freqth");
+
+            Location E = new Location(id, superficie, loyerinit, localization, qualite, niveau, freqTherorique);
+
+            locationsList.add(E);
+        }
+        return locationsList;
+    }
+    /**
+     * This method return the list of the Locations wich have a surface less than the surface desired by a store
+     * @param c
+     * @param desiredSurface
+     * @return
+     * @throws SQLException 
+     */
+    public synchronized static List<Location> getLocationsInferiorToDesiredSurface(Connection c, int desiredSurface) throws SQLException {
+        List<Location> locationsList = new ArrayList<>();
+        Statement myStmt = c.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select * from emplacement where superficie < " + desiredSurface + " "
+                + "and idEmplacement not between 101 AND 120 "
+                + "and idEmplacement not in (select Emplacement_idEmplacement from emplacement_has_magasin) ;");
+        while (myRs.next()) {
+            int id = myRs.getInt("idEmplacement");
+            int superficie = myRs.getInt("superficie");
+            int loyerinit = myRs.getInt("loyer_initial");
+            String localization = myRs.getString("localisation");
+            int qualite = myRs.getInt("qualite");
+            int niveau = myRs.getInt("niveau");
+            int freqTherorique = myRs.getInt("freqth");
+
+            Location E = new Location(id, superficie, loyerinit, localization, qualite, niveau, freqTherorique);
+
+            locationsList.add(E);
+        }
+
+        return locationsList;
+    }
+    /**
+     * This method return the list of the Locations for the restaurant 
+     * @param c
+     * @return
+     * @throws SQLException 
+     */
+    public synchronized static List<Location> getLocationsForRestaurant(Connection c) throws SQLException {
+        List<Location> locationsList = new ArrayList<>();
+        Statement myStmt = c.createStatement();
+        // we select all the location where for the restaurant 
+
+        ResultSet myRs = myStmt.executeQuery("select * from emplacement where idEmplacement between 101 and 120 and idEmplacement not in (select Emplacement_idEmplacement from emplacement_has_magasin) ");
+        while (myRs.next()) {
+            int id = myRs.getInt("idEmplacement");
+            int superficie = myRs.getInt("superficie");
+            int loyerinit = myRs.getInt("loyer_initial");
+            String localization = myRs.getString("localisation");
+            int qualite = myRs.getInt("qualite");
+            int niveau = myRs.getInt("niveau");
+            int freqTherorique = myRs.getInt("freqth");
+
+            Location E = new Location(id, superficie, loyerinit, localization, qualite, niveau, freqTherorique);
+
+            locationsList.add(E);
+
+        }
+        return locationsList;
+    }
+    /**
+     * This method return the smallest surface of the location
+     * @param c
+     * @return
+     * @throws SQLException 
+     */
+    public synchronized static Integer getMinSurface(Connection c) throws SQLException {
+        Statement myStmt = c.createStatement();
+        ResultSet myRsMin = myStmt.executeQuery("select min(superficie) as minsup from emplacement where idEmplacement not in (select Emplacement_idEmplacement from emplacement_has_magasin) ");
+        myRsMin.next();
+        int minSurface = myRsMin.getInt("minsup");
+
+        return minSurface;
+    }
+
+    public synchronized static void insertMagHasEmplacement(Connection c, int idStore, int idLocation) throws SQLException {
+        PreparedStatement myStmt = null;
+        myStmt = c.prepareStatement("insert emplacement_has_magasin (Emplacement_idEmplacement, Magasin_idMagasin) values (?,?)");
+        //request
+        myStmt.setInt(1, idLocation);
+        myStmt.setInt(2, idStore);
+
+        myStmt.executeUpdate();
+        myStmt.close();
+
+    }
 
     public static void main(String[] args) {
-        DAOLocation dao = new DAOLocation();
-        dao.init();
-        Connection c = dao.getPool().getConnection();
-        try {
-//            System.out.println(loadLocations(c));
-//            for (int i = 2; i < 10; i++) {
-//                dao.affectStoretoLocation(c, i, i+1, 4000);
-//            }
-            System.out.println(dao.loadLocationAccordToStore(c, 3));
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOLocation.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            dao.getPool().releaseConnection(c);
-        }
+//        DAOLocation dao = new DAOLocation();
+//        dao.init();
+//        Connection c = dao.getPool().getConnection();
+//        try {
+////            System.out.println(loadLocations(c));
+////            for (int i = 2; i < 10; i++) {
+////                dao.affectStoretoLocation(c, i, i+1, 4000);
+////            }
+//            System.out.println(dao.loadLocationAccordToStore(c, 3));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DAOLocation.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            dao.getPool().releaseConnection(c);
+//        }
     }
 }
