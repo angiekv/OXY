@@ -19,7 +19,7 @@ public class HistoTable extends AbstractTableModel {
     private static final int QTE_COL = 1;
     private static final int DATE_COL = 2;
     private static final int ACTION_COL = 3; 
-    private String[] columnNames = {"IDPRODUIT","QTE","DATE","MOUVEMENT"};
+    private String[] columnNames = {"CODE BARRE","QTE","DATE","MOUVEMENT"};
     private List<Histo> Histos;
 
     public HistoTable(List<Histo> theHistos) {

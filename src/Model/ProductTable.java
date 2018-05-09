@@ -19,7 +19,7 @@ public class ProductTable extends AbstractTableModel {
     private static final int PRIX_COL = 2; 
     private static final int QTE_COL = 3;
     private static final int MAGASIN_IDMAGASIN_COL = 4;
-    private String[] columnNames = {"IDPRODUIT", "LIBELLE", "PRIX","QTE","MAGASIN_IDMAGASIN"};
+    private String[] columnNames = {"CODE BARRE", "LIBELLE", "PRIX","QTE","IDMAGASIN"};
     private List<Product> Products;
 
     public ProductTable(List<Product> theProducts) {

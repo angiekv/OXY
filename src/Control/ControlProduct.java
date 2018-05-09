@@ -7,16 +7,16 @@ package Control;
 
 import Model.DAOSale;
 import Model.DAOProduct;
-//import Model.DAOReturncustomer;
-//import Model.DAOReturnprovider;
+import Model.DAOReturncustomer;
+import Model.DAOReturnprovider;
 import Model.Product;
 import Model.ProductTable;
 import Views.HistoView;
 import Views.ProductDialog;
 import Views.ProductView;
 import Views.SaleDialog;
-//import View.ReturncustomertDialog;
-//import View.ReturnproviderDialog;
+import Views.ReturncustomertDialog;
+import Views.ReturnproviderDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class ControlProduct implements ActionListener {
     private ProductTable model;
     private DAOProduct DAOProduct;
     private DAOSale DAOAchat;
-//    private DAOReturncustomer DAORetourclient;
+    private DAOReturncustomer DAORetourclient;
 //    private DAOReturnprovider DAORetourfournisseur;
 
     public ControlProduct(ProductView vue, ProductTable modele,int idMag,DAOProduct dao) {
@@ -93,27 +93,27 @@ public class ControlProduct implements ActionListener {
         }
 //        click on "vente"
         if (vue.getVente() == e.getSource()) {
-            SaleDialog dialog = new SaleDialog(vue,DAOAchat,false);
+            SaleDialog dialog = new SaleDialog(vue,vue.getDaos(),false);
 //             show dialog
             dialog.setVisible(true);
 
         }
 //        
-//        //click on "retour client"
-//        if (vue.getRtc() == e.getSource()) {
-//            ReturncustomertDialog dialog = new ReturncustomertDialog(vue,DAORetourclient,false);
-////             show dialog
-//            dialog.setVisible(true);
-//
-//        }
-//        
-//        //click on "retour fournisseur"
-//        if (vue.getRtf() == e.getSource()) {
-//            ReturnproviderDialog dialog = new ReturnproviderDialog(vue,DAORetourfournisseur,false);
-////             show dialog
-//            dialog.setVisible(true);
-//
-//        }
+        //click on "retour client"
+        if (vue.getRtc() == e.getSource()) {
+            ReturncustomertDialog dialog = new ReturncustomertDialog(vue,vue.getDaorc(),false);
+//             show dialog
+            dialog.setVisible(true);
+
+        }
+        
+        //click on "retour fournisseur"
+        if (vue.getRtf() == e.getSource()) {
+            ReturnproviderDialog dialog = new ReturnproviderDialog(vue,vue.getDaorf(),false);
+//             show dialog
+            dialog.setVisible(true);
+
+        }
         
         //click on "modifier"
         if (vue.getUpdate() == e.getSource()) {

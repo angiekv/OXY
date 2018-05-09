@@ -6,7 +6,6 @@
 package Model;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -16,23 +15,23 @@ import java.util.logging.Logger;
  *
  * @author Michel
  */
-public class DAOSale {
+public class DAOReturnprovider {
     
     private ClientSocket c;
 
-    public DAOSale(ClientSocket c) {
+    public DAOReturnprovider(ClientSocket c) {
         this.c = c;
     }
     
-    public void addSale(int idp, int qte, int idc) throws IOException {
-        Map<String, String> MapSale = new HashMap<>();
-        MapSale.put("actionType", "addSale");
-        MapSale.put("Produit_idProduit", Integer.toString(idp));
-        MapSale.put("qte", Integer.toString(qte));
-        MapSale.put("Client_idClient", Integer.toString(idc));
+    public void addReturnprovider(int idp, int qte, int idf) throws IOException {
+        Map<String, String> MapReturnprovider = new HashMap<>();
+        MapReturnprovider.put("actionType", "addReturnprovider");
+        MapReturnprovider.put("Produit_idProduit", Integer.toString(idp));
+        MapReturnprovider.put("qte", Integer.toString(qte));
+        MapReturnprovider.put("Fournisseur_idFournisseur", Integer.toString(idf));
 
         Json j = new Json();
-        String json = j.serialization(MapSale);
+        String json = j.serialization(MapReturnprovider);
 
         try {
             String answer = c.sendAndRecieve(json);

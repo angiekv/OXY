@@ -5,8 +5,8 @@
  */
 package Control;
 
-import Views.SaleDialog;
-import Model.DAOSale;
+import Model.DAOReturnprovider;
+import Views.ReturnproviderDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -15,12 +15,12 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-public class ControlSaleDialog implements ActionListener {
+public class ControlReturnproviderDialog implements ActionListener {
 
-    private SaleDialog view;
-    private DAOSale dao;
+    private ReturnproviderDialog view;
+    private DAOReturnprovider dao;
 
-    public ControlSaleDialog(SaleDialog vue,DAOSale dao) {
+    public ControlReturnproviderDialog(ReturnproviderDialog vue,DAOReturnprovider dao) {
         this.view = vue;
         this.dao=dao;
     }
@@ -46,15 +46,15 @@ public class ControlSaleDialog implements ActionListener {
         int prSaisie = Integer.parseInt(pr);
         String qte = view.getQte().getText();
         int qteSaisie = Integer.parseInt(qte);
-        String cl = view.getCl().getText();
-        int clSaisie = Integer.parseInt(cl);
+        String fo = view.getFo().getText();
+        int foSaisie = Integer.parseInt(fo);
 
         
 
         try {
             // not update mode 
             if (view.isUpdateMode() == false) {
-                view.getProductView().getDaos().addSale(prSaisie, qteSaisie, clSaisie);
+                view.getProductView().getDaorf().addReturnprovider(prSaisie, qteSaisie, foSaisie );
             }
 
 
@@ -65,13 +65,13 @@ public class ControlSaleDialog implements ActionListener {
             view.getProductView().getControl().refreshProduct();
             // message 
             JOptionPane.showMessageDialog(view.getProductView(),
-                    "Achat réussi.",
-                    "Commande passé",
+                    "Effectué",
+                    "Retour Fournisseur",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception exc) {
             JOptionPane.showMessageDialog(
                     view.getProductView(),
-                    "Erreur lors de l'achat! "
+                    "Erreur lors du retour! "
                     + exc.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }

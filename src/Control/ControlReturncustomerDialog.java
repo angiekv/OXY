@@ -5,8 +5,8 @@
  */
 package Control;
 
-import Views.SaleDialog;
-import Model.DAOSale;
+import Model.DAOReturncustomer;
+import Views.ReturncustomertDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -15,14 +15,14 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-public class ControlSaleDialog implements ActionListener {
+public class ControlReturncustomerDialog implements ActionListener {
 
-    private SaleDialog view;
-    private DAOSale dao;
+    private ReturncustomertDialog view;
+    private DAOReturncustomer dao;
 
-    public ControlSaleDialog(SaleDialog vue,DAOSale dao) {
+    public ControlReturncustomerDialog(ReturncustomertDialog vue,DAOReturncustomer dao) {
         this.view = vue;
-        this.dao=dao;
+        this.dao = dao;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ControlSaleDialog implements ActionListener {
         try {
             // not update mode 
             if (view.isUpdateMode() == false) {
-                view.getProductView().getDaos().addSale(prSaisie, qteSaisie, clSaisie);
+                view.getProductView().getDaorc().addReturncustomer(prSaisie, qteSaisie, clSaisie );
             }
 
 
@@ -65,13 +65,13 @@ public class ControlSaleDialog implements ActionListener {
             view.getProductView().getControl().refreshProduct();
             // message 
             JOptionPane.showMessageDialog(view.getProductView(),
-                    "Achat réussi.",
-                    "Commande passé",
+                    "Effectué",
+                    "Retour Client",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception exc) {
             JOptionPane.showMessageDialog(
                     view.getProductView(),
-                    "Erreur lors de l'achat! "
+                    "Erreur lors du retour! "
                     + exc.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }

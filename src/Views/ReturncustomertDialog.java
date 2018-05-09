@@ -5,15 +5,18 @@
  */
 package Views;
 
-import Control.ControlSaleDialog;
-import Model.DAOSale;
-import Model.Sale;
+
+import Control.ControlProductDialog;
+import Control.ControlReturncustomerDialog;
+import Model.DAOReturncustomer;
+import Model.Returncustomer;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -24,13 +27,13 @@ import javax.swing.JTextField;
  *
  * @author Michel
  */
-public class SaleDialog extends JDialog {
+public class ReturncustomertDialog extends JDialog {
     
    private JPanel pan = new JPanel();
     //Items displayed at the screen
     private JTextField pr;
     private JTextField qte;
-    private JTextField cl;;
+    private JTextField cl;
     
 
     //labels
@@ -40,39 +43,41 @@ public class SaleDialog extends JDialog {
     //buttons 
     private JButton save, back;
     //controler 
-    private ControlSaleDialog control;
-    private DAOSale dao;
-    // the view of product (with the list of sale)
+    private ControlReturncustomerDialog control;
+    private DAOReturncustomer dao;
+    // the view of rtcl 
     private ProductView view;
-    // the selected sale
+    // the selected rtcl
     private boolean updateMode;
-    private final ControlSaleDialog controlDialog;
+    private final ControlReturncustomerDialog controlDialog;
     
-        public SaleDialog(ProductView C, DAOSale dao, boolean updateMode) {
+        public ReturncustomertDialog(ProductView C, DAOReturncustomer dao, boolean updateMode) {
         //call the constructor of the view dialog 
         this();
         view = C;
         this.dao = dao;
+
         this.updateMode = updateMode;
+
 
     }
     /**
      * This function will fill the field 
-     * @param M the shop selected on the magasinView
+     * @param M the rtcl selected on the ReturncustomerView
      */
-    private void insert(Sale A) {
+    private void insert(Returncustomer RC) {
         
-		p.setText(Integer.toString(A.getIdp()));
-                q.setText(Integer.toString(A.getQte()));
-                c.setText(Integer.toString(A.getIdc()));
+		p.setText(Integer.toString(RC.getIdp()));
+                q.setText(Integer.toString(RC.getQte()));
+                c.setText(Integer.toString(RC.getIdc()));
 
 		
     }
     
-        public SaleDialog() {
+        public ReturncustomertDialog() {
         //the contoler of the dialog 
-        this.controlDialog = new ControlSaleDialog(this,dao);
-        setTitle("Effectuer une vente");
+        this.controlDialog = new ControlReturncustomerDialog(this,dao);
+        setTitle("Retour client");
        
         setBounds(130, 130, 550, 450);
         
@@ -83,27 +88,27 @@ public class SaleDialog extends JDialog {
         //space between items (the margin)
         gcb.insets = new Insets(10, 10, 10, 10);
          
-        // product
+        // produit
         gcb.gridx = 0;
-        gcb.gridy = 0;     
+        gcb.gridy = 0;  
         pan.add(p, gcb);
         gcb.gridx = 1;
-        gcb.gridy = 0;  
+        gcb.gridy = 0;
         pr = new JTextField();
         pr.setColumns(20);
         pan.add(pr, gcb);
-        
+
         // qte
         gcb.gridx = 0;
-        gcb.gridy = 1;  
-        pan.add(q, gcb);
+        gcb.gridy = 1;
+        pan.add(q,gcb);
         gcb.gridx = 1;
         gcb.gridy = 1;
         qte = new JTextField();
         qte.setColumns(20);
-        pan.add(qte, gcb);
-
-        // customer
+        pan.add(qte,gcb);
+        
+        // client
         gcb.gridx = 0;
         gcb.gridy = 2;
         pan.add(c,gcb);
@@ -112,7 +117,6 @@ public class SaleDialog extends JDialog {
         cl = new JTextField();
         cl.setColumns(20);
         pan.add(cl,gcb);
-        
         
 
         //Pannel with the buttons
@@ -167,10 +171,6 @@ public class SaleDialog extends JDialog {
      */
     public ProductView getProductView() {
         return view;
-    }
-    
-    public DAOSale getDao() {
-        return dao;
     }
     /**
      * 

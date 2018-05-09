@@ -11,6 +11,8 @@ import static Server.DAOProduct.addProduct;
 import static Server.DAOProduct.deleteProduct;
 import static Server.DAOProduct.loadProductStore;
 import static Server.DAOProduct.updateProduct;
+import static Server.DAOReturncustomer.addReturncustomer;
+import static Server.DAOReturnprovider.addReturnprovider;
 import static Server.DAOSale.addSale;
 import static Server.DAOStore.loadStores;
 import static Server.DAOStore.loadStoresNotAffectToLocation;
@@ -149,6 +151,10 @@ class AccepterClient implements Runnable {
             String action;
             //Sale attributes
             int idc,idps,qteS;
+            //Return customer attributes
+            int idcrc,idprc,qterc;
+            //Return provider attributes
+            int idcrf,idprf,qterf;
             String reponse = null;
             switch (type) {
                 case "listCustomer":
@@ -294,6 +300,31 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
+                    
+                case "addReturncustomer":
+                    System.out.println("add");
+                    idprc = Integer.parseInt(m.get("Produit_idProduit"));
+                    qterc = Integer.parseInt(m.get("qte"));
+                    idcrc = Integer.parseInt(m.get("Client_idClient"));
+                    System.out.println("added successfully");
+                    addReturncustomer(idprc,qterc,idcrc,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                    
+                case "addReturnprovider":
+                    System.out.println("add");
+                    idprf = Integer.parseInt(m.get("Produit_idProduit"));
+                    qterf = Integer.parseInt(m.get("qte"));
+                    idcrf = Integer.parseInt(m.get("Fournisseur_idFournisseur"));
+                    System.out.println("added successfully");
+                    addReturnprovider(idprf,qterf,idcrf,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;    
+                    
                 case "listLocationAndStore":
                     System.out.println("list magasin avec et sans affectation ");
                     List<Location> listLocationStore = loadStoreAndAffectation(con);
@@ -328,5 +359,6 @@ class AccepterClient implements Runnable {
         out.println(S);
         out.flush();
     }
+
 
 }

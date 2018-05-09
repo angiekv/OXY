@@ -8,6 +8,9 @@ package Views;
 import Control.ControlProduct;
 import Model.ClientSocket;
 import Model.DAOProduct;
+import Model.DAOReturncustomer;
+import Model.DAOReturnprovider;
+import Model.DAOSale;
 import Model.Product;
 import Model.ProductTable;
 import java.awt.BorderLayout;
@@ -43,7 +46,10 @@ public class ProductView extends JFrame {
     private JButton rtf = new JButton("Retour au fournisseur");
     private ProductTable model;//this is the model of the table 
     private ControlProduct control;//this is the controler of this view 
-    private DAOProduct dao;// this is the DAO 
+    private DAOProduct dao;// this is the DAO  Product  
+    private DAOSale daos;// this is the DAO Sale  
+    private DAOReturncustomer daorc;// this is the DAO return customer
+    private DAOReturnprovider daorf;
     private JButton aff = new JButton("Afficher");
     private ClientSocket client;
 
@@ -69,6 +75,9 @@ public class ProductView extends JFrame {
             panel.add(rtc);
             panel.add(rtf);
             panel.add(aff);
+        daorf = new DAOReturnprovider(client);    
+        daorc = new DAOReturncustomer(client);
+        daos = new DAOSale(client);  
         dao = new DAOProduct(client);
         List<Product> product = null;
         try {
@@ -126,7 +135,19 @@ public class ProductView extends JFrame {
     public DAOProduct getDao() {
         return dao;
     }
-
+    
+    public DAOSale getDaos() {
+        return daos;
+    }
+    
+    public DAOReturncustomer getDaorc() {
+        return daorc;
+    }
+    
+    public DAOReturnprovider getDaorf() {
+        return daorf;
+    }
+    
     public JTable getTable() {
         return table;
     }
