@@ -1,6 +1,7 @@
 package Server;
 
 import static Server.DAOCustomer.addCustomer;
+import static Server.DAOCustomer.addCustomerProfile;
 import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
 import static Server.DAOCustomer.loadProfileById;
@@ -171,7 +172,7 @@ class AccepterClient implements Runnable {
                     }
                     send(reponse, out);
                     break;
-                case "addCustomer":
+                case "addCustomerProfile":
                     System.out.println("add");
                     nom = m.get("nom");
                     prenom = m.get("prenom");
@@ -187,7 +188,22 @@ class AccepterClient implements Runnable {
                     for (int i = 1; i <= 10; i++){
                         profileList.add(i);
                     }
-                    addCustomer(con, nom, prenom, adresse, cp, ville, mail, sexe, profileList);
+                    addCustomerProfile(con, nom, prenom, adresse, cp, ville, mail, sexe, profileList);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                case "addCustomer":
+                    System.out.println("add");
+                    nom = m.get("nom");
+                    prenom = m.get("prenom");
+                    adresse = m.get("adresse");
+                    cp = m.get("cp");
+                    ville = m.get("ville");
+                    mail = m.get("mail");
+                    sexe = m.get("sexe");
+                    System.out.println("added successfully");
+                    addCustomer(con, nom, prenom, adresse, cp, ville, mail, sexe);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);

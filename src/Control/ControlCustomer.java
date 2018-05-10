@@ -9,7 +9,7 @@ import Model.Customer;
 import Model.CustomerTable;
 import Model.DAOCustomer;
 import Views.CustomerDialog;
-import Views.CustomerDialog1;
+import Views.CustomerDialogProfile;
 import Views.CustomerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -109,7 +109,7 @@ public class ControlCustomer implements ActionListener,WindowListener{
                 }
                 
                 Customer C = this.model.getAllCustomers(row);
-                CustomerDialog1 dialog = new CustomerDialog1(vue, dao, C);
+                CustomerDialogProfile dialog = new CustomerDialogProfile(vue, dao, C);
                 dialog.setVisible(true);
             } catch (IOException ex) {
                 Logger.getLogger(ControlCustomer.class.getName()).log(Level.SEVERE, null, ex);

@@ -46,7 +46,7 @@ public class CustomerView extends JFrame {
     public CustomerView() {
         setTitle("Customers");
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);//The position and the size of the frame
+        setBounds(100, 100, 600, 300);//The position and the size of the frame
         contentPane = new JPanel();//
         contentPane.setLayout(new BorderLayout());
         setContentPane(contentPane);

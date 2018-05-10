@@ -65,6 +65,9 @@ public class Path {
     
     public static void main(String[] args) {
         List<Store> shops = new ArrayList<>();
+        Store s1 = new Store("Zara");
+        shops.add(s1);
+        
         List<Location> locations = new ArrayList<>();
         List<Profile> profiles = new ArrayList<>();
         Path p1 = new Path(shops, locations, profiles);

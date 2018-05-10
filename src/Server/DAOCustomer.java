@@ -130,7 +130,7 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
         myStmt.close();
     }
 
-    public synchronized static void addCustomer(Connection c, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe, List<Integer> idProfiles) throws SQLException {
+    public synchronized static void addCustomerProfile(Connection c, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe, List<Integer> idProfiles) throws SQLException {
         PreparedStatement myStmt = null;
         myStmt = c.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)" + "values (?,?,?,?,?,?,?)");
         //request
@@ -158,6 +158,20 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
         }
     }
     
+    public synchronized static void addCustomer(Connection c, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
+        PreparedStatement myStmt = null;
+        myStmt = c.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)" + "values (?,?,?,?,?,?,?)");
+        //request
+        myStmt.setString(1, nom);
+        myStmt.setString(2, prenom);
+        myStmt.setString(3, adresse);
+        myStmt.setString(4, cp);
+        myStmt.setString(5, ville);
+        myStmt.setString(6, mail);
+        myStmt.setString(7, sexe);
+        myStmt.executeUpdate();
+    }
+    
     public synchronized static List<String> loadProfileById(Connection c, int clientIdClient) throws SQLException {
         List<String> listProfileById = new ArrayList<>();
         Statement myStmt = c.createStatement();
@@ -178,7 +192,7 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
          List<Integer> idProfiles = new ArrayList<>();
          idProfiles.add(5);
          idProfiles.add(7);
-        addCustomer(c,"jean", "jn","@", "35530","Rns", "@","F",idProfiles);
+        addCustomerProfile(c,"jean", "jn","@", "35530","Rns", "@","F",idProfiles);
         System.out.println(loadCustomer(c, "'mode%'"));
         pool.releaseConnection(c);
 //        System.out.println(loadCustomer(c));
