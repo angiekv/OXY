@@ -50,5 +50,20 @@ public class DAOHisto {
         return listHisto;
 
     }
+        
+    public synchronized static void addHistoOrder(int idb, int idp,int qte,String action,Connection c) throws SQLException {
+        PreparedStatement myStmt=null;
+        //connect to the bdd
+        Connection myConn = Database.getConnection();
+        myStmt = myConn.prepareStatement("insert into historique (BonLivraison_idBonLivraison,produit_idProduit,qte,date,action)"+ "values (?,?,?,now(),?)");
+        //request
+        myStmt.setInt(1, idb);
+        myStmt.setInt(2, idp);
+        myStmt.setInt(3, qte);
+        myStmt.setString(4,action);
+        myStmt.executeUpdate();
+        myStmt.close();
+
+    }
 
 }

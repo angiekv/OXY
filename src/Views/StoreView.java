@@ -33,7 +33,7 @@ public class StoreView extends JFrame {
     private JScrollPane scrollPane;//The scroolpane for scroll when there is a lot of data 
     private JTable table;//this is a table
     //this are all the buttons 
-    private JButton aff = new JButton("Afficher");
+    private JButton aff = new JButton("Afficher Produits");
     private StoreTable modele;//this is the model of the table 
     private ControlStore controleur;//this is the controler of this view 
     private DAOStore DAOStore;// this is the DAO 

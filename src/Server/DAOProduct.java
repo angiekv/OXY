@@ -93,6 +93,21 @@ public synchronized static List<Product> loadProductStore(int idm,Connection c) 
 
     }
     
+        public synchronized static void updateProductQte(int idProduit, int qte,Connection c) throws SQLException {
+        // prepare request
+        PreparedStatement myStmt=null;
+        //connect to the bdd
+        Connection myConn = Database.getConnection();
+        //request
+        myStmt = myConn.prepareStatement("update produit set qte=qte+? where idProduit=? ");
+        //value entered in the order of '?' in the request
+        myStmt.setInt(1, qte);
+        myStmt.setInt(2, idProduit);
+        myStmt.executeUpdate();
+        myStmt.close();
+
+    }
+    
     public synchronized static void deleteProduct(int idProduit,Connection c) throws SQLException {
         PreparedStatement myStmt=null;
         //connect to the bdd

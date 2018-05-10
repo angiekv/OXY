@@ -18,6 +18,7 @@ import static Server.DAOReturnprovider.addReturnprovider;
 import static Server.DAOSale.addSale;
 import static Server.DAOStore.loadStores;
 import static Server.DAOStore.loadStoresNotAffectToLocation;
+import static Server.ProductOrderHisto.order;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -158,6 +159,8 @@ class AccepterClient implements Runnable {
             int idcrc,idprc,qterc;
             //Return provider attributes
             int idcrf,idprf,qterf;
+            // order attribute
+            int idorder;
             String reponse = null;
             switch (type) {
                 case "listCustomer":
@@ -368,6 +371,12 @@ class AccepterClient implements Runnable {
                 case "listLocation":                  
                     List<Location> listOfLocation = loadLocations(con);
                     reponse = j.serialization(listOfLocation);
+                    send(reponse, out);
+                    
+                case "appro":                  
+                    idorder = Integer.parseInt(m.get("idBon"));
+                    order(idorder,con);
+                    reponse = j.serialization("ok");
                     send(reponse, out);
 
             }

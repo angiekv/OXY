@@ -5,12 +5,10 @@
  */
 package Control;
 
-import Model.DAOSale;
 import Model.DAOProduct;
-import Model.DAOReturncustomer;
-import Model.DAOReturnprovider;
 import Model.Product;
 import Model.ProductTable;
+import Views.ApproDialog;
 import Views.HistoView;
 import Views.ProductDialog;
 import Views.ProductView;
@@ -35,9 +33,6 @@ public class ControlProduct implements ActionListener {
     private ProductView vue;
     private ProductTable model;
     private DAOProduct DAOProduct;
-    private DAOSale DAOAchat;
-    private DAOReturncustomer DAORetourclient;
-//    private DAOReturnprovider DAORetourfournisseur;
 
     public ControlProduct(ProductView vue, ProductTable modele,int idMag,DAOProduct dao) {
         this.vue = vue;
@@ -94,6 +89,14 @@ public class ControlProduct implements ActionListener {
 //        click on "vente"
         if (vue.getVente() == e.getSource()) {
             SaleDialog dialog = new SaleDialog(vue,vue.getDaos(),false);
+//             show dialog
+            dialog.setVisible(true);
+
+        }
+        
+        //  click on "approvisionner"
+        if (vue.getApp() == e.getSource()) {
+            ApproDialog dialog = new ApproDialog(vue,vue.getDaoo());
 //             show dialog
             dialog.setVisible(true);
 

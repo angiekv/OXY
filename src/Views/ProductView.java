@@ -13,6 +13,7 @@ import Model.DAOReturnprovider;
 import Model.DAOSale;
 import Model.Product;
 import Model.ProductTable;
+import Model.DAOOrder;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class ProductView extends JFrame {
     private JButton delete = new JButton("Supprimer");
     private JButton update = new JButton("Modifier");
     private JButton vente = new JButton("Vente");
+    private JButton app = new JButton("Approvisionner");
     private JButton rtc = new JButton("Retour du client");
     private JButton rtf = new JButton("Retour au fournisseur");
     private ProductTable model;//this is the model of the table 
@@ -50,7 +52,8 @@ public class ProductView extends JFrame {
     private DAOSale daos;// this is the DAO Sale  
     private DAOReturncustomer daorc;// this is the DAO return customer
     private DAOReturnprovider daorf;
-    private JButton aff = new JButton("Afficher");
+    private DAOOrder daoo;
+    private JButton aff = new JButton("Afficher Historique");
     private ClientSocket client;
 
     public ProductView(int id,ClientSocket client) {
@@ -58,7 +61,7 @@ public class ProductView extends JFrame {
         this.client=client;
             setTitle("Produits");
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            setBounds(200, 200, 900, 300);//The position and the size of the frame 
+            setBounds(200, 200, 1000, 500);//The position and the size of the frame 
             contentPane = new JPanel();//
             contentPane.setLayout(new BorderLayout());
             setContentPane(contentPane);
@@ -72,13 +75,15 @@ public class ProductView extends JFrame {
             panel.add(update);
             panel.add(delete);
             panel.add(vente);
+            panel.add(app);
             panel.add(rtc);
             panel.add(rtf);
             panel.add(aff);
         daorf = new DAOReturnprovider(client);    
         daorc = new DAOReturncustomer(client);
-        daos = new DAOSale(client);  
+        daos = new DAOSale(client); 
         dao = new DAOProduct(client);
+        daoo = new DAOOrder(client);
         List<Product> product = null;
         try {
             product = dao.loadProductStore(id);
@@ -98,6 +103,7 @@ public class ProductView extends JFrame {
             add.addActionListener(control);
             update.addActionListener(control);
             vente.addActionListener(control);
+            app.addActionListener(control);
             rtc.addActionListener(control);
             rtf.addActionListener(control);
             aff.addActionListener(control);
@@ -114,6 +120,10 @@ public class ProductView extends JFrame {
 
     public JButton getUpdate() {
         return update;
+    }
+    
+    public JButton getApp(){
+        return app;
     }
     
     public JButton getVente(){
@@ -138,6 +148,10 @@ public class ProductView extends JFrame {
     
     public DAOSale getDaos() {
         return daos;
+    }
+    
+    public DAOOrder getDaoo() {
+        return daoo;
     }
     
     public DAOReturncustomer getDaorc() {
