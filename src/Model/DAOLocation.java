@@ -29,7 +29,6 @@ public class DAOLocation {
     private ClientSocket c;
         public DAOLocation(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
     
    public List<Location> loadLocationAndStores() throws IOException {

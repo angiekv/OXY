@@ -11,11 +11,11 @@ import java.util.List;
  *
  * @author Aberkane
  */
-public class Type {
+public class TypeStore {
     private int idType;
     private String designation;
 
-    public Type(int idType, String designation) {
+    public TypeStore(int idType, String designation) {
         this.idType = idType;
         this.designation = designation;
     }

@@ -16,8 +16,13 @@ import static Server.DAOProduct.updateProduct;
 import static Server.DAOReturncustomer.addReturncustomer;
 import static Server.DAOReturnprovider.addReturnprovider;
 import static Server.DAOSale.addSale;
+import static Server.DAOStore.addShop;
+import static Server.DAOStore.deleteStore;
 import static Server.DAOStore.loadStores;
 import static Server.DAOStore.loadStoresNotAffectToLocation;
+import static Server.DAOStore.updateShop;
+import static Server.DAOType.getIdType;
+import static Server.DAOType.loadType;
 import static Server.ProductOrderHisto.order;
 
 import java.io.BufferedReader;
@@ -138,10 +143,14 @@ class AccepterClient implements Runnable {
             String type = m.get("actionType");
             System.out.println(type);
             //Shop attributes
+            int idStore;
             String designation;
             String description;
-            int idType;
-            int idMagasin;
+            int floor, rent, surface;
+            int oldType1, oldType2;
+            String newType1, newType2;
+            int idNewType1,idNewType2;
+            String localisation;
             //Customer attributes
             int idClient;
             String nom, prenom, adresse, cp, ville, mail, sexe;
@@ -378,6 +387,75 @@ class AccepterClient implements Runnable {
                     order(idorder,con);
                     reponse = j.serialization("ok");
                     send(reponse, out);
+                case "deleteStore":
+                    idStore = Integer.parseInt(m.get("idStore"));
+                    deleteStore(idStore, con);
+
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                case "listeTypeStore":
+                    List<TypeStore> listTypeStore = loadType(con);
+                    System.out.println("end of request");
+                    reponse = j.serialization(listTypeStore);
+                    send(reponse, out);
+                    break;
+                case "updateStore":
+                    System.out.println("update store");
+                    idStore = Integer.parseInt(m.get("idShop"));
+                    designation = m.get("designation");
+                    description = m.get("description");
+                    floor = Integer.parseInt(m.get("niveau"));
+                    rent = Integer.parseInt(m.get("loyer"));
+                    surface = Integer.parseInt(m.get("surface"));
+                    oldType1 = Integer.parseInt(m.get("oldType1"));
+                    oldType2 =Integer.parseInt( m.get("oldType2"));
+                    // list Old type 
+                    List<Integer> oldLst = new ArrayList<>();
+                    oldLst.add(oldType1);oldLst.add(oldType2);
+                    //list new type 
+                    newType1 = m.get("newType1");
+                    idNewType1 = getIdType(con,newType1);
+                    newType2 = m.get("newType2");
+                    idNewType2=0;
+                    if(!newType2.equals("aucun")){
+                        idNewType2 = getIdType(con,newType2);
+                    }
+                    List<Integer> newLst = new ArrayList<>();
+                    newLst.add(idNewType1);
+                    newLst.add(idNewType2);
+                    localisation = m.get("localisation");
+                    // request to update shop
+                    updateShop(idStore,designation,description, rent,surface,floor, localisation, oldLst, newLst,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                case "addStore":
+                    System.out.println("Add store");
+                    designation = m.get("designation");
+                    description = m.get("description");
+                    floor = Integer.parseInt(m.get("niveau"));
+                    rent = Integer.parseInt(m.get("loyer"));
+                    surface = Integer.parseInt(m.get("surface"));
+                    //list new type 
+                    newType1 = m.get("newType1");
+                    idNewType1 = getIdType(con,newType1);
+                    newType2 = m.get("newType2");
+                    idNewType2=0;
+                    if(!newType2.equals("aucun")){
+                        idNewType2 = getIdType(con,newType2);
+                    }
+                    List<Integer> typeLst = new ArrayList<>();
+                    typeLst.add(idNewType1);
+                    typeLst.add(idNewType2);
+                    localisation = m.get("localisation");
+                    // request to update shop
+                    addShop(designation,description, rent,surface,floor, localisation,typeLst,con);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
 
             }
         } catch (IOException ex) {

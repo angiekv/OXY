@@ -11,7 +11,7 @@ import Server.DAOStore;
 import Server.Database;
 import Server.Location;
 import Server.Store;
-import Server.Type;
+import Server.TypeStore;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -160,12 +160,12 @@ public class AffectLocation {
      * @throws SQLException
      */
     
-    public List<Location> locationsFilteredBySurface(int superficieMag, List<Type> listType,Connection c) throws SQLException {
+    public List<Location> locationsFilteredBySurface(int superficieMag, List<TypeStore> listType,Connection c) throws SQLException {
 
         List<Location> listLocationsBySurface = new ArrayList<>();
         DAOLocation d = new DAOLocation();
         boolean isRestaurant = false;
-        for(Type t :listType){
+        for(TypeStore t :listType){
             if ("restaurant".equals(t.getDesignation().toLowerCase())){
                 isRestaurant= true;
                 System.out.println(t.getDesignation());

@@ -44,11 +44,11 @@ public class DAOStore {
             Statement myStmt2 = c.createStatement();
             //The query which selects all the shops.
             ResultSet myRs2 = myStmt2.executeQuery("SELECT designation,idType from magasin_has_type,type where magasin_has_type.type_idType=type.idType and magasin_has_type.magasin_idMagasin=" + id);
-            List<Type> list = new ArrayList<>();
+            List<TypeStore> list = new ArrayList<>();
             while (myRs2.next()) {
                 int idtype = myRs2.getInt("idType");
                 String designationType = myRs2.getString("designation");
-                Type T = new Type(idtype, designationType);
+                TypeStore T = new TypeStore(idtype, designationType);
                 list.add(T);
             }
             Store M = new Store(id, designation, description, loyer, surface, niveau, localisation, list);
@@ -89,11 +89,11 @@ public class DAOStore {
             Statement myStmt2 = c.createStatement();
             //The query which selects all the shops.
             ResultSet myRs2 = myStmt2.executeQuery("SELECT designation,idType from magasin_has_type,type where magasin_has_type.type_idType=type.idType and magasin_has_type.magasin_idMagasin=" + id);
-            List<Type> list = new ArrayList<>();
+            List<TypeStore> list = new ArrayList<>();
             while (myRs2.next()) {
                 int idtype = myRs2.getInt("idType");
                 String designationType = myRs2.getString("designation");
-                Type T = new Type(idtype, designationType);
+                TypeStore T = new TypeStore(idtype, designationType);
                 list.add(T);
             }
             Store s = new Store(id, designation, description, rent, surface, floor, localization, list);
@@ -117,14 +117,17 @@ public class DAOStore {
      * @param c
      * @throws SQLException
      */
-    public synchronized void updateShop(int idShop, String designation, String description, int loyer, int surface, int niveau, String localisation, List<Integer> ListidTypeOld, List<Integer> ListidTypeNew, Connection c) throws SQLException {
+    public synchronized static void updateShop(int idShop, String designation, String description, int loyer, int surface, int niveau, String localisation, List<Integer> ListidTypeOld, List<Integer> ListidTypeNew, Connection c) throws SQLException {
         //The query which selects all the shops.
-
+        System.out.println("taille : " + ListidTypeOld.size());
+        System.out.println(ListidTypeOld);
+        System.out.println(ListidTypeNew);
         PreparedStatement myStmt2 = null;
         //The query which modifies one or more attributes of a shop.
         myStmt2 = c.prepareStatement("update magasin set designation=? ,description=?, loyer=? , superficie=? , niveau=? , localisation=? where idMagasin=? ");
 
         //The attributes' values are placed in the same order as "?".
+        System.out.println(designation);
         myStmt2.setString(1, designation);
         myStmt2.setString(2, description);
         myStmt2.setInt(3, loyer);
@@ -135,35 +138,61 @@ public class DAOStore {
         myStmt2.executeUpdate();
         //This request update the type of the shop ;
         PreparedStatement myStmt3 = null;
-        int sizeOld = ListidTypeOld.size();
-        int indexTabNew = 0;
-        for (int i = 0; i < sizeOld; i++) {//  loop for type of old with index i
-            int idType = ListidTypeOld.get(i);
-            if (ListidTypeNew.contains(indexTabNew)) {
-                for (int j = 0; j < ListidTypeNew.size(); j++) {// boulce for delete the type if this type is in both list (old and anew ) index j 
-                    if (ListidTypeNew.get(j) == idType) {
-                        ListidTypeNew.remove(j);
+        PreparedStatement myStmt4 = null;
+//        int sizeOld = ListidTypeOld.size();
+//        int indexTabNew = 0;
+//        int idType = 0;
 
-                        break;
-                    }
-                }
-                ListidTypeOld.remove(i);
-                indexTabNew++;
-            }
+        //on recupere les id des type 
+        int oldType1 = ListidTypeOld.get(0);
+        int oldType2 = ListidTypeOld.get(1);
+        int newType1 = ListidTypeNew.get(0);
+        int newType2 = ListidTypeNew.get(1);
 
-        }
-        if (!ListidTypeNew.isEmpty()) {
-            for (int newIdType : ListidTypeNew) {
+        if (newType1 != oldType1 && newType1 != oldType2) {
+            if (newType1 == 0) {
+                myStmt3 = c.prepareStatement("delete From magasin_has_type where magasin_idMagasin=? and type_idType=?");
+                myStmt3.setInt(1, idShop);
+                myStmt3.setInt(2, oldType1);
+                myStmt3.executeUpdate();
 
-                int idTypeOld = ListidTypeOld.get(0);
+                // if we update a type 
+            } else {
                 myStmt3 = c.prepareStatement("update magasin_has_type set type_idType=? where magasin_idMagasin=? and type_idType= ?");
-                myStmt3.setInt(1, newIdType);
+                myStmt3.setInt(1, newType1);
                 myStmt3.setInt(2, idShop);
-                myStmt3.setInt(3, idTypeOld);
+                myStmt3.setInt(3, oldType1);
                 myStmt3.executeUpdate();
                 ListidTypeOld.remove(0);
+            }
+        }
+        if (newType2 != oldType2) {
+            // if we delete a type
+            if (newType2 == 0) {
+                myStmt4 = c.prepareStatement("delete From magasin_has_type where magasin_idMagasin=? and type_idType=?");
+                myStmt4.setInt(1, idShop);
+                myStmt4.setInt(2, oldType2);
+                myStmt4.executeUpdate();
 
             }
+            // if we add a type 
+            if (oldType2 == 0 && newType2 != 0) {
+                System.out.println("oooo");
+                myStmt4 = c.prepareStatement("insert into magasin_has_type values (?,?)");
+                myStmt4.setInt(1, idShop);
+                myStmt4.setInt(2, newType2);
+                myStmt4.executeUpdate();
+                // if we update a type 
+            }
+            if (oldType2 != 0 && newType2 != 0) {
+                myStmt4 = c.prepareStatement("update magasin_has_type set type_idType=? where magasin_idMagasin=? and type_idType= ?");
+                myStmt4.setInt(1, newType2);
+                myStmt4.setInt(2, idShop);
+                myStmt4.setInt(3, oldType2);
+                myStmt4.executeUpdate();
+                System.out.println(oldType2 + "" + newType2);
+            }
+
         }
 
     }
@@ -175,20 +204,19 @@ public class DAOStore {
      * @param c
      * @throws SQLException
      */
-    public synchronized void deleteShop(int idShop, Connection c) throws SQLException {
+    public synchronized static void deleteStore(int idShop, Connection c) throws SQLException {
 
-        PreparedStatement myStmt = null;
-        //The query deletes type of the shop we are going to delete from the database.
-        myStmt = c.prepareStatement("delete From magasin_has_type where magasin_idMagasin=?");
-        myStmt.setInt(1, idShop);
-        myStmt.executeUpdate();
-
+//        PreparedStatement myStmt = null;
+//        //The query deletes type of the shop we are going to delete from the database.
+//        myStmt = c.prepareStatement("delete From magasin_has_type where magasin_idMagasin=?");
+//        myStmt.setInt(1, idShop);
+//        myStmt.executeUpdate();
         PreparedStatement myStmt2 = null;
 
         //The query deletes a shop from the database.
         myStmt2 = c.prepareStatement("delete From magasin where idMagasin=?");
         myStmt2.setInt(1, idShop);
-        myStmt2.executeUpdate();;
+        myStmt2.executeUpdate();
     }
 
     /**
@@ -217,11 +245,11 @@ public class DAOStore {
             Statement myStmt2 = c.createStatement();
             //The query which selects all the shops.
             ResultSet myRs2 = myStmt2.executeQuery("SELECT designation,idType from magasin_has_type,type where magasin_has_type.type_idType=type.idType and magasin_has_type.magasin_idMagasin=" + id);
-            List<Type> list = new ArrayList<>();
+            List<TypeStore> list = new ArrayList<>();
             while (myRs2.next()) {
                 int idtype = myRs2.getInt("idType");
                 String designationType = myRs2.getString("designation");
-                Type T = new Type(idtype, designationType);
+                TypeStore T = new TypeStore(idtype, designationType);
                 list.add(T);
             }
             Store M = new Store(id, designation, description, loyer, surface, niveau, localisation, list);
@@ -233,7 +261,7 @@ public class DAOStore {
 
     }
 
-    public synchronized void addShop(String designation, String description, int loyer, int surface, int niveau, String localisation, List<Integer> ListidType, Connection c) throws SQLException {
+    public synchronized static void addShop(String designation, String description, int loyer, int surface, int niveau, String localisation, List<Integer> ListidType, Connection c) throws SQLException {
         //The query adds a shop to the database.
         PreparedStatement myStmt = null;
         myStmt = c.prepareStatement("insert into magasin (designation,description,loyer,superficie,niveau,localisation) values (?,?,?,?,?,?) ");
@@ -253,30 +281,31 @@ public class DAOStore {
         int lastid = myRs.getInt("last_id");
         //This request insert the type of the shop in database;
         for (int idType : ListidType) {
-            PreparedStatement myStmt3 = null;
-            myStmt3 = c.prepareStatement("insert into magasin_has_type values (?,?)");
-            myStmt3.setInt(1, lastid);
-            myStmt3.setInt(2, idType);
-            myStmt3.executeUpdate();
+            if (idType != 0) {
+                PreparedStatement myStmt3 = null;
+                myStmt3 = c.prepareStatement("insert into magasin_has_type values (?,?)");
+                myStmt3.setInt(1, lastid);
+                myStmt3.setInt(2, idType);
+                myStmt3.executeUpdate();
+            }
         }
-
     }
 
     /*test */
-    public static void main(String[] args) throws Exception {
-        DAOStore dao = new DAOStore();
-        ConnectionPool pool = new ConnectionPool();
-        pool.initPool();
-        Connection c = pool.getConnection();
-//        System.out.println(loadStores(c, "'mode'"));
-//        System.out.println(loadStores(c));
-
-//        System.out.println(dao.loadStores(c));
-        List<Integer> types = new ArrayList<>();
-        types.add(5);
-        dao.addShop("carrefour", "grande distribution", 20000, 110, 1, "indifférent", types, c);
-//      Selects only clothing shops
-//        System.out.println(loadStoresNotAffectToLocation(c));
-        pool.releaseConnection(c);
-    }
+//    public static void main(String[] args) throws Exception {
+//        DAOStore dao = new DAOStore();
+//        ConnectionPool pool = new ConnectionPool();
+//        pool.initPool();
+//        Connection c = pool.getConnection();
+////        System.out.println(loadStores(c, "'mode'"));
+////        System.out.println(loadStores(c));
+//
+////        System.out.println(dao.loadStores(c));
+//        List<Integer> types = new ArrayList<>();
+//        types.add(5);
+//        dao.addShop("carrefour", "grande distribution", 20000, 110, 1, "indifférent", types, c);
+////      Selects only clothing shops
+////        System.out.println(loadStoresNotAffectToLocation(c));
+//        pool.releaseConnection(c);
+//    }
 }

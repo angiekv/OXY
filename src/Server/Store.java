@@ -19,10 +19,10 @@ public class Store {
     private int superficie; 
     private int niveau;
     private String localisation;
-    private List<Type> listIdType;
+    private List<TypeStore> listIdType;
    
 
-    public Store(int id, String designation, String description, int loyer, int superficie, int niveau, String localisation, List<Type> listIdType) {
+    public Store(int id, String designation, String description, int loyer, int superficie, int niveau, String localisation, List<TypeStore> listIdType) {
         this.id = id;
         this.designation = designation;
         this.description = description;
@@ -65,7 +65,7 @@ public class Store {
         return localisation;
     }
 
-    public List<Type> getListIdType() {
+    public List<TypeStore> getListIdType() {
         return listIdType;
     }
 

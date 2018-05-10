@@ -33,6 +33,10 @@ public class StoreView extends JFrame {
     private JScrollPane scrollPane;//The scroolpane for scroll when there is a lot of data 
     private JTable table;//this is a table
     //this are all the buttons 
+    private JButton addStore = new JButton("Ajouter");
+    private JButton deleteStore = new JButton("deleteStore");
+    private JButton updateStore = new JButton("Modifier");
+    private JButton affectation = new JButton("Affection magasin");
     private JButton aff = new JButton("Afficher Produits");
     private StoreTable modele;//this is the model of the table 
     private ControlStore controleur;//this is the controler of this view 
@@ -57,6 +61,10 @@ public class StoreView extends JFrame {
         JLabel labelLstStore = new JLabel("Liste Store");
         panel.add(labelLstStore);
         panel.add(aff);
+        panel.add(addStore);
+        panel.add(updateStore);
+        panel.add(deleteStore);
+        panel.add(affectation);
         DAOStore= new DAOStore(client);
         List<Store> Stores = null;
         try {
@@ -74,6 +82,10 @@ public class StoreView extends JFrame {
         scrollPane.setViewportView(table);
         this.controleur = new ControlStore(this,modele,DAOStore);
         aff.addActionListener(controleur);
+        deleteStore.addActionListener(controleur);
+        addStore.addActionListener(controleur);
+        updateStore.addActionListener(controleur);
+        affectation.addActionListener(controleur);
         
     } 
 
@@ -89,6 +101,26 @@ public class StoreView extends JFrame {
     public ClientSocket getClient() {
         return client;
     }
+    public JButton getAffectation() {
+        return affectation;
+    }
+
+    public JButton getAddStore() {
+        return addStore;
+    }
+
+    public JButton getDeleteStore() {
+        return deleteStore;
+    }
+
+    public JButton getUpdateStore() {
+        return updateStore;
+    }
+
+    public ControlStore getControleur() {
+        return controleur;
+    }
+
 
 
 }

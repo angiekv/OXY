@@ -22,8 +22,8 @@ public class TestOXY1 {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    AllocationView frame = new AllocationView();
-                    frame.setVisible(true);
+                    //AllocationView frame = new AllocationView();
+                    //frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
