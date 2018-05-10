@@ -104,7 +104,7 @@ public class ControlCustomer implements ActionListener,WindowListener{
                 int row = vue.getTable().getSelectedRow();
                 // no selected row
                 if (row < 0) {
-                    JOptionPane.showMessageDialog(vue, "selectionner une ligne");
+                    JOptionPane.showMessageDialog(vue, "selectionner une ligneeeeee");
                     return;
                 }
                 
