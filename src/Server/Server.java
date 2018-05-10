@@ -381,12 +381,14 @@ class AccepterClient implements Runnable {
                     List<Location> listOfLocation = loadLocations(con);
                     reponse = j.serialization(listOfLocation);
                     send(reponse, out);
+                    break;
                     
                 case "appro":                  
                     idorder = Integer.parseInt(m.get("idBon"));
                     order(idorder,con);
                     reponse = j.serialization("ok");
                     send(reponse, out);
+                    break;
                 case "deleteStore":
                     idStore = Integer.parseInt(m.get("idStore"));
                     deleteStore(idStore, con);
