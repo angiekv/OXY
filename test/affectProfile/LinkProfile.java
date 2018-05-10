@@ -1,22 +1,18 @@
+package affectProfile;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package affectProfile;
-
 import Server.Customer;
 import Server.DAOCustomer;
 import Server.Database;
-import Server.Purchase;
-import Server.Type;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -83,7 +79,6 @@ public class LinkProfile {
 //        myStmt.close();
 //
 //    }
-
     public int totalQteByIdClient(int clientIdClient) throws SQLException {
         Connection myConn = Database.getConnection();
         Statement myStmt = myConn.createStatement();
@@ -95,7 +90,7 @@ public class LinkProfile {
         }
         return 0;
     }
-    
+
 //    public synchronized static Integer totalQteByIdClient(Connection c, int clientIdClient) throws SQLException {
 //        Statement myStmt = c.createStatement();
 //        ResultSet myRs = myStmt.executeQuery("select sum(achat.qte) as qtetotal from achat, produit, magasin, magasin_has_type, type where achat.produit_idProduit=produit.idProduit and produit.magasin_idMagasin=magasin.idMagasin and magasin.idmagasin=magasin_has_type.magasin_idMagasin and magasin_has_type.type_idType=type.idType and client_idClient = " + clientIdClient);
@@ -106,7 +101,6 @@ public class LinkProfile {
 //        myStmt.close();
 //        return 0;
 //    }
-    
     public Map<Integer, Integer> QtebyIdType(int clientIdClient) throws SQLException {
         HashMap<Integer, Integer> listQteId = new HashMap<Integer, Integer>();
         Connection myConn = Database.getConnection();
@@ -121,8 +115,6 @@ public class LinkProfile {
         }
         return listQteId;
     }
-    
-    
 
     public int algo() throws SQLException {
         List<Customer> listc = DAOCustomer.loadCustomer(Database.getConnection());
@@ -148,15 +140,17 @@ public class LinkProfile {
                 System.out.println(ratio);
                 listRatio.put(ratio, idtype);
                 float max = 0;
-                for (int i = 0; i < 2; i++) {
-                    for (int j = 0; j < listRatio.size(); j++) {
-                        if (ratio > max) {
-                            max = ratio;
-
+                if (ratio != 100) {
+                    for (int i = 0; i < 2; i++) {
+                        for (int j = 0; j < M.size(); j++) {
+                            if (ratio > max) {
+                                max = ratio;
+                            }
                         }
                         listValeur.put(max, idtype);
                     }
                 }
+                else max = ratio;
                 if (max > 10.0 && max < 50.0) {
 
                     LinkProfile.insertClientHasProfile(customer.getIdClient(), idtype);
@@ -169,14 +163,17 @@ public class LinkProfile {
                 }
 
             }
+
+            listRatio.clear();
+            listValeur.clear();
         }
         return 0;
     }
 
-//    public static void main(String[] args) throws Exception {
-//        LinkProfile a = new LinkProfile();
-//        System.out.println(a.algo());
+    public static void main(String[] args) throws Exception {
+        LinkProfile a = new LinkProfile();
+        System.out.println(a.algo());
 //        System.out.println(a.totalQteByIdClient(2));
 //        System.out.println(a.QtebyIdType(2));
-//    }
+    }
 }
