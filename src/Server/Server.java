@@ -214,13 +214,13 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                case "listbyid":
+                case "listprofilebyid":
                     idClient = Integer.parseInt(m.get("idClient"));
-                    List<String> listbyid = loadProfileById(con, idClient);
+                    List<String> listprofilebyid = loadProfileById(con, idClient);
                     System.out.println("requete");
                      {
                         try {
-                            reponse = j.serialization(listbyid);
+                            reponse = j.serialization(listprofilebyid);
                         } catch (IOException ex) {
                             Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
                         }

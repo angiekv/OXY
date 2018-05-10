@@ -159,17 +159,15 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
     }
     
     public synchronized static List<String> loadProfileById(Connection c, int clientIdClient) throws SQLException {
-        List<String> listbyid = new ArrayList<>();
-        Connection myConn = Database.getConnection();
-        Statement myStmt = myConn.createStatement();
+        List<String> listProfileById = new ArrayList<>();
+        Statement myStmt = c.createStatement();
         ResultSet myRs = myStmt.executeQuery("select profilename from profile, client_has_profile where profile.idProfile = client_has_profile.Profile_idProfile and client_idClient = " + clientIdClient);
         while (myRs.next()) {
             String name = myRs.getString("profilename");
-            listbyid.add(name);
+            listProfileById.add(name);
         }
         myStmt.close();
-        myConn.close();
-        return listbyid;
+        return listProfileById;
     }
     /*test */
     public static void main(String[] args) throws Exception {

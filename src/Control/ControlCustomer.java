@@ -26,13 +26,13 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-public class Control implements ActionListener,WindowListener{
+public class ControlCustomer implements ActionListener,WindowListener{
     private CustomerView vue;
     private CustomerTable model;
     private DAOCustomer dao ;
 //    private DAOCustomer DAOCustomer;
 
-    public Control(CustomerView vue, CustomerTable modele, DAOCustomer dao) {
+    public ControlCustomer(CustomerView vue, CustomerTable modele, DAOCustomer dao) {
         this.vue = vue;
         this.model = modele;
         this.dao = dao;
@@ -40,6 +40,10 @@ public class Control implements ActionListener,WindowListener{
     //when we click
     @Override
     public void actionPerformed(ActionEvent e) {
+        //when we click on associer profils
+//        if(vue.getLink()==e.getSource()) {
+//           
+//        }
        //when we click on delete
         if (vue.getDelete() == e.getSource()) {
             int row = vue.getTable().getSelectedRow();
@@ -63,7 +67,7 @@ public class Control implements ActionListener,WindowListener{
                 // delete the magasin
                 dao.deleteCustomer(C.getIdClient());
             } catch (IOException ex) {
-                Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ControlCustomer.class.getName()).log(Level.SEVERE, null, ex);
             }
             //refresh the jtable 
             refreshCustomer();
@@ -108,7 +112,7 @@ public class Control implements ActionListener,WindowListener{
                 CustomerDialog1 dialog = new CustomerDialog1(vue, dao, C);
                 dialog.setVisible(true);
             } catch (IOException ex) {
-                Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ControlCustomer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

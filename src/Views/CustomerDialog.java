@@ -5,7 +5,7 @@
  */
 package Views;
 
-import Control.ControlDialog;
+import Control.ControlCustomerDialog;
 import Model.Customer;
 import Model.DAOCustomer;
 import java.awt.BorderLayout;
@@ -46,14 +46,14 @@ public class CustomerDialog extends JDialog{
     //buttons 
     private JButton save, back;
     //controler 
-    private ControlDialog control;
+    private ControlCustomerDialog control;
     private DAOCustomer dao;
     // the view of shops (with the list of shops)
     private CustomerView view;
     // the selected shop 
     private Customer selected = null;
     private boolean updateMode;
-    private final ControlDialog controlDialog;
+    private final ControlCustomerDialog controlDialog;
     
         public CustomerDialog(CustomerView C, DAOCustomer dao, Customer selected, boolean updateMode) {
         //call the constructor of the view dialog 
@@ -89,10 +89,10 @@ public class CustomerDialog extends JDialog{
     
         public CustomerDialog() {
         //the contoler of the dialog 
-        this.controlDialog = new ControlDialog(this);
+        this.controlDialog = new ControlCustomerDialog(this);
         setTitle("Ajouter Client");
        
-        setBounds(130, 130, 550, 450);
+        setBounds(130, 130, 700, 700);
         
         pan= new JPanel(new GridBagLayout());
         getContentPane().add(pan);

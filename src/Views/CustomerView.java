@@ -5,7 +5,7 @@
  */
 package Views;
 
-import Control.Control;
+import Control.ControlCustomer;
 import Model.ClientSocket;
 import Model.Customer;
 import Model.CustomerTable;
@@ -37,8 +37,9 @@ public class CustomerView extends JFrame {
     private JButton delete = new JButton("Supprimer");
     private JButton update = new JButton("Modifier");
     private JButton afficher = new JButton("Afficher");
+    private JButton link = new JButton("Associer profils");
     private CustomerTable model;//this is the model of the table 
-    private Control control;//this is the controler of this view 
+    private ControlCustomer control;//this is the controler of this view 
     private DAOCustomer dao;// this is the DAO 
     private ClientSocket client = new ClientSocket();
 
@@ -59,6 +60,7 @@ public class CustomerView extends JFrame {
         panel.add(update);
         panel.add(delete);
         panel.add(afficher);
+        panel.add(link);
         dao = new DAOCustomer(client);
         List<Customer> customer = null;
         try {
@@ -74,12 +76,13 @@ public class CustomerView extends JFrame {
         contentPane.add(scrollPane, BorderLayout.CENTER);
         //affect the table to the scrollPane
         scrollPane.setViewportView(table);
-        this.control = new Control(this, model, dao);
+        this.control = new ControlCustomer(this, model, dao);
         this.addWindowListener(control);
         delete.addActionListener(control);
         add.addActionListener(control);
         update.addActionListener(control);
         afficher.addActionListener(control);
+        link.addActionListener(control);
 
     }
 
@@ -99,7 +102,7 @@ public class CustomerView extends JFrame {
         return table;
     }
 
-    public Control getControl() {
+    public ControlCustomer getControl() {
         return control;
     }
 
@@ -113,6 +116,8 @@ public class CustomerView extends JFrame {
         public JButton getAfficher() {
         return afficher;
     }
-
+        public JButton getLink(){
+            return link;
+        }
     
 }

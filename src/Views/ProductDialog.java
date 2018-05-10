@@ -5,7 +5,6 @@
  */
 package Views;
 
-import Control.ControlDialog;
 import Control.ControlProductDialog;
 import Model.DAOProduct;
 import Model.Product;

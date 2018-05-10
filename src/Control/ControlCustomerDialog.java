@@ -16,12 +16,12 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-    public class ControlDialog implements ActionListener {
+    public class ControlCustomerDialog implements ActionListener {
 
         private CustomerDialog view;
         private DAOCustomer dao;
 
-        public ControlDialog(CustomerDialog vue) {
+        public ControlCustomerDialog(CustomerDialog vue) {
             this.view = vue;
         }
 

@@ -134,10 +134,10 @@ public class DAOCustomer {
         }
     }
         public List<String> loadProfileById(int clientIdClient) throws IOException {
-        List<String> listbyid = new ArrayList<>();
+        List<String> listProfileById = new ArrayList<>();
 
         Map<String, String> MapCustomer = new HashMap<String, String>();
-        MapCustomer.put("actionType", "listbyid");
+        MapCustomer.put("actionType", "listProfileById");
         MapCustomer.put("idClient", Integer.toString(clientIdClient));
         Json j = new Json();
         String json = j.serialization(MapCustomer);
@@ -149,9 +149,8 @@ public class DAOCustomer {
         }
         Type listType = new TypeToken<List>() {
         }.getType();
-        listbyid = j.deSerialization(answer, listType);
-        return listbyid;
-    }
-    
+        listProfileById = j.deSerialization(answer, listType);
+        return listProfileById;
+    }  
 }
 
