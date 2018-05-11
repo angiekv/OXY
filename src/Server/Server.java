@@ -464,7 +464,7 @@ class AccepterClient implements Runnable {
                 // Les méthodes à mario, merci de ne pas toucher :)
                 case "affectClientToProfile":
                     AffectProfile affect = new AffectProfile();
-                    affect.algo();
+                    affect.algo(con);
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;

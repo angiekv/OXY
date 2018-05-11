@@ -22,19 +22,19 @@ import java.util.Set;
  */
 public class AffectProfile {
 
-    public void algo() throws SQLException {
-        List<Customer> listC = DAOCustomer.loadCustomer(Database.getConnection());
+    public void algo(Connection c) throws SQLException {
+        List<Customer> listC = DAOCustomer.loadCustomer(c);
         for (Customer customer : listC) {
-            int somme = DAOCustomer.totalQteByIdClient(customer.getIdClient());
+            int somme = DAOCustomer.totalQteByIdClient(c,customer.getIdClient());
             System.out.println(somme);
 
-            Map<Integer, Integer> M = DAOCustomer.qtebyIdType(customer.getIdClient());
-            Map<Float, Integer> newMap = bestIdType(M, somme, customer.getIdClient());
-            link(newMap, customer.getIdClient());
+            Map<Integer, Integer> M = DAOCustomer.qteByIdType(c,customer.getIdClient());
+            Map<Float, Integer> newMap = bestIdType(c,M, somme, customer.getIdClient());
+            link(c,newMap, customer.getIdClient());
         }
     }
 
-    public Map<Float, Integer> bestIdType(Map<Integer, Integer> M, int somme, int idClient) {
+    public Map<Float, Integer> bestIdType(Connection c,Map<Integer, Integer> M, int somme, int idClient) {
         Map<Float, Integer> listRatio = new HashMap<Float, Integer>();
         Map<Float, Integer> listValeur = new HashMap<Float, Integer>();
         float max = 0;
@@ -90,7 +90,7 @@ public class AffectProfile {
 
     }
 
-    public void link(Map<Float, Integer> newMap, int idClient) throws SQLException {
+    public void link(Connection c, Map<Float, Integer> newMap, int idClient) throws SQLException {
         Set set = newMap.entrySet();
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
@@ -104,22 +104,23 @@ public class AffectProfile {
 
             if (max > 10.0 && max < 50.0) {
 
-                DAOCustomer.insertClientHasProfile(idClient, idtype);
+                DAOCustomer.insertClientHasProfile(c,idClient, idtype);
             }
             if (max > 50.0 && max < 80.0) {
-                DAOCustomer.insertClientHasProfile(idClient, idtype + 100); //ajouter ++
+                DAOCustomer.insertClientHasProfile(c,idClient, idtype + 100); //ajouter ++
             }
             if (max > 80.0) {
-                DAOCustomer.insertClientHasProfile(idClient, idtype + 1000); //ajouter +++
+                DAOCustomer.insertClientHasProfile(c,idClient, idtype + 1000); //ajouter +++
             }
 
         }
     }
+}
 
-    public static void main(String[] args) throws Exception {
-        AffectProfile a = new AffectProfile();
-        a.algo();
+//    public static void main(String[] args) throws Exception {
+//        AffectProfile a = new AffectProfile();
+//        a.algo();
 //        System.out.println(a.totalQteByIdClient(2));
 //        System.out.println(a.QtebyIdType(2));
-    }
-}
+//    }
+//}
