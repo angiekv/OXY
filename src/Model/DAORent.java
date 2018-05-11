@@ -5,13 +5,15 @@
  */
 package Model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,44 +21,44 @@ import java.util.List;
  */
 public class DAORent {
 
-    public static List<Rent> loadRent(Connection c) throws SQLException {
-        List<Rent> lesRents = new ArrayList<Rent>();
-        Statement req;
-        Statement req2 = null;
-        Statement req3 = null;
-        req = c.createStatement();
+    private ClientSocket c;
 
-        int idE;
-        int loyerini;
-        int freqini;
-        int idM;
-        int freq;
-        Date date;
-
-        ResultSet myRs = req.executeQuery("select distinct idEmplacement, loyer_initial, frequentation_initiale "
-                + "from emplacement");
-
-        while (myRs.next()) {
-            idE = myRs.getInt("idEmplamcement");
-            loyerini = myRs.getInt("loyer_initial");
-            freqini = myRs.getInt("frequentation_initial");
-            
-            ResultSet myRs2 = req2.executeQuery("select distinct Magasin_idMagasin from emplacement_has_magasin where "
-                    + "Emplamcement_idEmplacement = " + idE);
-            while (myRs2.next()) {
-                idM = myRs2.getInt("Magasin_idMagasin");
-                
-                ResultSet myRs3 = req3.executeQuery("select distinct nb_entree, date from frequentation where Emplacement_has_Magasin_Emplacement_idEmplacement = " + idE + " and"
-                        + "Emplacement_has_Magasin_Magasin_idMagasin = " + idM);
-                while (myRs2.next()) {
-                    freq = myRs3.getInt("n_entree");
-                    date = myRs3.getDate("date");
-                    lesRents.add(new Rent(idE, idM, freqini, loyerini, freq, date));
-                }
-            }
-        }
-
-        return lesRents;
-
+    public DAORent(ClientSocket c) {
+        this.c = c;
     }
+    
+     public List<Rent> loadRent() throws IOException {
+        // list of stores
+        List<Rent> listRent = new ArrayList<>();
+
+        Map<String, String> MapRent = new HashMap<String, String>();
+        MapRent.put("actionType", "listRent");
+        Json j = new Json();
+        String json = j.serialization(MapRent);
+        String answer = null;
+        try {
+            answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAORent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Type listType = new TypeToken<List<Rent>>() {
+        }.getType();
+        listRent = j.deSerialization(answer, listType);
+        return listRent;
+    }
+     
+     
+     public void calcul() throws IOException{
+
+        Map<String, String> MapRent = new HashMap<String, String>();
+        MapRent.put("actionType", "calcul");
+        Json j = new Json();
+        String json = j.serialization(MapRent);
+
+        try {
+            String answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
 }

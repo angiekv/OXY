@@ -468,6 +468,18 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
+                    
+                case "listEmp":
+                    List<EmpHasMag> listEmp = DAOEmpHasMag.loadEmpHasMag(con);
+                    reponse = j.serialization(listEmp);
+                    send(reponse, out);
+                    break;
+                case "calcul":
+                    List<Rent> emp = DAORent.loadRent(con);
+                    DAORent.calcul(emp, con);
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
 
             }
         } catch (IOException ex) {

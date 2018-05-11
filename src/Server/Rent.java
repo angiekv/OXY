@@ -1,4 +1,4 @@
-package Model;
+package Server;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,6 +8,7 @@ package Model;
 
 
 
+import Model.*;
 import java.util.Date;
 
 /**

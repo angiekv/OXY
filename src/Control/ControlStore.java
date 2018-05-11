@@ -9,6 +9,7 @@ import Model.DAOStore;
 import Model.Store;
 import Model.StoreTable;
 import Views.AllocationView;
+import Views.EmpHasMagView;
 import Views.ProductView;
 import Views.StoreDialog;
 import Views.StoreView;
@@ -136,6 +137,19 @@ public class ControlStore implements ActionListener, WindowListener {
             }
 
         }
+        
+        if (vue.getRedevance() == e.getSource()) {
+
+            EmpHasMagView view;
+            try {
+                view = new EmpHasMagView(vue.getClient());
+                view.setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(ControlStore.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+        }
 
     }
 
@@ -170,6 +184,8 @@ public class ControlStore implements ActionListener, WindowListener {
         vue.getClient().stopConnection();
 
     }
+    
+    
 
     @Override
     public void windowClosed(WindowEvent we) {

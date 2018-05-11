@@ -39,7 +39,7 @@ public class ClientSocket {
             System.out.println("attente");
             String reponse = in.readLine();
             System.out.println("recu");
-            System.out.println(reponse);
+//            System.out.println(reponse);
             return reponse;
         } catch (IOException ex) {
             ex.printStackTrace();

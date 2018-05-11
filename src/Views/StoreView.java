@@ -34,6 +34,7 @@ public class StoreView extends JFrame {
     private JTable table;//this is a table
     //this are all the buttons 
     private JButton addStore = new JButton("Ajouter");
+    private JButton redevance = new JButton("Redevance");
     private JButton deleteStore = new JButton("Supprimer");
     private JButton updateStore = new JButton("Modifier");
     private JButton affectation = new JButton("Affection magasin");
@@ -65,6 +66,7 @@ public class StoreView extends JFrame {
         panel.add(updateStore);
         panel.add(deleteStore);
         panel.add(affectation);
+        panel.add(redevance);
         DAOStore= new DAOStore(client);
         List<Store> Stores = null;
         try {
@@ -86,6 +88,7 @@ public class StoreView extends JFrame {
         addStore.addActionListener(controleur);
         updateStore.addActionListener(controleur);
         affectation.addActionListener(controleur);
+        redevance.addActionListener(controleur);
         
     } 
 
@@ -119,6 +122,10 @@ public class StoreView extends JFrame {
 
     public ControlStore getControleur() {
         return controleur;
+    }
+
+    public JButton getRedevance() {
+        return redevance;
     }
 
 
