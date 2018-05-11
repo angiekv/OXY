@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -181,29 +183,47 @@ public class DAOCustomer {
             String name = myRs.getString("profilename");
             listProfileById.add(name);
         }
-        myStmt.close();
         return listProfileById;
     }
 
-    public synchronized static void insertClientHasProfile(Connection c, int clientIdclient, int idProfile) throws SQLException {
+    public static void insertClientHasProfile(int clientIdClient, int idProfile) throws SQLException {
         PreparedStatement myStmt = null;
-        myStmt = c.prepareStatement("insert client_has_profile (client_idClient, Profile_idProfile) values (?,?)");
-        //request
-        myStmt.setInt(1, clientIdclient);
+        Connection myConn = Database.getConnection();
+        myStmt = myConn.prepareStatement("insert client_has_profile (client_idClient, Profile_idProfile) values (?,?)");
+        myStmt.setInt(1, clientIdClient);
         myStmt.setInt(2, idProfile);
         myStmt.executeUpdate();
+        myStmt.close();
 
     }
 
-    public synchronized static Integer totalQteByIdClient(Connection c, int clientIdClient) throws SQLException {
-        Statement myStmt = c.createStatement();
-        ResultSet myRs = myStmt.executeQuery("select sum(achat.qte) as qtetotal from achat, produit, magasin, magasin_has_type, type where achat.produit_idProduit=produit.idProduit and produit.magasin_idMagasin=magasin.idMagasin and magasin.idmagasin=magasin_has_type.magasin_idMagasin and magasin_has_type.type_idType=type.idType and client_idClient = " + clientIdClient);
+    public static int totalQteByIdClient(int clientIdClient) throws SQLException {
+        Connection myConn = Database.getConnection();
+        Statement myStmt = myConn.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select sum(achat.qte) as qtetotal from achat, produit, magasin, magasin_has_type, type where achat.produit_idProduit=produit.idProduit and produit.magasin_idMagasin=magasin.idMagasin and magasin.idmagasin=magasin_has_type.magasin_idMagasin and magasin_has_type.type_idType=type.idType and client_idClient= " + clientIdClient);
         while (myRs.next()) {
             int qteTotal = myRs.getInt("qtetotal");
             return qteTotal;
+
         }
         return 0;
     }
+
+    public static Map<Integer, Integer> qtebyIdType(int clientIdClient) throws SQLException {
+        HashMap<Integer, Integer> listQteId = new HashMap<Integer, Integer>();
+        Connection myConn = Database.getConnection();
+        Statement myStmt = myConn.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select sum(achat.qte) as qtebytype , type.idtype from achat, produit, magasin, magasin_has_type, type where achat.produit_idProduit=produit.idProduit and produit.magasin_idMagasin=magasin.idMagasin and magasin.idmagasin=magasin_has_type.magasin_idMagasin and magasin_has_type.type_idType=type.idType and client_idClient= " + clientIdClient + " group by type.idType");
+        while (myRs.next()) {
+            int qte = myRs.getInt("qtebytype");
+            int idtype = myRs.getInt("idtype");
+
+            listQteId.put(qte, idtype);
+
+        }
+        return listQteId;
+    }
+
     /*test */
     public static void main(String[] args) throws Exception {
         ConnectionPool pool = new ConnectionPool();

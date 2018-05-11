@@ -158,36 +158,6 @@ public class DAOCustomer {
         listProfileById = j.deSerialization(answer, listType);
         return listProfileById;
     }
-
-    public void totalQteByIdClient(int idClient) throws IOException {
-        Map<String, String> MapCustomer = new HashMap<>();
-        MapCustomer.put("actionType", "totalQteByIdClient");
-        MapCustomer.put("idClient", Integer.toString(idClient));
-        Json j = new Json();
-        String json = j.serialization(MapCustomer);
-        try {
-            String answer = c.sendAndRecieve(json);
-        } catch (IOException ex) {
-            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void insertClientHasProfile(int idClient, int idProfile) throws IOException {
-        Map<String, String> MapCustomer = new HashMap<>();
-        MapCustomer.put("actionType", "insertClientHasProfile");
-        MapCustomer.put("idClient", Integer.toString(idClient));
-        MapCustomer.put("idProfile", Integer.toString(idProfile));
-
-        Json j = new Json();
-        String json = j.serialization(MapCustomer);
-
-        try {
-            String answer = c.sendAndRecieve(json);
-        } catch (IOException ex) {
-            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public void affectClientToProfile() throws IOException {
         Map<String, String> MapLocation = new HashMap<>();
         MapLocation.put("actionType", "affectClientToProfile");

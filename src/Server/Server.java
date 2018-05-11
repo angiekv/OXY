@@ -24,8 +24,6 @@ import static Server.DAOStore.updateShop;
 import static Server.DAOType.getIdType;
 import static Server.DAOType.loadType;
 import static Server.ProductOrderHisto.order;
-import static Server.DAOCustomer.totalQteByIdClient;
-import static Server.DAOCustomer.insertClientHasProfile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -464,30 +462,6 @@ class AccepterClient implements Runnable {
                     send(reponse, out);
                     break;
                 // Les méthodes à mario, merci de ne pas toucher :)
-                case "totalQteByIdClient":
-                    idClient = Integer.parseInt(m.get("idClient"));
-                    int valeur = totalQteByIdClient(con, idClient);
-                    System.out.println("requete");
-                     {
-                        try {
-                            reponse = j.serialization(valeur);
-                        } catch (IOException ex) {
-                            Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    send(reponse, out);
-                    break;
-                case "insertClientHasProfile":
-                    System.out.println("insert client_has_profile");
-                    idClient = Integer.parseInt(m.get("idClient"));
-                    idProfile = Integer.parseInt(m.get("idProfile"));
-                    System.out.println("insert profile successfully");
-                    insertClientHasProfile(con, idClient, idProfile);
-                    System.out.println("end of request");
-                    reponse = j.serialization("ok");
-                    send(reponse, out);
-                    break;
-
                 case "affectClientToProfile":
                     AffectProfile affect = new AffectProfile();
                     affect.algo();
