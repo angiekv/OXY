@@ -50,7 +50,7 @@ public class StoreDialog extends JDialog {
     private JLabel labelDesignation = new JLabel("Entrer nom magasin: ");
     private JLabel labelDescription = new JLabel("Entrer description: ");
     private JLabel labelRent = new JLabel("Saisir le loyer souhaiter : ");
-    private JLabel labelSurface = new JLabel("Saisir le numero du type : ");
+    private JLabel labelSurface = new JLabel("Saisir la surface souhaiter : ");
     private JLabel labelFloor = new JLabel("saisir un niveau : ");
     private JLabel labelType = new JLabel("choisir un type : ");
     private JLabel labelType2 = new JLabel("choisir un second type(facultatif) : ");

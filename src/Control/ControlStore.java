@@ -77,7 +77,7 @@ public class ControlStore implements ActionListener, WindowListener {
             }
             // A row is selected 
             int response = JOptionPane.showConfirmDialog(
-                    vue, "Supprimer ce client ?", "Confirmer",
+                    vue, "Supprimer ce Magasin ?", "Confirmer",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (response != JOptionPane.YES_OPTION) {
@@ -99,7 +99,7 @@ public class ControlStore implements ActionListener, WindowListener {
 //
             // show success message
             JOptionPane.showMessageDialog(vue,
-                    "Suppresion client réussi.", "Client supprimer",
+                    "Suppresion Magasin réussi.", "Magasin supprimer",
                     JOptionPane.INFORMATION_MESSAGE);
         }
 

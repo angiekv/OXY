@@ -5,6 +5,7 @@
  */
 package Control;
 
+import Model.DAOLocation;
 import Views.CustomerView;
 import Views.HomeView;
 import Views.StoreView;
@@ -12,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -56,6 +60,12 @@ public class ControlHome implements ActionListener, WindowListener {
 
     @Override
     public void windowOpened(WindowEvent we) {
+        DAOLocation D = new DAOLocation(view.getClient());
+        try {
+            D.affectStoreToLocation();
+        } catch (IOException ex) {
+            Logger.getLogger(ControlHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

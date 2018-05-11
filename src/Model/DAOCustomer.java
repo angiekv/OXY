@@ -27,7 +27,6 @@ public class DAOCustomer {
 
     public DAOCustomer(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
 
     /**

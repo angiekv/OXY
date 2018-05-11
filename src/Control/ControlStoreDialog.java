@@ -6,23 +6,15 @@
 package Control;
 
 import Model.DAOStore;
-import Model.Store;
-import Model.StoreTable;
 import Model.TypeStore;
-import Views.AllocationView;
-import Views.ProductView;
 import Views.StoreDialog;
-import Views.StoreView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -123,8 +115,8 @@ public class ControlStoreDialog implements ActionListener {
                 }
                 
                 JOptionPane.showMessageDialog(vue,
-                        "Modification effectué",
-                        "Magasin modifié",
+                        "Ajout effectué",
+                        "Magasin Ajouter",
                         JOptionPane.INFORMATION_MESSAGE);
 
                 vue.setVisible(false);
@@ -134,10 +126,7 @@ public class ControlStoreDialog implements ActionListener {
                 
             }
 
-//            JOptionPane.showMessageDialog(vue,
-//                    ""+s,
-//                    "Magasin ajouté",
-//                    JOptionPane.INFORMATION_MESSAGE);
+
         }
 
         if (vue.getCancel() == e.getSource()) {
@@ -148,39 +137,5 @@ public class ControlStoreDialog implements ActionListener {
 
     }
 
-//    protected void sauvegarderMagasin() {
-//
-//        // récuperer les donnée saisie 
-//        String nomSaisie = vue.getDesignationTextField().getText();
-//        String descSaisie = vue.getDescriptionTextArea().getText();
-//        Store magasinSelectionner = vue.getMagasinSelectionner();
-//
-//        try {
-//            // not update mode 
-//            if (vue.isUpdateMode() == false) {
-//                DAOMagasin.AjouterMagasin(nomSaisie, descSaisie, IdTypeSaisie);
-//            } //update mode 
-//            else {
-//                DAOMagasin.modifierMagasin(magasinSelectionner.getId(), nomSaisie, descSaisie, IdTypeSaisie);
-//            }
-//
-//            // close dialog
-//            vue.setVisible(false);
-//            vue.dispose();
-//            // refresh the view  
-//            vue.getMagasinView().getControleur().rafraichirListMagasin();
-//            // message 
-//            JOptionPane.showMessageDialog(vue.getMagasinView(),
-//                    "Ajout magasin réussi.",
-//                    "Magasin ajouté",
-//                    JOptionPane.INFORMATION_MESSAGE);
-//        } catch (Exception exc) {
-//            JOptionPane.showMessageDialog(
-//                    vue.getMagasinView(),
-//                    "Erreur lors de l'ajout magasin! "
-//                    + exc.getMessage(), "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//        }
-//
-//    }
+
 }

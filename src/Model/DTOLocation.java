@@ -27,7 +27,6 @@ public class DTOLocation {
     
     public DTOLocation(ClientSocket c){
         this.c = c;
-        c.startConnection();
     }
     /**
      * This method selects all locations from database and puts them into a list

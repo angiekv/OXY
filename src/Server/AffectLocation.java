@@ -131,7 +131,6 @@ public class AffectLocation {
                 frequencetheorique = 30000;
             }
 
-            //Emplacement E = new Emplacement(superficie, loyer, localisation, qualite, niveau, frequencetheorique);
             //listLocationsBySurface.add(E);
             PreparedStatement myStmt = null;
             //Connection to the database.
@@ -252,8 +251,8 @@ public class AffectLocation {
      *
      * @param listEmp_Loyer
      * @param localizationMag
-     * @return retourne une liste d'emplacement en fonction de la localisation
-     * souhaité (proche d'une entrée/sortie ou pas)
+     * @return return a list of location according to the location desire by the Location
+     *  (close to the enter/exit or not)
      */
     public List<Location> locationsFilteredByLocalization(List<Location> listEmp_Loyer, String localizationMag) {
         List<Location> ListLocationByLocalization = new ArrayList<>();
@@ -310,11 +309,11 @@ public class AffectLocation {
     public Location bestLocation(List<Location> ListeEmpNiveau) {
         Location bestLocation = null;
         List<Location> TheBestLocations = new ArrayList<>();
-        //si il y a seullement un emplacement dans la liste alors on donne l'emplacement actuel 
+        //if there is only one location un the list we affect thi location to the best location 
         if (ListeEmpNiveau.size() == 1) {
             bestLocation = ListeEmpNiveau.get(0);
         } else {
-            // si il y a plusieurs emplacement on prend ceux avec la meilleur qualité  
+            //if there is several location we chose the location with the best quality 
             int max = 0;
             for (Location E : ListeEmpNiveau) {
                 if (E.getQualite() >= max) {
@@ -324,7 +323,7 @@ public class AffectLocation {
             }
         }
 
-        // on cherche le prix le plus haut car car il sera le plus proche de la superficie voulu par le magasin 
+        // we search the highest price because the if the price is hight we are going to have the location with the bigest surface
         int maxLoyer = 0;
         for (Location emp : TheBestLocations) {
             if (emp.getLoyerInitial() > maxLoyer) {
@@ -336,24 +335,20 @@ public class AffectLocation {
         return bestLocation;
 
     }
-//    public void affecteMagasin(List<Magasin> L){
-//        for(Magasin m : L){
-//            filtre
-//        }
-//    }
 
-    public static void main(String[] args) throws Exception {
-        AffectLocation a = new AffectLocation();
-        a.createLocation();
-//        DAOStore d = new DAOStore();
-//        ConnectionPool pool = new ConnectionPool();
-//        pool.initPool();
-//        Connection c = pool.getConnection();
-//        List<Store> listOfstore = d.loadStoresNotAffectToLocation(c);
-//        
-//        for (Store S: listOfstore ){
-//            a.affectLocation(S, c);
-        }
+
+//    public static void main(String[] args) throws Exception {
+//        AffectLocation a = new AffectLocation();
+//        a.createLocation();
+////        DAOStore d = new DAOStore();
+////        ConnectionPool pool = new ConnectionPool();
+////        pool.initPool();
+////        Connection c = pool.getConnection();
+////        List<Store> listOfstore = d.loadStoresNotAffectToLocation(c);
+////        
+////        for (Store S: listOfstore ){
+////            a.affectLocation(S, c);
+//        }
 ////        System.out.println(dao.loadShops(c));
 //        listOfshop = d.loadShops(c);
 //

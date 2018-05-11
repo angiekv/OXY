@@ -29,7 +29,6 @@ public class DTOStore {
     private ClientSocket c;
         public DTOStore(ClientSocket c) {
         this.c = c;
-        c.startConnection();
     }
     
    public List<Store> loadStores() throws IOException {

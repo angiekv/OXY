@@ -46,7 +46,7 @@ public class CustomerView extends JFrame {
     public CustomerView(ClientSocket c) {
         this.client=c;
         setTitle("Customers");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 600, 300);//The position and the size of the frame
         contentPane = new JPanel();//
         contentPane.setLayout(new BorderLayout());

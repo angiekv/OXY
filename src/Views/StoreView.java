@@ -34,7 +34,7 @@ public class StoreView extends JFrame {
     private JTable table;//this is a table
     //this are all the buttons 
     private JButton addStore = new JButton("Ajouter");
-    private JButton deleteStore = new JButton("deleteStore");
+    private JButton deleteStore = new JButton("Supprimer");
     private JButton updateStore = new JButton("Modifier");
     private JButton affectation = new JButton("Affection magasin");
     private JButton aff = new JButton("Afficher Produits");
