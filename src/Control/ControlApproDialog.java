@@ -18,20 +18,20 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-public class ControlApproDialog implements ActionListener  {
-    
+public class ControlApproDialog implements ActionListener {
+
     private ApproDialog view;
     private DAOOrder dao;
 
-    public ControlApproDialog(ApproDialog vue,DAOOrder dao) {
+    public ControlApproDialog(ApproDialog vue, DAOOrder dao) {
         this.view = vue;
-        this.dao=dao;
+        this.dao = dao;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (view.getSave() == e.getSource()) {
-           save();
+            save();
         }
 
         if (view.getBack() == e.getSource()) {
@@ -41,23 +41,24 @@ public class ControlApproDialog implements ActionListener  {
         }
 
     }
-        protected void save() {
+
+    protected void save() {
 
         // data input
         String idb = view.getIdb().getText();
         int idbSaisie = Integer.parseInt(idb);
-        
+
         try {
             view.getDao().appro(idbSaisie);
         } catch (IOException ex) {
             Logger.getLogger(ControlApproDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-     view.getProductView().getControl().refreshProduct();
-      JOptionPane.showMessageDialog(view.getProductView(),
-                    "Approvisionnement réussi.",
-                    "Commande entrée",
-                    JOptionPane.INFORMATION_MESSAGE);
-        
+        view.getProductView().getControl().refreshProduct();
+        JOptionPane.showMessageDialog(view.getProductView(),
+                "Approvisionnement réussi.",
+                "Commande entrée",
+                JOptionPane.INFORMATION_MESSAGE);
+
     }
-    
+
 }

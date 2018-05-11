@@ -56,9 +56,9 @@ public class ApproDialog extends JDialog {
         public ApproDialog() {
         //the contoler of the dialog 
         this.controlDialog = new ControlApproDialog(this,dao);
-        setTitle("Effectuer une vente");
+        setTitle("Effectuer un approvisionnement");
        
-        setBounds(130, 130, 550, 450);
+        setBounds(100, 100, 550, 200);
         
         pan= new JPanel(new GridBagLayout());
         getContentPane().add(pan);

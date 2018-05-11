@@ -29,7 +29,7 @@ public class DAOHisto {
         //request
         Statement myStmt = myConn.createStatement();
         //result of request
-        ResultSet myRs = myStmt.executeQuery("select * from historique where Produit_idProduit ="+idh);
+        ResultSet myRs = myStmt.executeQuery("select * from historique where Produit_idProduit ="+idh+" ORDER BY date desc LIMIT 5");
         //loop for add histo
         while (myRs.next()) {
             int ida = myRs.getInt("achat_idAchat");
