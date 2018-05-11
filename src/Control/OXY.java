@@ -5,6 +5,7 @@
  */
 package Control;
 
+import Views.HomeView;
 import Views.StoreView;
 import java.awt.EventQueue;
 
@@ -21,7 +22,7 @@ public class OXY {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    StoreView fenetre = new StoreView();
+                    HomeView fenetre = new HomeView();
                     fenetre.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

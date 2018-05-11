@@ -41,15 +41,15 @@ public class StoreView extends JFrame {
     private StoreTable modele;//this is the model of the table 
     private ControlStore controleur;//this is the controler of this view 
     private DAOStore DAOStore;// this is the DAO 
-    private ClientSocket client = new ClientSocket();
+    private ClientSocket client;
    
 
-    public StoreView() {
+    public StoreView(ClientSocket c) {
         //initialize the contoler with the view and the model of the table
-        client.startConnection();
+        this.client= c ;
         
         setTitle("Stores");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);//The position and the size of the frame
         contentPane = new JPanel();//
         contentPane.setLayout(new BorderLayout());

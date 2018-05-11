@@ -342,9 +342,9 @@ public class AffectLocation {
 //        }
 //    }
 
-//    public static void main(String[] args) throws Exception {
-//        AffectLocation a = new AffectLocation();
-////        a.createLocation();
+    public static void main(String[] args) throws Exception {
+        AffectLocation a = new AffectLocation();
+        a.createLocation();
 //        DAOStore d = new DAOStore();
 //        ConnectionPool pool = new ConnectionPool();
 //        pool.initPool();
@@ -353,7 +353,7 @@ public class AffectLocation {
 //        
 //        for (Store S: listOfstore ){
 //            a.affectLocation(S, c);
-//        }
+        }
 ////        System.out.println(dao.loadShops(c));
 //        listOfshop = d.loadShops(c);
 //

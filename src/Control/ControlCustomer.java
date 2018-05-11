@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-public class ControlCustomer implements ActionListener,WindowListener{
+public class ControlCustomer implements ActionListener{
     private CustomerView vue;
     private CustomerTable model;
     private DAOCustomer dao ;
@@ -137,31 +137,5 @@ public class ControlCustomer implements ActionListener,WindowListener{
 
     }
 
-    @Override
-    public void windowOpened(WindowEvent we) {}
 
-    @Override
-    public void windowClosing(WindowEvent we) {
-        vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        System.out.println("Deconexion"); 
-        vue.getClient().stopConnection();
-       
-         
-    }
-    @Override
-    public void windowClosed(WindowEvent we) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent we) {}
-
-    @Override
-    public void windowDeiconified(WindowEvent we) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent we) {}
-
-    @Override
-    public void windowDeactivated(WindowEvent we) {}
 }

@@ -21,8 +21,8 @@ public class TestOXY {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CustomerView frame = new CustomerView();
-                    frame.setVisible(true);
+                    //CustomerView frame = new CustomerView();
+//                    frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
