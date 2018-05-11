@@ -37,7 +37,7 @@ public class CustomerView extends JFrame {
     private JButton delete = new JButton("Supprimer");
     private JButton update = new JButton("Modifier");
     private JButton afficher = new JButton("Afficher");
-    private JButton link = new JButton("Associer profils");
+    private JButton affectation = new JButton("Associer profils");
     private CustomerTable model;//this is the model of the table 
     private ControlCustomer control;//this is the controler of this view 
     private DAOCustomer dao;// this is the DAO 
@@ -61,7 +61,7 @@ public class CustomerView extends JFrame {
         panel.add(update);
         panel.add(delete);
         panel.add(afficher);
-        panel.add(link);
+        panel.add(affectation);
         dao = new DAOCustomer(client);
         List<Customer> customer = null;
         try {
@@ -82,7 +82,7 @@ public class CustomerView extends JFrame {
         add.addActionListener(control);
         update.addActionListener(control);
         afficher.addActionListener(control);
-        link.addActionListener(control);
+        affectation.addActionListener(control);
 
     }
 
@@ -116,8 +116,8 @@ public class CustomerView extends JFrame {
         public JButton getAfficher() {
         return afficher;
     }
-        public JButton getLink(){
-            return link;
+        public JButton getAffectation(){
+            return affectation;
         }
     
 }

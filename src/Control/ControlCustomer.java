@@ -8,6 +8,7 @@ package Control;
 import Model.Customer;
 import Model.CustomerTable;
 import Model.DAOCustomer;
+import Server.Server;
 import Views.CustomerDialog;
 import Views.CustomerDialogProfile;
 import Views.CustomerView;
@@ -26,10 +27,11 @@ import javax.swing.JOptionPane;
  *
  * @author Michel
  */
-public class ControlCustomer implements ActionListener{
+public class ControlCustomer implements ActionListener {
+
     private CustomerView vue;
     private CustomerTable model;
-    private DAOCustomer dao ;
+    private DAOCustomer dao;
 //    private DAOCustomer DAOCustomer;
 
     public ControlCustomer(CustomerView vue, CustomerTable modele, DAOCustomer dao) {
@@ -37,14 +39,23 @@ public class ControlCustomer implements ActionListener{
         this.model = modele;
         this.dao = dao;
     }
+
     //when we click
     @Override
     public void actionPerformed(ActionEvent e) {
         //when we click on associer profils
-//        if(vue.getLink()==e.getSource()) {
-//           
-//        }
-       //when we click on delete
+        if (vue.getAffectation() == e.getSource()) {
+            try {
+                dao.affectClientToProfile();
+                JOptionPane.showMessageDialog(vue,
+                        "Les clients sont affectés à un ou deux profils",
+                        "Affectation",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                Logger.getLogger(ControlAffectation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //when we click on delete
         if (vue.getDelete() == e.getSource()) {
             int row = vue.getTable().getSelectedRow();
             // no selected row
@@ -92,13 +103,13 @@ public class ControlCustomer implements ActionListener{
                 JOptionPane.showMessageDialog(vue, "selectionner une ligne");
                 return;
             }
-            
-            Customer C =this.model.getAllCustomers(row);
+
+            Customer C = this.model.getAllCustomers(row);
             CustomerDialog dialog = new CustomerDialog(vue, dao, C, true);
 
             dialog.setVisible(true);
         }
-                //When we click on afficher
+        //When we click on afficher
         if (vue.getAfficher() == e.getSource()) {
             try {
                 int row = vue.getTable().getSelectedRow();
@@ -107,7 +118,7 @@ public class ControlCustomer implements ActionListener{
                     JOptionPane.showMessageDialog(vue, "selectionner une ligneeeeee");
                     return;
                 }
-                
+
                 Customer C = this.model.getAllCustomers(row);
                 CustomerDialogProfile dialog = new CustomerDialogProfile(vue, dao, C);
                 dialog.setVisible(true);
@@ -117,8 +128,9 @@ public class ControlCustomer implements ActionListener{
         }
 
     }
+
     /**
-     * this function will refresh the list of magasin 
+     * this function will refresh the list of magasin
      */
     public void refreshCustomer() {
 
@@ -129,13 +141,12 @@ public class ControlCustomer implements ActionListener{
             CustomerTable model = new CustomerTable(c);
 
             vue.getTable().setModel(model);
-            this.model=model;
+            this.model = model;
         } catch (Exception exc) {
             JOptionPane.showMessageDialog(vue, "Error: " + exc, "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
 
     }
-
 
 }

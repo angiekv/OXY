@@ -25,7 +25,6 @@ public class DAOCustomer {
      * @return the list
      * @throws SQLException
      */
-
     public synchronized static List<Customer> loadCustomer(Connection c) throws SQLException {
         //list of customer
         List<Customer> listCustomer = new ArrayList<>();
@@ -48,7 +47,7 @@ public class DAOCustomer {
             //Query that matche customers with their profile(s)
             ResultSet myRs2 = myStmt2.executeQuery("select idProfile, profilename from client_has_profile, profile where client_has_profile.Profile_idProfile = profile.idProfile and client_has_profile.client_idClient = " + idClient);
             List<Profile> profileList = new ArrayList<>();
-            while (myRs2.next()){
+            while (myRs2.next()) {
                 int idProfile = myRs2.getInt("idProfile");
                 String profilename = myRs2.getString("profilename");
                 profileList.add(new Profile(idProfile, profilename));
@@ -62,14 +61,16 @@ public class DAOCustomer {
         return listCustomer;
 
     }
-/**
- * We want to load only the customers which have a certain profile
- * @param c
- * @param profil
- * @return
- * @throws SQLException 
- */
-public synchronized static List<Customer> loadCustomer(Connection c, String p) throws SQLException {
+
+    /**
+     * We want to load only the customers which have a certain profile
+     *
+     * @param c
+     * @param profil
+     * @return
+     * @throws SQLException
+     */
+    public synchronized static List<Customer> loadCustomer(Connection c, String p) throws SQLException {
         List<Customer> filteredClientList = new ArrayList<>();
         //The query which selects all the shops
         Statement myStmt = c.createStatement();
@@ -154,10 +155,10 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
             myStmt3.setInt(1, lastid);
             myStmt3.setInt(2, idProfile);
             myStmt3.executeUpdate();
-        myStmt.close();
+            myStmt.close();
         }
     }
-    
+
     public synchronized static void addCustomer(Connection c, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws SQLException {
         PreparedStatement myStmt = null;
         myStmt = c.prepareStatement("insert into client (nom,prenom,adresse,cp,ville,mail,sexe)" + "values (?,?,?,?,?,?,?)");
@@ -171,7 +172,7 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
         myStmt.setString(7, sexe);
         myStmt.executeUpdate();
     }
-    
+
     public synchronized static List<String> loadProfileById(Connection c, int clientIdClient) throws SQLException {
         List<String> listProfileById = new ArrayList<>();
         Statement myStmt = c.createStatement();
@@ -183,20 +184,39 @@ public synchronized static List<Customer> loadCustomer(Connection c, String p) t
         myStmt.close();
         return listProfileById;
     }
+
+    public synchronized static void insertClientHasProfile(Connection c, int clientIdclient, int idProfile) throws SQLException {
+        PreparedStatement myStmt = null;
+        myStmt = c.prepareStatement("insert client_has_profile (client_idClient, Profile_idProfile) values (?,?)");
+        //request
+        myStmt.setInt(1, clientIdclient);
+        myStmt.setInt(2, idProfile);
+        myStmt.executeUpdate();
+
+    }
+
+    public synchronized static Integer totalQteByIdClient(Connection c, int clientIdClient) throws SQLException {
+        Statement myStmt = c.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select sum(achat.qte) as qtetotal from achat, produit, magasin, magasin_has_type, type where achat.produit_idProduit=produit.idProduit and produit.magasin_idMagasin=magasin.idMagasin and magasin.idmagasin=magasin_has_type.magasin_idMagasin and magasin_has_type.type_idType=type.idType and client_idClient = " + clientIdClient);
+        while (myRs.next()) {
+            int qteTotal = myRs.getInt("qtetotal");
+            return qteTotal;
+        }
+        return 0;
+    }
     /*test */
     public static void main(String[] args) throws Exception {
         ConnectionPool pool = new ConnectionPool();
         pool.initPool();
         Connection c = pool.getConnection();
         System.out.println(pool.getFreeConnection());
-         List<Integer> idProfiles = new ArrayList<>();
-         idProfiles.add(5);
-         idProfiles.add(7);
-        addCustomerProfile(c,"jean", "jn","@", "35530","Rns", "@","F",idProfiles);
+        List<Integer> idProfiles = new ArrayList<>();
+        idProfiles.add(5);
+        idProfiles.add(7);
+        addCustomerProfile(c, "jean", "jn", "@", "35530", "Rns", "@", "F", idProfiles);
         System.out.println(loadCustomer(c, "'mode%'"));
         pool.releaseConnection(c);
 //        System.out.println(loadCustomer(c));
-
 
 //        System.out.println(dao.loadCustomer());
 //        dao.addCustomer("Inge","1B","ESIPE","94000","Créteil","Esipe@gmail.com","N");

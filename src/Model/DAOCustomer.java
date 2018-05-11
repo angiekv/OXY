@@ -22,27 +22,30 @@ import java.util.logging.Logger;
  * @author OXY
  */
 public class DAOCustomer {
-    
+
     private ClientSocket c;
-    
-    public DAOCustomer(ClientSocket c){
+
+    public DAOCustomer(ClientSocket c) {
         this.c = c;
         c.startConnection();
     }
+
     /**
-     * This method selects all customers from database and puts the customers into a list
+     * This method selects all customers from database and puts the customers
+     * into a list
+     *
      * @return the list of all customers
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public List<Customer> loadCustomer() throws IOException{
+    public List<Customer> loadCustomer() throws IOException {
         // list of customer
         List<Customer> listCustomer = new ArrayList<>();
-        
-        Map<String, String> MapCustomer = new HashMap<String,String>();
+
+        Map<String, String> MapCustomer = new HashMap<String, String>();
         MapCustomer.put("actionType", "listCustomer");
         Json j = new Json();
         String json = j.serialization(MapCustomer);
-        String answer= null;
+        String answer = null;
         try {
             answer = c.sendAndRecieve(json);
         } catch (IOException ex) {
@@ -53,19 +56,20 @@ public class DAOCustomer {
         listCustomer = j.deSerialization(answer, listType);
         return listCustomer;
     }
-    
-/**
- * updates customer in database
- * @param idClient
- * @param nom
- * @param prenom
- * @param adresse
- * @param cp
- * @param ville
- * @param mail
- * @param sexe
- * @throws SQLException 
- */
+
+    /**
+     * updates customer in database
+     *
+     * @param idClient
+     * @param nom
+     * @param prenom
+     * @param adresse
+     * @param cp
+     * @param ville
+     * @param mail
+     * @param sexe
+     * @throws SQLException
+     */
     public void updateCustomer(int idClient, String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws IOException {
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "updateCustomer");
@@ -87,12 +91,13 @@ public class DAOCustomer {
             Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Deletes customer from database
-     * @param idClient 
+     *
+     * @param idClient
      */
-    public void deleteCustomer(int idClient) throws IOException{
+    public void deleteCustomer(int idClient) throws IOException {
         //Connection to the database
         System.out.println("Ok");
         Map<String, String> MapCustomer = new HashMap<>();
@@ -106,14 +111,15 @@ public class DAOCustomer {
             Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-/**
- * Adds customer in database
- * @param designation
- * @param description
- * @param idType 
- */
-    public void addCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws IOException{
+
+    /**
+     * Adds customer in database
+     *
+     * @param designation
+     * @param description
+     * @param idType
+     */
+    public void addCustomer(String nom, String prenom, String adresse, String cp, String ville, String mail, String sexe) throws IOException {
         Map<String, String> MapCustomer = new HashMap<>();
         MapCustomer.put("actionType", "addCustomer");
         MapCustomer.put("nom", nom);
@@ -133,7 +139,8 @@ public class DAOCustomer {
             Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        public List<String> loadProfileById(int clientIdClient) throws IOException {
+
+    public List<String> loadProfileById(int clientIdClient) throws IOException {
         List<String> listProfileById = new ArrayList<>();
 
         Map<String, String> MapCustomer = new HashMap<String, String>();
@@ -151,6 +158,48 @@ public class DAOCustomer {
         }.getType();
         listProfileById = j.deSerialization(answer, listType);
         return listProfileById;
-    }  
-}
+    }
 
+    public void totalQteByIdClient(int idClient) throws IOException {
+        Map<String, String> MapCustomer = new HashMap<>();
+        MapCustomer.put("actionType", "totalQteByIdClient");
+        MapCustomer.put("idClient", Integer.toString(idClient));
+        Json j = new Json();
+        String json = j.serialization(MapCustomer);
+        try {
+            String answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void insertClientHasProfile(int idClient, int idProfile) throws IOException {
+        Map<String, String> MapCustomer = new HashMap<>();
+        MapCustomer.put("actionType", "insertClientHasProfile");
+        MapCustomer.put("idClient", Integer.toString(idClient));
+        MapCustomer.put("idProfile", Integer.toString(idProfile));
+
+        Json j = new Json();
+        String json = j.serialization(MapCustomer);
+
+        try {
+            String answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void affectClientToProfile() throws IOException {
+        Map<String, String> MapLocation = new HashMap<>();
+        MapLocation.put("actionType", "affectClientToProfile");
+        Json j = new Json();
+        String json = j.serialization(MapLocation);
+        String answer = null;
+        try {
+            answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(answer);
+    }
+}

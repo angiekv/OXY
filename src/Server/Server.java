@@ -24,6 +24,8 @@ import static Server.DAOStore.updateShop;
 import static Server.DAOType.getIdType;
 import static Server.DAOType.loadType;
 import static Server.ProductOrderHisto.order;
+import static Server.DAOCustomer.totalQteByIdClient;
+import static Server.DAOCustomer.insertClientHasProfile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -149,25 +151,26 @@ class AccepterClient implements Runnable {
             int floor, rent, surface;
             int oldType1, oldType2;
             String newType1, newType2;
-            int idNewType1,idNewType2;
+            int idNewType1, idNewType2;
             String localisation;
             //Customer attributes
             int idClient;
+            int idProfile;
             String nom, prenom, adresse, cp, ville, mail, sexe;
             //Product attributes
             int idProduit, qte, idm;
             String libelle;
             float prix;
             //Histo attributes
-            int ida,idb,idrc,idrf,idp,qteH;
+            int ida, idb, idrc, idrf, idp, qteH;
             Date date;
             String action;
             //Sale attributes
-            int idc,idps,qteS;
+            int idc, idps, qteS;
             //Return customer attributes
-            int idcrc,idprc,qterc;
+            int idcrc, idprc, qterc;
             //Return provider attributes
-            int idcrf,idprf,qterf;
+            int idcrf, idprf, qterf;
             // order attribute
             int idorder;
             String reponse = null;
@@ -197,7 +200,7 @@ class AccepterClient implements Runnable {
                     //we now need to tell our customer's profile
                     //by default, a customer has all 10 profiles
                     List<Integer> profileList = new ArrayList<>();
-                    for (int i = 1; i <= 10; i++){
+                    for (int i = 1; i <= 10; i++) {
                         profileList.add(i);
                     }
                     addCustomerProfile(con, nom, prenom, adresse, cp, ville, mail, sexe, profileList);
@@ -265,7 +268,7 @@ class AccepterClient implements Runnable {
 
                 case "listProduct":
                     idProduit = Integer.parseInt(m.get("idProduit"));
-                    List<Product> listProduct = loadProductStore(idProduit,con);
+                    List<Product> listProduct = loadProductStore(idProduit, con);
                     System.out.println("requete");
                      {
                         try {
@@ -284,7 +287,7 @@ class AccepterClient implements Runnable {
                     qte = Integer.parseInt(m.get("qte"));
                     idm = Integer.parseInt(m.get("Magasin_idMagasin"));
                     System.out.println("added successfully");
-                    addProduct(designation,prix,qte,idm,con);
+                    addProduct(designation, prix, qte, idm, con);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
@@ -298,7 +301,7 @@ class AccepterClient implements Runnable {
                     qte = Integer.parseInt(m.get("qte"));
                     idm = Integer.parseInt(m.get("Magasin_idMagasin"));
                     System.out.println("updated successfully");
-                    updateProduct(idProduit,designation,prix,qte,idm,con);
+                    updateProduct(idProduit, designation, prix, qte, idm, con);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
@@ -306,14 +309,14 @@ class AccepterClient implements Runnable {
 
                 case "deleteProduct":
                     idProduit = Integer.parseInt(m.get("idProduit"));
-                    deleteProduct(idProduit,con);
+                    deleteProduct(idProduit, con);
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
 
                 case "listHisto":
                     idp = Integer.parseInt(m.get("idProduit"));
-                    List<Histo> listHisto = loadHistoProduct(idp,con);
+                    List<Histo> listHisto = loadHistoProduct(idp, con);
                     System.out.println("requete");
                      {
                         try {
@@ -331,36 +334,36 @@ class AccepterClient implements Runnable {
                     qteS = Integer.parseInt(m.get("qte"));
                     idc = Integer.parseInt(m.get("Client_idClient"));
                     System.out.println("added successfully");
-                    addSale(idps,qteS,idc,con);
+                    addSale(idps, qteS, idc, con);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                    
+
                 case "addReturncustomer":
                     System.out.println("add");
                     idprc = Integer.parseInt(m.get("Produit_idProduit"));
                     qterc = Integer.parseInt(m.get("qte"));
                     idcrc = Integer.parseInt(m.get("Client_idClient"));
                     System.out.println("added successfully");
-                    addReturncustomer(idprc,qterc,idcrc,con);
+                    addReturncustomer(idprc, qterc, idcrc, con);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                    
+
                 case "addReturnprovider":
                     System.out.println("add");
                     idprf = Integer.parseInt(m.get("Produit_idProduit"));
                     qterf = Integer.parseInt(m.get("qte"));
                     idcrf = Integer.parseInt(m.get("Fournisseur_idFournisseur"));
                     System.out.println("added successfully");
-                    addReturnprovider(idprf,qterf,idcrf,con);
+                    addReturnprovider(idprf, qterf, idcrf, con);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
-                    break;    
-                    
+                    break;
+
                 case "listLocationAndStore":
                     System.out.println("list magasin avec et sans affectation ");
                     List<Location> listLocationStore = loadStoreAndAffectation(con);
@@ -377,15 +380,15 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-                case "listLocation":                  
+                case "listLocation":
                     List<Location> listOfLocation = loadLocations(con);
                     reponse = j.serialization(listOfLocation);
                     send(reponse, out);
                     break;
-                    
-                case "appro":                  
+
+                case "appro":
                     idorder = Integer.parseInt(m.get("idBon"));
-                    order(idorder,con);
+                    order(idorder, con);
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
@@ -402,6 +405,7 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization(listTypeStore);
                     send(reponse, out);
                     break;
+
                 case "updateStore":
                     System.out.println("update store");
                     idStore = Integer.parseInt(m.get("idShop"));
@@ -411,24 +415,25 @@ class AccepterClient implements Runnable {
                     rent = Integer.parseInt(m.get("loyer"));
                     surface = Integer.parseInt(m.get("surface"));
                     oldType1 = Integer.parseInt(m.get("oldType1"));
-                    oldType2 =Integer.parseInt( m.get("oldType2"));
+                    oldType2 = Integer.parseInt(m.get("oldType2"));
                     // list Old type 
                     List<Integer> oldLst = new ArrayList<>();
-                    oldLst.add(oldType1);oldLst.add(oldType2);
+                    oldLst.add(oldType1);
+                    oldLst.add(oldType2);
                     //list new type 
                     newType1 = m.get("newType1");
-                    idNewType1 = getIdType(con,newType1);
+                    idNewType1 = getIdType(con, newType1);
                     newType2 = m.get("newType2");
-                    idNewType2=0;
-                    if(!newType2.equals("aucun")){
-                        idNewType2 = getIdType(con,newType2);
+                    idNewType2 = 0;
+                    if (!newType2.equals("aucun")) {
+                        idNewType2 = getIdType(con, newType2);
                     }
                     List<Integer> newLst = new ArrayList<>();
                     newLst.add(idNewType1);
                     newLst.add(idNewType2);
                     localisation = m.get("localisation");
                     // request to update shop
-                    updateShop(idStore,designation,description, rent,surface,floor, localisation, oldLst, newLst,con);
+                    updateShop(idStore, designation, description, rent, surface, floor, localisation, oldLst, newLst, con);
                     System.out.println("end of request");
                     reponse = j.serialization("ok");
                     send(reponse, out);
@@ -442,19 +447,50 @@ class AccepterClient implements Runnable {
                     surface = Integer.parseInt(m.get("surface"));
                     //list new type 
                     newType1 = m.get("newType1");
-                    idNewType1 = getIdType(con,newType1);
+                    idNewType1 = getIdType(con, newType1);
                     newType2 = m.get("newType2");
-                    idNewType2=0;
-                    if(!newType2.equals("aucun")){
-                        idNewType2 = getIdType(con,newType2);
+                    idNewType2 = 0;
+                    if (!newType2.equals("aucun")) {
+                        idNewType2 = getIdType(con, newType2);
                     }
                     List<Integer> typeLst = new ArrayList<>();
                     typeLst.add(idNewType1);
                     typeLst.add(idNewType2);
                     localisation = m.get("localisation");
                     // request to update shop
-                    addShop(designation,description, rent,surface,floor, localisation,typeLst,con);
+                    addShop(designation, description, rent, surface, floor, localisation, typeLst, con);
                     System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+                // Les méthodes à mario, merci de ne pas toucher :)
+                case "totalQteByIdClient":
+                    idClient = Integer.parseInt(m.get("idClient"));
+                    int valeur = totalQteByIdClient(con, idClient);
+                    System.out.println("requete");
+                     {
+                        try {
+                            reponse = j.serialization(valeur);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    send(reponse, out);
+                    break;
+                case "insertClientHasProfile":
+                    System.out.println("insert client_has_profile");
+                    idClient = Integer.parseInt(m.get("idClient"));
+                    idProfile = Integer.parseInt(m.get("idProfile"));
+                    System.out.println("insert profile successfully");
+                    insertClientHasProfile(con, idClient, idProfile);
+                    System.out.println("end of request");
+                    reponse = j.serialization("ok");
+                    send(reponse, out);
+                    break;
+
+                case "affectClientToProfile":
+                    AffectProfile affect = new AffectProfile();
+                    affect.algo();
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
@@ -476,6 +512,5 @@ class AccepterClient implements Runnable {
         out.println(S);
         out.flush();
     }
-
 
 }

@@ -24,7 +24,6 @@ public class Product {
         this.qte = qte;
         this.Magasin_idMagasin = Magasin_idMagasin;
     }
-
     public int getIdProduit() {
         return idProduit;
     }

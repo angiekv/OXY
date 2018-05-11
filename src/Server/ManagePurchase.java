@@ -39,7 +39,7 @@ public class ManagePurchase {
         int produit;
         int client;
 
-        while (i <= 100) {
+        while (i <= 20) {
             idAchat = id;
             qte = generateRandomInteger(1, 2);
             produit = generateRandomInteger(1, 5);
@@ -69,9 +69,9 @@ public class ManagePurchase {
         myStmt.close();
     }
 
-//    public static void main(String[] args) throws Exception {
-//        ManagePurchase a = new ManagePurchase();
-//        a.generatePurchase();
-//        a.deletePurchase();
-//    }
+    public static void main(String[] args) throws Exception {
+        ManagePurchase a = new ManagePurchase();
+        a.generatePurchase();
+        //a.deletePurchase();
+    }
 }
