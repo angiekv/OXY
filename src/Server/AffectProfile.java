@@ -103,10 +103,9 @@ public class AffectProfile {
             int idtype = Integer.parseInt(idtypestring);
 
             if (max > 10.0 && max < 50.0) {
-
                 DAOCustomer.insertClientHasProfile(c,idClient, idtype);
             }
-            if (max > 50.0 && max < 80.0) {
+            if (max >= 50.0 && max < 80.0) {
                 DAOCustomer.insertClientHasProfile(c,idClient, idtype + 100); //ajouter ++
             }
             if (max > 80.0) {
@@ -115,12 +114,13 @@ public class AffectProfile {
 
         }
     }
-}
 
 //    public static void main(String[] args) throws Exception {
 //        AffectProfile a = new AffectProfile();
-//        a.algo();
-//        System.out.println(a.totalQteByIdClient(2));
-//        System.out.println(a.QtebyIdType(2));
+//        ConnectionPool pool = new ConnectionPool();
+//        pool.initPool();
+//        Connection c = pool.getConnection();
+//        a.algo(c);
 //    }
 //}
+}

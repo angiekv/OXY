@@ -40,23 +40,19 @@ public class ManagePurchase {
         int client;
 
         while (i <= 20) {
-            idAchat = id;
             qte = generateRandomInteger(1, 2);
-            produit = generateRandomInteger(1, 5);
+            produit = generateRandomInteger(20, 30);
             client = generateRandomInteger(1, 5);
 
             PreparedStatement myStmt = null;
             Connection myConn = Database.getConnection();
-            myStmt = myConn.prepareStatement("insert into achat (`idAchat`, `qte`, `date`, `produit_idProduit`,`Client_idClient`) values (?,?,?,?,?)");
-            myStmt.setInt(1, idAchat);
+            myStmt = myConn.prepareStatement("insert into achat (`produit_idProduit`, `qte`, `date`,`Client_idClient`) values (?,?,?,?)");
+            myStmt.setInt(1, produit);
             myStmt.setInt(2, qte);
             myStmt.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
-            myStmt.setInt(4, produit);
-            myStmt.setInt(5, client);
+            myStmt.setInt(4, client);
             myStmt.executeUpdate();
             myStmt.close();
-            //increment the loop
-            id++;
             i++;
         }
     }
