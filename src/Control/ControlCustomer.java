@@ -5,13 +5,16 @@
  */
 package Control;
 
+import Model.ClientSocket;
 import Model.Customer;
 import Model.CustomerTable;
 import Model.DAOCustomer;
+import Model.DTOPath;
 import Server.Server;
 import Views.CustomerDialog;
 import Views.CustomerDialogProfile;
 import Views.CustomerView;
+import Views.PathDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -32,6 +35,7 @@ public class ControlCustomer implements ActionListener {
     private CustomerView vue;
     private CustomerTable model;
     private DAOCustomer dao;
+    private DTOPath daoPath = new DTOPath(new ClientSocket());
 //    private DAOCustomer DAOCustomer;
 
     public ControlCustomer(CustomerView vue, CustomerTable modele, DAOCustomer dao) {
@@ -115,7 +119,7 @@ public class ControlCustomer implements ActionListener {
                 int row = vue.getTable().getSelectedRow();
                 // no selected row
                 if (row < 0) {
-                    JOptionPane.showMessageDialog(vue, "selectionner une ligneeeeee");
+                    JOptionPane.showMessageDialog(vue, "selectionner une ligne");
                     return;
                 }
 
@@ -126,7 +130,22 @@ public class ControlCustomer implements ActionListener {
                 Logger.getLogger(ControlCustomer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        if (vue.getPath() == e.getSource()) {
+            int row = vue.getTable().getSelectedRow();
+            // no selected row
+            if (row < 0) {
+                JOptionPane.showMessageDialog(vue, "selectionner un client");
+                return;
+            }
+            Customer C = this.model.getAllCustomers(row);
+            PathDialog dialog = null;
+            try {
+                dialog = new PathDialog(vue.getClient(), vue, C);
+            } catch (IOException ex) {
+                Logger.getLogger(ControlCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dialog.setVisible(true);
+        }
     }
 
     /**

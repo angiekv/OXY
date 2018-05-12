@@ -9,7 +9,7 @@ import Server.ConnectionPool;
 import Server.DAOCustomer;
 import Server.DAOStore;
 import static Server.DAOCustomer.addCustomer;
-import Server.Type;
+import Server.TypeStore;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

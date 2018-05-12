@@ -64,6 +64,26 @@ public class DAOCustomer {
 
     }
 
+            public synchronized static List<Customer> loadCustomerById(Connection c, int clientIdClient) throws SQLException {
+        List<Customer> listCustomersById = new ArrayList<>();
+        Statement myStmt = c.createStatement();
+        ResultSet myRs = myStmt.executeQuery("select * from client where idClient = " + clientIdClient);
+        while (myRs.next()) {
+            int idClient = myRs.getInt("idClient");
+            String nom = myRs.getString("nom");
+            String prenom = myRs.getString("prenom");
+            String adresse = myRs.getString("adresse");
+            String cp = myRs.getString("cp");
+            String ville = myRs.getString("ville");
+            String mail = myRs.getString("mail");
+            String sexe = myRs.getString("sexe");           
+            Customer customer = new Customer(idClient, nom, prenom, adresse, cp, ville, mail, sexe);
+            listCustomersById.add(customer);
+        }
+        myStmt.close();
+        return listCustomersById;
+    }
+    
     /**
      * We want to load only the customers which have a certain profile
      *

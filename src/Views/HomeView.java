@@ -30,8 +30,8 @@ import javax.swing.JTable;
  */
 public class HomeView extends JFrame {
     private JPanel contentPane;//Panel
-    private JButton store = new JButton("Afficher les magasin");
-    private JButton customer = new JButton("Afficher les client");;
+    private JButton store = new JButton("Afficher les magasins");
+    private JButton customer = new JButton("Afficher les clients");;
     private JLabel home = new JLabel("Accueil");
     private ClientSocket client = new ClientSocket();
     private ControlHome control;

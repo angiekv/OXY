@@ -4,6 +4,7 @@ import static Server.DAOCustomer.addCustomer;
 import static Server.DAOCustomer.addCustomerProfile;
 import static Server.DAOCustomer.deleteCustomer;
 import static Server.DAOCustomer.loadCustomer;
+import static Server.DAOCustomer.loadCustomerById;
 import static Server.DAOCustomer.loadProfileById;
 import static Server.DAOCustomer.updateCustomer;
 import static Server.DAOHisto.loadHistoProduct;
@@ -480,7 +481,28 @@ class AccepterClient implements Runnable {
                     reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
-
+                case "loadCustomerById":
+                    idClient = Integer.parseInt(m.get("idClient"));
+                    List<Customer> loadCustomerById = loadCustomerById(con, idClient);
+                    System.out.println("requete");
+                     {
+                        try {
+                            reponse = j.serialization(loadCustomerById);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    send(reponse, out);
+                    break;
+                case "generateAndShowPath":
+                    idClient = Integer.parseInt(m.get("idClient"));
+                    List<String> profiles = loadProfileById(con, idClient);
+                    GeneratePath g = new GeneratePath();
+                    List<String> list = g.generatePath(con, idClient, profiles);
+                    System.out.println("end of request");
+                    reponse = j.serialization(list);
+                    send(reponse, out);
+                    break;
             }
         } catch (IOException ex) {
             Logger.getLogger(AccepterClient.class.getName()).log(Level.SEVERE, null, ex);
