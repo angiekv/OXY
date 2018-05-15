@@ -47,6 +47,15 @@ public class ControlCustomer implements ActionListener {
     //when we click
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        //when we click on dissocier profils
+                if (vue.getDissociation()== e.getSource()) {
+            try {
+                dao.unlinkProfile();
+            } catch (IOException ex) {
+                Logger.getLogger(ControlAffectation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         //when we click on associer profils
         if (vue.getAffectation() == e.getSource()) {
             try {

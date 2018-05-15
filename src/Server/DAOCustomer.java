@@ -64,7 +64,7 @@ public class DAOCustomer {
 
     }
 
-            public synchronized static List<Customer> loadCustomerById(Connection c, int clientIdClient) throws SQLException {
+    public synchronized static List<Customer> loadCustomerById(Connection c, int clientIdClient) throws SQLException {
         List<Customer> listCustomersById = new ArrayList<>();
         Statement myStmt = c.createStatement();
         ResultSet myRs = myStmt.executeQuery("select * from client where idClient = " + clientIdClient);
@@ -76,14 +76,14 @@ public class DAOCustomer {
             String cp = myRs.getString("cp");
             String ville = myRs.getString("ville");
             String mail = myRs.getString("mail");
-            String sexe = myRs.getString("sexe");           
+            String sexe = myRs.getString("sexe");
             Customer customer = new Customer(idClient, nom, prenom, adresse, cp, ville, mail, sexe);
             listCustomersById.add(customer);
         }
         myStmt.close();
         return listCustomersById;
     }
-    
+
     /**
      * We want to load only the customers which have a certain profile
      *
@@ -226,19 +226,25 @@ public class DAOCustomer {
         return 0;
     }
 
-    public synchronized static Map<Integer,Integer> qteByIdType(Connection c, int clientIdClient) throws SQLException {
+    public synchronized static Map<Integer, Integer> qteByIdType(Connection c, int clientIdClient) throws SQLException {
         HashMap<Integer, Integer> listQteId = new HashMap<Integer, Integer>();
         Statement myStmt = c.createStatement();
         ResultSet myRs = myStmt.executeQuery("select sum(achat.qte) as qtebytype , type.idtype from achat, produit, magasin, magasin_has_type, type where achat.produit_idProduit=produit.idProduit and produit.magasin_idMagasin=magasin.idMagasin and magasin.idmagasin=magasin_has_type.magasin_idMagasin and magasin_has_type.type_idType=type.idType and client_idClient= " + clientIdClient + " group by type.idType");
         while (myRs.next()) {
             int qte = myRs.getInt("qtebytype");
             int idtype = myRs.getInt("idtype");
-            
+
             listQteId.put(qte, idtype);
         }
         return listQteId;
     }
 
+    public synchronized static void unlinkProfile(Connection c) throws SQLException {
+        PreparedStatement myStmt = null;
+        myStmt = c.prepareStatement("delete From client_has_profile");
+        myStmt.executeUpdate();
+        myStmt.close();
+    }
     /*test */
 //    public static void main(String[] args) throws Exception {
 //        ConnectionPool pool = new ConnectionPool();
@@ -268,4 +274,4 @@ public class DAOCustomer {
 //
 //        DAOCustomer dao = new DAOCustomer();
 //        System.out.println(dao.loadProfileid(2));
-    }
+}

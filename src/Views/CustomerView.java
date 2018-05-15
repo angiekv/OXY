@@ -38,7 +38,9 @@ public class CustomerView extends JFrame {
     private JButton update = new JButton("Modifier");
     private JButton afficher = new JButton("Afficher");
     private JButton affectation = new JButton("Associer profils");
+    private JButton dissociation = new JButton("Dissocier profils");
     private JButton path =  new JButton("Générer un parcours");
+    
     private CustomerTable model;//this is the model of the table 
     private ControlCustomer control;//this is the controler of this view 
     private DAOCustomer dao;// this is the DAO 
@@ -62,7 +64,8 @@ public class CustomerView extends JFrame {
         panel.add(update);
         panel.add(delete);
         panel.add(afficher);
-        panel.add(affectation);       
+        panel.add(affectation);
+        panel.add(dissociation);
         panel.add(path);        
         dao = new DAOCustomer(client);
         List<Customer> customer = null;
@@ -85,7 +88,12 @@ public class CustomerView extends JFrame {
         update.addActionListener(control);
         afficher.addActionListener(control);
         affectation.addActionListener(control);
+        dissociation.addActionListener(control);
         path.addActionListener(control);
+    }
+
+    public JButton getDissociation() {
+        return dissociation;
     }
 
     public JButton getPath() {

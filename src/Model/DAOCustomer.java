@@ -171,4 +171,18 @@ public class DAOCustomer {
         }
         System.out.println(answer);
     }
+        public void unlinkProfile() throws IOException {
+        Map<String, String> MapLocation = new HashMap<>();
+        MapLocation.put("actionType", "unlinkProfile");
+        Json j = new Json();
+        String json = j.serialization(MapLocation);
+        String answer = null;
+        try {
+            answer = c.sendAndRecieve(json);
+        } catch (IOException ex) {
+            Logger.getLogger(DAOCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(answer);
+    }
+    
 }

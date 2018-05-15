@@ -25,6 +25,7 @@ import static Server.DAOStore.updateShop;
 import static Server.DAOType.getIdType;
 import static Server.DAOType.loadType;
 import static Server.ProductOrderHisto.order;
+import static Server.DAOCustomer.unlinkProfile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -501,6 +502,11 @@ class AccepterClient implements Runnable {
                     List<String> list = g.generatePath(con, idClient, profiles);
                     System.out.println("end of request");
                     reponse = j.serialization(list);
+                    send(reponse, out);
+                    break;
+                case "unlinkProfile":
+                    unlinkProfile(con);
+                    reponse = j.serialization("ok");
                     send(reponse, out);
                     break;
             }
