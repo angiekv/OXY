@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import model.ControlEmpHasMag;
+import Control.ControlEmpHasMag;
 import Model.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -22,7 +22,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author aberkane
+ * @author OXY
  */
 public class EmpHasMagView extends JFrame {
 

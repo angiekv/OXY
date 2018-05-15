@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package Control;
 
-import Model.DAOEmpHasMag;
-import Model.DAORent;
 import Model.EmpHasMag;
 import Model.EmpHasMagTableModel;
-import Model.ProductTable;
 import Views.EmpHasMagView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
