@@ -29,7 +29,7 @@ public class DAOType {
         List<TypeStore> listTypeStore = new ArrayList<>();
         Statement myStmt = c.createStatement();
         //The query which selects all the Type.
-        ResultSet myRs = myStmt.executeQuery("select * from Type");
+        ResultSet myRs = myStmt.executeQuery("select * from type");
         //Loop which add a Type to the list.
         while (myRs.next()) {
             int id = myRs.getInt("idType");
